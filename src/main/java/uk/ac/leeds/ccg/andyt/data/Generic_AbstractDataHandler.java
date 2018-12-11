@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Random;
 import java.util.logging.Level;
-import uk.ac.leeds.ccg.andyt.generic.logging.Generic_AbstractLog;
+import uk.ac.leeds.ccg.andyt.data.log.Generic_AbstractLog;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_ErrorAndExceptionHandler;
 
 /**
