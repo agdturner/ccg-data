@@ -10,7 +10,7 @@
 
     <name>agdt-data</name>
     <url>https://github.com/agdturner/agdt-data</url>
-    <description>A Java Library for agdt-data processing.</description>
+    <description>A Java Library for generic data processing.</description>
     <scm>
         <url>git@github.com:agdturner/agdt-data.git</url>
         <connection>scm:git:git@github.com:agdturner/agdt-data.git</connection>
@@ -42,7 +42,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <agdt-generic.version>1.0-SNAPSHOT</agdt-generic.version>
+        <agdt-generic.version>1.0.0</agdt-generic.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
