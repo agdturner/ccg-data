@@ -32,7 +32,7 @@ import uk.ac.leeds.ccg.andyt.generic.core.Generic_ErrorAndExceptionHandler;
  * Abstract class for handling  <code>AbstractDataRecords</code>
  * @version 2.0.0
  */
-public abstract class Generic_AbstractDataHandler 
+public abstract class Data_AbstractHandler 
         extends Generic_AbstractLog
         implements Serializable {
 
@@ -43,7 +43,7 @@ public abstract class Generic_AbstractDataHandler
 //	private static final long serialVersionUID = 1L;
 
     /**
-     * For storing the length of an <code>Generic_AbstractDataRecord</code> that this
+     * For storing the length of an <code>Data_AbstractRecord</code> that this
      * Handler handles in measured in <code>byte</code> units and stored as a
      * <code>long</code>.
      */
@@ -141,11 +141,11 @@ public abstract class Generic_AbstractDataHandler
     }
 
     /**
-     * @return An <code>Generic_AbstractDataRecord</code> for the given RecordID
+     * @return An <code>Data_AbstractRecord</code> for the given RecordID
      * @param RecordID
-     * The RecordID of the <code>Generic_AbstractDataRecord</code> to be returned.
+     * The RecordID of the <code>Data_AbstractRecord</code> to be returned.
      */
-    public abstract Generic_AbstractDataRecord getDataRecord(
+    public abstract Data_AbstractRecord getDataRecord(
             long RecordID);
 
     /**
@@ -165,7 +165,7 @@ public abstract class Generic_AbstractDataHandler
         _Logger.entering(this.getClass().getCanonicalName(), "print(int,Random)");
         long nDataRecords = getNDataRecords();
         double double0;
-        Generic_AbstractDataRecord aDataRecord;
+        Data_AbstractRecord aDataRecord;
         for (int i0 = 0; i0 < n; i0++) {
             double0 = random.nextDouble() * nDataRecords;
             aDataRecord = getDataRecord((long) double0);

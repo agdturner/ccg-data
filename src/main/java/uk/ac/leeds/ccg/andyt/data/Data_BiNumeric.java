@@ -17,15 +17,15 @@ package uk.ac.leeds.ccg.andyt.data;
 
 import java.math.BigDecimal;
 
-public class Generic_XYNumericalData {
+public class Data_BiNumeric {
 
     public BigDecimal x;
     public BigDecimal y;
 
-    public Generic_XYNumericalData() {
+    public Data_BiNumeric() {
     }
 
-    public Generic_XYNumericalData(
+    public Data_BiNumeric(
             BigDecimal x,
             BigDecimal y) {
         this.x = x;
@@ -56,7 +56,7 @@ public class Generic_XYNumericalData {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Generic_XYNumericalData other = (Generic_XYNumericalData) obj;
+        final Data_BiNumeric other = (Data_BiNumeric) obj;
         if (this.x != other.x && (this.x == null || !this.x.equals(other.x))) {
             return false;
         }

@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * Abstract class for a data record.
  */
-public abstract class Generic_AbstractDataRecord implements Serializable, Comparable {
+public abstract class Data_AbstractRecord implements Serializable, Comparable {
 
     @Override
     public int hashCode() {
@@ -57,7 +57,7 @@ public abstract class Generic_AbstractDataRecord implements Serializable, Compar
      *
      * @param rec
      */
-    protected void init(Generic_AbstractDataRecord rec) {
+    protected void init(Data_AbstractRecord rec) {
         this.RecordID = rec.RecordID;
     }
 
@@ -146,7 +146,7 @@ public abstract class Generic_AbstractDataRecord implements Serializable, Compar
         if ((object == null) || (object.getClass() != this.getClass())) {
             return false;
         }
-        Generic_AbstractDataRecord rec = (Generic_AbstractDataRecord) object;
+        Data_AbstractRecord rec = (Data_AbstractRecord) object;
         return (this.RecordID == rec.RecordID);
     }
 
@@ -158,8 +158,8 @@ public abstract class Generic_AbstractDataRecord implements Serializable, Compar
      */
     @Override
     public int compareTo(Object obj) {
-        if (obj instanceof Generic_AbstractDataRecord) {
-            Generic_AbstractDataRecord rec = (Generic_AbstractDataRecord) obj;
+        if (obj instanceof Data_AbstractRecord) {
+            Data_AbstractRecord rec = (Data_AbstractRecord) obj;
             if (rec.RecordID == this.RecordID) {
                 return 0;
             }

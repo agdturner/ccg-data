@@ -15,7 +15,7 @@ import uk.ac.leeds.ccg.andyt.generic.lang.Generic_String;
  * https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
  * @author geoagdt
  */
-public class Generic_UKPostcode_Handler {
+public class Data_UKPostcodeHandler {
 
     /**
      * For storing a set of all NAA String combinations where: N is a numerical
@@ -68,14 +68,14 @@ public class Generic_UKPostcode_Handler {
     /**
      * Creates a new Generic_UKPostcode_Handler
      */
-    public Generic_UKPostcode_Handler() {
+    public Data_UKPostcodeHandler() {
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Generic_UKPostcode_Handler().run();
+        new Data_UKPostcodeHandler().run();
     }
 
     public void run() {

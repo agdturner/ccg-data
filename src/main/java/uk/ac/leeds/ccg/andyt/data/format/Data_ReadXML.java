@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  * Adapted from:
  * http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
  */
-public abstract class Generic_XMLDOMReader {
+public abstract class Data_ReadXML {
 
     protected File file;
     protected NodeList nodeList;
@@ -67,7 +67,7 @@ public abstract class Generic_XMLDOMReader {
         try {
             aDocumentBuilder = aDocumentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Generic_XMLDOMReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,9 +75,9 @@ public abstract class Generic_XMLDOMReader {
         try {
             aDocument = aDocumentBuilder.parse(file);
         } catch (SAXException ex) {
-            Logger.getLogger(Generic_XMLDOMReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Generic_XMLDOMReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         }
         //optional, but recommended
         //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work

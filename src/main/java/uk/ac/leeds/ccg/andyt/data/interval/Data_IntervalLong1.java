@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author geoagdt
  */
-public class Generic_Interval_long1 implements Serializable, Comparable {
+public class Data_IntervalLong1 implements Serializable, Comparable {
 
     /**
      * Stores the lower bound.
@@ -36,7 +36,7 @@ public class Generic_Interval_long1 implements Serializable, Comparable {
      */
     private final long U;
 
-    public Generic_Interval_long1(long l, long u) {
+    public Data_IntervalLong1(long l, long u) {
         L = l;
         U = u;
     }
@@ -72,9 +72,9 @@ public class Generic_Interval_long1 implements Serializable, Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (o instanceof Generic_Interval_long1) {
-            Generic_Interval_long1 obj;
-            obj = (Generic_Interval_long1) o;
+        if (o instanceof Data_IntervalLong1) {
+            Data_IntervalLong1 obj;
+            obj = (Data_IntervalLong1) o;
             if (this.L < obj.L) {
                 return -1;
             } else {

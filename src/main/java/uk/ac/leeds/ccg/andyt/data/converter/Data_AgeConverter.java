@@ -25,7 +25,7 @@ import java.util.Random;
  * 
  * @author Andy Turner
  */
-public class Generic_AgeConverter {
+public class Data_AgeConverter {
 
     /**
      * @param age

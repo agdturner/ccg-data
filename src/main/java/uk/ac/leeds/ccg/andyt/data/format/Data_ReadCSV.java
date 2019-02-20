@@ -35,7 +35,7 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
  *
  * @author geoagdt
  */
-public class Generic_ReadCSV {
+public class Data_ReadCSV {
 
     public static boolean testRead(File f, File testDir, int syntax) {
         ArrayList<String> result;
@@ -45,7 +45,7 @@ public class Generic_ReadCSV {
         try {
             pw = new PrintWriter(test);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Generic_ReadCSV.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(Data_ReadCSV.class.getName()).log(Level.SEVERE,
                     null, ex);
         }
         if (f.exists()) {
@@ -161,8 +161,7 @@ public class Generic_ReadCSV {
             try {
                 pw = new PrintWriter(test);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(
-                        Generic_ReadCSV.class.getName()).log(Level.SEVERE,
+                Logger.getLogger(Data_ReadCSV.class.getName()).log(Level.SEVERE,
                         null, ex);
             }
         }
@@ -296,7 +295,7 @@ public class Generic_ReadCSV {
                 token = st.nextToken();
             }
         } catch (IOException ex) {
-            Logger.getLogger(Generic_ReadCSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data_ReadCSV.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
