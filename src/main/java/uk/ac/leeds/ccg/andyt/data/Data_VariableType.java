@@ -132,7 +132,7 @@ public class Data_VariableType {
     }
 
     /**
-     * 
+     *
      * @return Map coding up types:
      * <ul>
      * <li>0, {@link Generic_Strings#s_String}</li>
@@ -300,8 +300,7 @@ public class Data_VariableType {
         env.logStartTag(m0);
         env.log("File " + f);
         env.log("int " + dp);
-        Object[] r;
-        r = new Object[10];
+        Object[] r = new Object[10];
         String[] fields;
         /**
          * True indicates that a value of a field can be stored as a string, but
@@ -341,13 +340,10 @@ public class Data_VariableType {
          */
         boolean[] bytes;
 
-        BufferedReader br;
-        br = Generic_IO.getBufferedReader(f);
-        String line;
-        int n;
-        line = br.lines().findFirst().get();
+        BufferedReader br = Generic_IO.getBufferedReader(f);
+        String line = br.lines().findFirst().get();
         fields = parseHeader(line);
-        n = fields.length;
+        int n = fields.length;
         strings = new boolean[n];
         bigDecimals = new boolean[n];
         doubles = new boolean[n];
