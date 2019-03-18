@@ -94,7 +94,6 @@ public class Data_VariableType {
         allFieldTypes = new HashMap[fs.length];
         String[][] headers;
         headers = new String[fs.length][];
-        String m1;
         for (int j = 0; j < fs.length; j++) {
             allFieldTypes[j] = getFieldTypes(fs[j], dp);
         }
@@ -106,7 +105,6 @@ public class Data_VariableType {
         consolidatedFieldTypes = new HashMap<>();
         consolidatedFieldTypes.putAll(allFieldTypes[0]);
         for (int j = 0; j < fs.length; j++) {
-            m1 = "";
             HashMap<String, Integer> fieldTypes;
             fieldTypes = allFieldTypes[j];
             ite = fieldTypes.keySet().iterator();
