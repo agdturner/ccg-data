@@ -26,10 +26,6 @@ import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Handler;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.math.Math_BigDecimal;
 import uk.ac.leeds.ccg.andyt.math.Math_BigInteger;
 import uk.ac.leeds.ccg.andyt.math.Math_Byte;
@@ -92,7 +88,7 @@ public class Data_VariableType extends Data_Object {
      */
     protected Object[] getFieldTypes(int n, File[] fs, int dp) {
         String m0 = "getFieldTypes(int,File[],int)";
-        env.ge.logStartTag(m0);
+        env.logStartTag(m0);
         Object[] r = new Object[2];
         HashMap<String, Integer>[] allFieldTypes = new HashMap[fs.length];
         String[][] headers = new String[fs.length][];
@@ -112,7 +108,7 @@ public class Data_VariableType extends Data_Object {
                     if (fieldType != consolidatedFieldType) {
                         consolidatedFieldTypes.put(field,
                                 Math.min(fieldType, consolidatedFieldType));
-                        env.ge.log("");
+                        env.log("");
                     }
                 } else {
                     consolidatedFieldTypes.put(field, fieldType);
@@ -121,7 +117,7 @@ public class Data_VariableType extends Data_Object {
         }
         r[0] = consolidatedFieldTypes;
         r[1] = headers;
-        env.ge.logEndTag(m0);
+        env.logEndTag(m0);
         return r;
     }
 
@@ -142,15 +138,15 @@ public class Data_VariableType extends Data_Object {
      */
     public HashMap<Integer, String> getTypeNameLookup() {
         HashMap<Integer, String> r = new HashMap<>();
-        r.put(0, env.strings.s_String);
-        r.put(1, env.strings.s_BigDecimal);
-        r.put(2, env.strings.s_Double);
-        r.put(3, env.strings.s_Float);
-        r.put(4, env.strings.s_BigInteger);
-        r.put(5, env.strings.s_Long);
-        r.put(6, env.strings.s_Integer);
-        r.put(7, env.strings.s_Short);
-        r.put(8, env.strings.s_Byte);
+        r.put(0, Data_Strings.s_String);
+        r.put(1, Data_Strings.s_BigDecimal);
+        r.put(2, Data_Strings.s_Double);
+        r.put(3, Data_Strings.s_Float);
+        r.put(4, Data_Strings.s_BigInteger);
+        r.put(5, Data_Strings.s_Long);
+        r.put(6, Data_Strings.s_Integer);
+        r.put(7, Data_Strings.s_Short);
+        r.put(8, Data_Strings.s_Byte);
         return r;
     }
 
@@ -173,7 +169,7 @@ public class Data_VariableType extends Data_Object {
      */
     protected HashMap<String, Integer> getFieldTypes(int n, File f, int dp) {
         String m0 = "getFieldTypes(int,File,int)";
-        env.ge.logStartTag(m0);
+        env.logStartTag(m0);
         Object[] t = loadTest(n, f, dp);
         HashMap<String, Integer> r = new HashMap<>();
         String[] fields = (String[]) t[0];
@@ -218,40 +214,40 @@ public class Data_VariableType extends Data_Object {
             String field = fields[i];
             String m = field + " " + i + " ";
             if (strings2[i]) {
-                m += env.strings.s_String;
+                m += Data_Strings.s_String;
                 r.put(field, 0);
             } else {
                 if (bigDecimals[i]) {
-                    m += env.strings.s_BigDecimal;
+                    m += Data_Strings.s_BigDecimal;
                     r.put(field, 1);
                 } else {
                     if (doubles[i]) {
-                        m += env.strings.s_double;
+                        m += Data_Strings.s_double;
                         r.put(field, 2);
                     } else {
                         if (floats[i]) {
-                            m += env.strings.s_float;
+                            m += Data_Strings.s_float;
                             r.put(field, 3);
                         } else {
 
                             if (bigIntegers[i]) {
-                                m += env.strings.s_BigInteger;
+                                m += Data_Strings.s_BigInteger;
                                 r.put(field, 4);
                             } else {
                                 if (longs[i]) {
-                                    m += env.strings.s_long;
+                                    m += Data_Strings.s_long;
                                     r.put(field, 5);
                                 } else {
                                     if (ints[i]) {
-                                        m += env.strings.s_int;
+                                        m += Data_Strings.s_int;
                                         r.put(field, 6);
                                     } else {
                                         if (shorts[i]) {
-                                            m += env.strings.s_short;
+                                            m += Data_Strings.s_short;
                                             r.put(field, 7);
                                         } else {
                                             if (bytes[i]) {
-                                                m += env.strings.s_byte;
+                                                m += Data_Strings.s_byte;
                                                 r.put(field, 8);
                                             }
                                         }
@@ -262,9 +258,9 @@ public class Data_VariableType extends Data_Object {
                     }
                 }
             }
-            env.ge.log(m);
+            env.log(m);
         }
-        env.ge.logEndTag(m0);
+        env.logEndTag(m0);
         return r;
     }
 
@@ -287,12 +283,12 @@ public class Data_VariableType extends Data_Object {
      */
     public Object[] loadTest(int n, File f, int dp) {
         String m0 = "loadTest(n, File,int)";
-        env.ge.logStartTag(m0);
-        env.ge.log("n " + n);
-        env.ge.log("File " + f);
-        env.ge.log("int " + dp);
+        env.logStartTag(m0);
+        env.log("n " + n);
+        env.log("File " + f);
+        env.log("int " + dp);
         Object[] r = new Object[10];
-        BufferedReader br = env.ge.io.getBufferedReader(f);
+        BufferedReader br = env.io.getBufferedReader(f);
         String line = br.lines().findFirst().get();
         String[] fields = parseHeader(line);
         int nf = fields.length;
@@ -351,7 +347,7 @@ public class Data_VariableType extends Data_Object {
         boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
                 -> l.split(",").length != n);
         if (fieldLengthWarning) {
-            env.ge.log("Field Length Warning");
+            env.log("Field Length Warning");
         }
         /**
          * Read through all or at least the first n lines of data and determine
@@ -401,7 +397,7 @@ public class Data_VariableType extends Data_Object {
         r[7] = ints;
         r[8] = shorts;
         r[9] = bytes;
-        env.ge.logEndTag(m0);
+        env.logEndTag(m0);
         return r;
     }
 

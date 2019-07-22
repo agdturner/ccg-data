@@ -64,16 +64,16 @@ public abstract class Data_AbstractHandler
     /**
      * The workspace directory.
      */
-    protected File _Directory;
+    protected File dir;
 
     public File get_Directory() {
-        return _Directory;
+        return dir;
     }
 
     public void init(
             Level aLevel,
             File _Directory) {
-        this._Directory = _Directory;
+        this.dir = _Directory;
         init_Logger(
                 aLevel,
                 _Directory);
@@ -99,7 +99,7 @@ public abstract class Data_AbstractHandler
      *            <code>AbstractDataRecords</code>.
      */
     protected void load(File _File) {
-        _Logger.entering(this.getClass().getCanonicalName(), "load(File)");
+        logger.entering(this.getClass().getCanonicalName(), "load(File)");
         this._File = _File;
         if (!_File.exists()) {
             try {
@@ -117,7 +117,7 @@ public abstract class Data_AbstractHandler
                 System.exit(Generic_ErrorAndExceptionHandler.IOException);
             }
         }
-        _Logger.exiting(this.getClass().getCanonicalName(), "load(File)");
+        logger.exiting(this.getClass().getCanonicalName(), "load(File)");
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class Data_AbstractHandler
      * <code>this.tRandomAccessFile</code>
      */
     public long getNDataRecords() {
-        _Logger.entering(this.getClass().getCanonicalName(), "getNDataRecords()");
+        logger.entering(this.getClass().getCanonicalName(), "getNDataRecords()");
         try {
             BigInteger aBigInteger = new BigInteger(
                     Long.toString(this._RandomAccessFile.length()));
@@ -136,7 +136,7 @@ public abstract class Data_AbstractHandler
         } catch (IOException _IOException) {
             _IOException.printStackTrace();
         }
-        _Logger.exiting(this.getClass().getCanonicalName(), "getNDataRecords()");
+        logger.exiting(this.getClass().getCanonicalName(), "getNDataRecords()");
         return Long.MIN_VALUE;
     }
 
@@ -162,7 +162,7 @@ public abstract class Data_AbstractHandler
             int n,
             Random random)
             throws IOException {
-        _Logger.entering(this.getClass().getCanonicalName(), "print(int,Random)");
+        logger.entering(this.getClass().getCanonicalName(), "print(int,Random)");
         long nDataRecords = getNDataRecords();
         double double0;
         Data_AbstractRecord aDataRecord;
@@ -171,6 +171,6 @@ public abstract class Data_AbstractHandler
             aDataRecord = getDataRecord((long) double0);
             log(aDataRecord.toString());
         }
-        _Logger.exiting(this.getClass().getCanonicalName(), "print(int,Random)");
+        logger.exiting(this.getClass().getCanonicalName(), "print(int,Random)");
     }
 }

@@ -23,7 +23,7 @@ import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
  */
 public class Data_Strings extends Generic_Strings {
     
-    public final String s_Subsets = "Subsets";
+    public static final String s_Subsets = "Subsets";
     
     public Data_Strings() {
         super();

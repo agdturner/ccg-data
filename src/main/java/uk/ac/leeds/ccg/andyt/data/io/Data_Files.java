@@ -25,15 +25,13 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
  */
 public class Data_Files extends Generic_Files {
     
-    public final String DOT_DAT = strings.symbol_dot + strings.s_dat;
+    public final String DOT_DAT = Data_Strings.symbol_dot + Data_Strings.s_dat;
     
     /**
-     *
-     * @param strings
      * @param dir
      */
-    public Data_Files(Data_Strings strings, File dir) {
-        super(strings, dir);
+    public Data_Files(File dir) {
+        super(dir);
     }
     
     public File getEnvDataFile() {
