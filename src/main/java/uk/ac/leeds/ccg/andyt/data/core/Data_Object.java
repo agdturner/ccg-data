@@ -13,30 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.io;
+package uk.ac.leeds.ccg.andyt.data.core;
 
-import java.io.File;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
+import java.io.Serializable;
 
 /**
  *
  * @author geoagdt
  */
-public class Data_Files extends Generic_Files {
+public class Data_Object implements Serializable {
     
-    public final String DOT_DAT = strings.symbol_dot + strings.s_dat;
-    
-    /**
-     *
-     * @param strings
-     * @param dir
-     */
-    public Data_Files(Data_Strings strings, File dir) {
-        super(strings, dir);
+    public transient Data_Environment env;
+
+    public Data_Object(Data_Environment e) {
+        this.env = e;
     }
     
-    public File getEnvDataFile() {
-        return new File(getGeneratedDataDir(), "Env.dat");
-    }
 }

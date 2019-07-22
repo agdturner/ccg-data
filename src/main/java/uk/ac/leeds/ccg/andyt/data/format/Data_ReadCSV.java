@@ -27,6 +27,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 
 /**
@@ -52,28 +53,29 @@ public class Data_ReadCSV {
             try {
                 BufferedReader br;
                 StreamTokenizer st;
-                br = Generic_IO.getBufferedReader(f);
+                Generic_IO io = new Generic_IO(new Generic_Environment());
+                br = io.getBufferedReader(f);
                 if (br != null) {
                     result = new ArrayList<>();
                     st = new StreamTokenizer(br);
                     switch (syntax) {
                         case 1:
-                            Generic_IO.setStreamTokenizerSyntax1(st);
+                            io.setStreamTokenizerSyntax1(st);
                             break;
                         case 2:
-                            Generic_IO.setStreamTokenizerSyntax2(st);
+                            io.setStreamTokenizerSyntax2(st);
                             break;
                         case 3:
-                            Generic_IO.setStreamTokenizerSyntax3(st);
+                            io.setStreamTokenizerSyntax3(st);
                             break;
                         case 4:
-                            Generic_IO.setStreamTokenizerSyntax4(st);
+                            io.setStreamTokenizerSyntax4(st);
                             break;
                         case 5:
-                            Generic_IO.setStreamTokenizerSyntax5(st);
+                            io.setStreamTokenizerSyntax5(st);
                             break;
                         case 6:
-                            Generic_IO.setStreamTokenizerSyntax6(st);
+                            io.setStreamTokenizerSyntax6(st);
                             break;
                         default:
                             System.out.println("No Special Syntax!");
@@ -170,31 +172,32 @@ public class Data_ReadCSV {
             try {
                 BufferedReader br;
                 StreamTokenizer st;
-                br = Generic_IO.getBufferedReader(f);
+                Generic_IO io = new Generic_IO(new Generic_Environment());
+                br = io.getBufferedReader(f);
                 if (br != null) {
                     result = new ArrayList<>();
                     st = new StreamTokenizer(br);
                     switch (syntax) {
                         case 1:
-                            Generic_IO.setStreamTokenizerSyntax1(st);
+                            io.setStreamTokenizerSyntax1(st);
                             break;
                         case 2:
-                            Generic_IO.setStreamTokenizerSyntax2(st);
+                            io.setStreamTokenizerSyntax2(st);
                             break;
                         case 3:
-                            Generic_IO.setStreamTokenizerSyntax3(st);
+                            io.setStreamTokenizerSyntax3(st);
                             break;
                         case 4:
-                            Generic_IO.setStreamTokenizerSyntax4(st);
+                            io.setStreamTokenizerSyntax4(st);
                             break;
                         case 5:
-                            Generic_IO.setStreamTokenizerSyntax5(st);
+                            io.setStreamTokenizerSyntax5(st);
                             break;
                         case 6:
-                            Generic_IO.setStreamTokenizerSyntax6(st);
+                            io.setStreamTokenizerSyntax6(st);
                             break;
                         case 7:
-                            Generic_IO.setStreamTokenizerSyntax7(st);
+                            io.setStreamTokenizerSyntax7(st);
                             break;
                         default:
                             System.out.println("No Special Syntax!");

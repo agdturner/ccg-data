@@ -17,8 +17,15 @@ package uk.ac.leeds.ccg.andyt.data;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Handler;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
@@ -50,11 +57,7 @@ import uk.ac.leeds.ccg.andyt.math.Math_Short;
  *
  * @author geoagdt
  */
-public class Data_VariableType {
-
-    Generic_Environment env;
-
-    protected Generic_Files files;
+public class Data_VariableType extends Data_Object {
 
     /**
      * The string used to separate fields in the data.
@@ -66,9 +69,8 @@ public class Data_VariableType {
      *
      * @param env
      */
-    public Data_VariableType(Generic_Environment env) {
-        this.env = env;
-        files = env.getFiles();
+    public Data_VariableType(Data_Environment env) {
+        super(env);
     }
 
     /**
@@ -80,43 +82,37 @@ public class Data_VariableType {
      * declare that type and then either filter records with erroneous values,
      * or check the type and clean the data.
      *
+     * @param n The maximum number of lines of data used to determine type. Set
+     * n to Integer.MaxValue() to read all of data files with fewer lines than
+     * Integer.MaxValue() and to use all lines to determine type.
      * @param fs The files containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
      * @return .
      */
-    protected Object[] getFieldTypes(File[] fs, int dp) {
-        String m0 = "getFieldTypes(File[], int)";
-        env.logStartTag(m0);
-        Object[] r;
-        r = new Object[2];
-        HashMap<String, Integer>[] allFieldTypes;
-        allFieldTypes = new HashMap[fs.length];
-        String[][] headers;
-        headers = new String[fs.length][];
+    protected Object[] getFieldTypes(int n, File[] fs, int dp) {
+        String m0 = "getFieldTypes(int,File[],int)";
+        env.ge.logStartTag(m0);
+        Object[] r = new Object[2];
+        HashMap<String, Integer>[] allFieldTypes = new HashMap[fs.length];
+        String[][] headers = new String[fs.length][];
         for (int j = 0; j < fs.length; j++) {
-            allFieldTypes[j] = getFieldTypes(fs[j], dp);
+            allFieldTypes[j] = getFieldTypes(n, fs[j], dp);
         }
-        Iterator<String> ite;
-        String field;
-        int fieldType;
-        int consolidatedFieldType;
-        HashMap<String, Integer> consolidatedFieldTypes;
-        consolidatedFieldTypes = new HashMap<>();
+        HashMap<String, Integer> consolidatedFieldTypes = new HashMap<>();
         consolidatedFieldTypes.putAll(allFieldTypes[0]);
         for (int j = 0; j < fs.length; j++) {
-            HashMap<String, Integer> fieldTypes;
-            fieldTypes = allFieldTypes[j];
-            ite = fieldTypes.keySet().iterator();
+            HashMap<String, Integer> fieldTypes = allFieldTypes[j];
+            Iterator<String> ite = fieldTypes.keySet().iterator();
             while (ite.hasNext()) {
-                field = ite.next();
-                fieldType = fieldTypes.get(field);
+                String field = ite.next();
+                int fieldType = fieldTypes.get(field);
                 if (consolidatedFieldTypes.containsKey(field)) {
-                    consolidatedFieldType = consolidatedFieldTypes.get(field);
+                    int consolidatedFieldType = consolidatedFieldTypes.get(field);
                     if (fieldType != consolidatedFieldType) {
                         consolidatedFieldTypes.put(field,
                                 Math.min(fieldType, consolidatedFieldType));
-                        env.log("");
+                        env.ge.log("");
                     }
                 } else {
                     consolidatedFieldTypes.put(field, fieldType);
@@ -125,7 +121,7 @@ public class Data_VariableType {
         }
         r[0] = consolidatedFieldTypes;
         r[1] = headers;
-        env.logEndTag(m0);
+        env.ge.logEndTag(m0);
         return r;
     }
 
@@ -133,137 +129,129 @@ public class Data_VariableType {
      *
      * @return Map coding up types:
      * <ul>
-     * <li>0, {@link Generic_Strings#s_String}</li>
-     * <li>1, {@link Generic_Strings#s_BigDecimal}</li>
-     * <li>2, {@link Generic_Strings#s_Double}</li>
-     * <li>3, {@link Generic_Strings#s_Float</li>
-     * <li>4, {@link Generic_Strings#s_BigInteger</li>
-     * <li>5, {@link Generic_Strings#s_Long</li>
-     * <li>6, {@link Generic_Strings#s_Integer</li>
-     * <li>7, {@link Generic_Strings#s_Short</li>
-     * <li>8, {@link Generic_Strings#s_Byte</li>
+     * <li>0, {@link #env#strings#s_String}</li>
+     * <li>1, {@link #env#strings#s_BigDecimal}</li>
+     * <li>2, {@link #env#strings#s_Double}</li>
+     * <li>3, {@link #env#strings#s_Float</li>
+     * <li>4, {@link #env#strings#s_BigInteger</li>
+     * <li>5, {@link #env#strings#s_Long</li>
+     * <li>6, {@link #env#strings#s_Integer</li>
+     * <li>7, {@link #env#strings#s_Short</li>
+     * <li>8, {@link #env#strings#s_Byte</li>
      * </ul>
      */
     public HashMap<Integer, String> getTypeNameLookup() {
         HashMap<Integer, String> r = new HashMap<>();
-        r.put(0, Generic_Strings.s_String);
-        r.put(1, Generic_Strings.s_BigDecimal);
-        r.put(2, Generic_Strings.s_Double);
-        r.put(3, Generic_Strings.s_Float);
-        r.put(4, Generic_Strings.s_BigInteger);
-        r.put(5, Generic_Strings.s_Long);
-        r.put(6, Generic_Strings.s_Integer);
-        r.put(7, Generic_Strings.s_Short);
-        r.put(8, Generic_Strings.s_Byte);
+        r.put(0, env.strings.s_String);
+        r.put(1, env.strings.s_BigDecimal);
+        r.put(2, env.strings.s_Double);
+        r.put(3, env.strings.s_Float);
+        r.put(4, env.strings.s_BigInteger);
+        r.put(5, env.strings.s_Long);
+        r.put(6, env.strings.s_Integer);
+        r.put(7, env.strings.s_Short);
+        r.put(8, env.strings.s_Byte);
         return r;
     }
 
     /**
      * Pass through the data in fs and work out what numeric type is best to
-     * store each field in the data. If the data are clean, then currently, this
+     * store each field in the data.If the data are clean, then currently, this
      * will do a good job, if there is at least one record with an erroneous
      * value for a variable, then this could screw things up. So, if you know
      * what type the variable should be, probably the best way forward is to
      * declare that type and then either filter records with erroneous values,
      * or check the type and clean the data.
      *
+     * @param n The maximum number of lines of data used to determine type. Set
+     * n to Integer.MaxValue() to read all of data files with fewer lines than
+     * Integer.MaxValue() and to use all lines to determine type.
      * @param f The file containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
      * @return .
      */
-    protected HashMap<String, Integer> getFieldTypes(File f, int dp) {
-        String m0 = "getFieldTypes(File,int)";
-        env.logStartTag(m0);
-        Object[] t;
-        t = loadTest(f, dp);
+    protected HashMap<String, Integer> getFieldTypes(int n, File f, int dp) {
+        String m0 = "getFieldTypes(int,File,int)";
+        env.ge.logStartTag(m0);
+        Object[] t = loadTest(n, f, dp);
         HashMap<String, Integer> r = new HashMap<>();
-        String[] fields;
+        String[] fields = (String[]) t[0];
         /**
          * True indicates that a value of a field can be stored as a string, but
          * not a BigDecimal.
          */
-        boolean[] strings;
+        boolean[] strings2 = (boolean[]) t[1];
         /**
          * True indicates that a value of a field can be stored as a BigDecimal.
          */
-        boolean[] bigDecimals;
+        boolean[] bigDecimals = (boolean[]) t[2];
         /**
          * True indicates that a value of a field can be stored as a double.
          */
-        boolean[] doubles;
+        boolean[] doubles = (boolean[]) t[3];
         /**
          * True indicates that a value of a field can be stored as a float.
          */
-        boolean[] floats;
+        boolean[] floats = (boolean[]) t[4];
         /**
          * True indicates that a value of a field can be stored as a BigInteger.
          */
-        boolean[] bigIntegers;
+        boolean[] bigIntegers = (boolean[]) t[5];
         /**
          * True indicates that a value of a field can be stored as a long.
          */
-        boolean[] longs;
+        boolean[] longs = (boolean[]) t[6];
         /**
          * True indicates that a value of a field can be stored as a int.
          */
-        boolean[] ints;
+        boolean[] ints = (boolean[]) t[7];
         /**
          * True indicates that a value of a field can be stored as a short.
          */
-        boolean[] shorts;
+        boolean[] shorts = (boolean[]) t[8];
         /**
          * True indicates that a value of a field can be stored as a byte.
          */
-        boolean[] bytes;
-        fields = (String[]) t[0];
-        strings = (boolean[]) t[1];
-        bigDecimals = (boolean[]) t[2];
-        doubles = (boolean[]) t[3];
-        floats = (boolean[]) t[4];
-        bigIntegers = (boolean[]) t[5];
-        longs = (boolean[]) t[6];
-        ints = (boolean[]) t[7];
-        shorts = (boolean[]) t[8];
-        bytes = (boolean[]) t[9];
-        String field;
-        for (int i = 0; i < strings.length; i++) {
-            field = fields[i];
-            if (strings[i]) {
-                System.out.println("" + i + " " + "String");
+        boolean[] bytes = (boolean[]) t[9];
+        for (int i = 0; i < strings2.length; i++) {
+            String field = fields[i];
+            String m = field + " " + i + " ";
+            if (strings2[i]) {
+                m += env.strings.s_String;
                 r.put(field, 0);
             } else {
                 if (bigDecimals[i]) {
-                    System.out.println("" + i + " " + "BigDecimal");
+                    m += env.strings.s_BigDecimal;
                     r.put(field, 1);
                 } else {
                     if (doubles[i]) {
-                        System.out.println("" + i + " " + "double");
+                        m += env.strings.s_double;
                         r.put(field, 2);
                     } else {
                         if (floats[i]) {
-                            System.out.println("" + i + " " + "float");
+                            m += env.strings.s_float;
                             r.put(field, 3);
                         } else {
 
                             if (bigIntegers[i]) {
-                                System.out.println("" + i + " " + "BigInteger");
+                                m += env.strings.s_BigInteger;
                                 r.put(field, 4);
                             } else {
                                 if (longs[i]) {
-                                    System.out.println("" + i + " " + "long");
+                                    m += env.strings.s_long;
                                     r.put(field, 5);
                                 } else {
                                     if (ints[i]) {
-                                        System.out.println("" + i + " " + "int");
+                                        m += env.strings.s_int;
                                         r.put(field, 6);
                                     } else {
                                         if (shorts[i]) {
-                                            System.out.println("" + i + " " + "short");
+                                            m += env.strings.s_short;
                                             r.put(field, 7);
                                         } else {
                                             if (bytes[i]) {
-                                                System.out.println("" + i + " " + "byte");
+                                                m += env.strings.s_byte;
                                                 r.put(field, 8);
                                             }
                                         }
@@ -274,8 +262,9 @@ public class Data_VariableType {
                     }
                 }
             }
+            env.ge.log(m);
         }
-        env.logEndTag(m0);
+        env.ge.logEndTag(m0);
         return r;
     }
 
@@ -287,72 +276,65 @@ public class Data_VariableType {
      * String type which is likely to include alphanumeric data including things
      * like dates.
      *
+     * @param n The maximum number of lines of data used to determine type. Set
+     * n to Integer.MaxValue() to read all of data files with fewer lines than
+     * Integer.MaxValue() and to use all lines to determine type.
      * @param f The input file containing rectangular data with a one line
      * header and field variables separated with a delimiter.
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
      * @return
      */
-    public Object[] loadTest(File f, int dp) {
-        String m0 = "loadTest(File,int)";
-        env.logStartTag(m0);
-        env.log("File " + f);
-        env.log("int " + dp);
+    public Object[] loadTest(int n, File f, int dp) {
+        String m0 = "loadTest(n, File,int)";
+        env.ge.logStartTag(m0);
+        env.ge.log("n " + n);
+        env.ge.log("File " + f);
+        env.ge.log("int " + dp);
         Object[] r = new Object[10];
-        String[] fields;
+        BufferedReader br = env.ge.io.getBufferedReader(f);
+        String line = br.lines().findFirst().get();
+        String[] fields = parseHeader(line);
+        int nf = fields.length;
         /**
          * True indicates that a value of a field can be stored as a string, but
          * not a BigDecimal.
          */
-        boolean[] strings;
+        boolean[] strings = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a BigDecimal.
          */
-        boolean[] bigDecimals;
+        boolean[] bigDecimals = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a double.
          */
-        boolean[] doubles;
+        boolean[] doubles = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a float.
          */
-        boolean[] floats;
+        boolean[] floats = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a BigInteger.
          */
-        boolean[] bigIntegers;
+        boolean[] bigIntegers = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a long.
          */
-        boolean[] longs;
+        boolean[] longs = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a int.
          */
-        boolean[] ints;
+        boolean[] ints = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a short.
          */
-        boolean[] shorts;
+        boolean[] shorts = new boolean[nf];
         /**
          * True indicates that a value of a field can be stored as a byte.
          */
-        boolean[] bytes;
-
-        BufferedReader br = Generic_IO.getBufferedReader(f);
-        String line = br.lines().findFirst().get();
-        fields = parseHeader(line);
-        int n = fields.length;
-        strings = new boolean[n];
-        bigDecimals = new boolean[n];
-        doubles = new boolean[n];
-        floats = new boolean[n];
-        bigIntegers = new boolean[n];
-        longs = new boolean[n];
-        ints = new boolean[n];
-        shorts = new boolean[n];
-        bytes = new boolean[n];
-
-        for (int i = 0; i < n; i++) {
+        boolean[] bytes = new boolean[nf];
+        // Initialise arrays;        
+        for (int i = 0; i < nf; i++) {
             strings[i] = false;
             bigDecimals[i] = false;
             doubles[i] = false;
@@ -363,28 +345,52 @@ public class Data_VariableType {
             shorts[i] = false;
             bytes[i] = true;
         }
-
         /**
          * Check data is rectangular and if not log a "Field Length Warning".
          */
         boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
                 -> l.split(",").length != n);
         if (fieldLengthWarning) {
-            env.log("Field Length Warning");
+            env.ge.log("Field Length Warning");
         }
-
         /**
-         * Read through all data and determine type. This can't easily be done
-         * in parallel as the data in the expression will change if not all data
-         * can be represented as bytes.
+         * Read through all or at least the first n lines of data and determine
+         * type. This needs extra code to be parallelised as the data in the
+         * expression will change if not all data can be represented as bytes.
          */
-        br.lines().skip(1).forEach(l -> {
-            String[] split = l.split(delimiter);
-            for (int i = 0; i < split.length; i++) {
-                parse(split[i], i, dp, strings, bigDecimals, doubles, floats,
-                        bigIntegers, longs, ints, shorts, bytes);
+        long nlines = 0;
+        try {
+            Data_Handler dh = new Data_Handler(env);
+            nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
+        } catch (IOException ex) {
+            Logger.getLogger(Data_VariableType.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int j = 0; j < nlines; j++) {
+            try {
+                String l = br.readLine();
+                String[] split = l.split(delimiter);
+                for (int i = 0; i < split.length; i++) {
+                    parse(split[i], i, dp, strings, bigDecimals, doubles, floats,
+                            bigIntegers, longs, ints, shorts, bytes);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Data_VariableType.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
+        }
+        /**
+         * The following commented out code did the work going through all the
+         * data, but sometimes it is better (as the data may contain errors) to
+         * just go through the first n lines of data to determine type and then
+         * to catch and deal with exceptions when trying to read what is more
+         * likely to be erroneous data.
+         */
+        //        br.lines().skip(1).forEach(l -> {
+        //            String[] split = l.split(delimiter);
+        //            for (int i = 0; i < split.length; i++) {
+        //                parse(split[i], i, dp, strings, bigDecimals, doubles, floats,
+        //                        bigIntegers, longs, ints, shorts, bytes);
+        //            }
+        //        });
         r[0] = fields;
         r[1] = strings;
         r[2] = bigDecimals;
@@ -395,7 +401,7 @@ public class Data_VariableType {
         r[7] = ints;
         r[8] = shorts;
         r[9] = bytes;
-        env.logEndTag(m0);
+        env.ge.logEndTag(m0);
         return r;
     }
 
