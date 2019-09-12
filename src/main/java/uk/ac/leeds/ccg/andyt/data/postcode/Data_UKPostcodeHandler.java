@@ -93,7 +93,7 @@ public class Data_UKPostcodeHandler {
 
     /**
      *
-     * @param postcode
+     * @param postcode The postcode to test if it is in a valid form.
      * @return True iff postcode has a valid Postcode Format.
      */
     public boolean isValidPostcodeForm(String postcode) {
@@ -128,51 +128,51 @@ public class Data_UKPostcodeHandler {
 
     /**
      *
-     * @param postcode
-     * @return
+     * @param postcode The postcode for which the form is returned.
+     * @return Object[2] r where: r[0] is a numerical code for the form and r[1] is a description.
      */
     public Object[] getPostcodeForm(String postcode) {
-        Object[] result;
-        result = new Object[2];
+        Object[] r;
+        r = new Object[2];
         // Do any modification?
         while (postcode.contains(sSpace)) {
             postcode = postcode.replaceAll(sSpace, s);
         }
         int length = postcode.length();
         if (length < 5) {
-            result[0] = 0;
-            result[1] = "Length < 5";
-            return result;
+            r[0] = 0;
+            r[1] = "Length < 5";
+            return r;
         }
-        String firstPartPostcode;
-        firstPartPostcode = postcode.substring(0, length - 3);
-        String secondPartPostcode;
-        secondPartPostcode = postcode.substring(length - 3, length);
-        String firstPartPostcodeType;
-        firstPartPostcodeType = getFirstPartPostcodeType(firstPartPostcode);
-        String secondPartPostcodeType;
-        secondPartPostcodeType = getSecondPartPostcodeType(secondPartPostcode);
+        String fpp;
+        fpp = postcode.substring(0, length - 3);
+        String spp;
+        spp = postcode.substring(length - 3, length);
+        String fppt;
+        fppt = getFirstPartPostcodeType(fpp);
+        String sppt;
+        sppt = getSecondPartPostcodeType(spp);
         firstPartPostcodeTypes = getFirstPartPostcodeTypes();
-        if (firstPartPostcodeTypes.contains(firstPartPostcodeType)) {
-            if (secondPartPostcodeType.equalsIgnoreCase(sNAA)) {
-                result[0] = 4;
-                result[1] = "Correct form of firstPartPostcode (" + firstPartPostcode + "): " + firstPartPostcodeType + "."
-                        + " Correct form of secondPartPostcode (" + secondPartPostcode + "): " + secondPartPostcodeType + ".";
+        if (firstPartPostcodeTypes.contains(fppt)) {
+            if (sppt.equalsIgnoreCase(sNAA)) {
+                r[0] = 4;
+                r[1] = "Correct form of firstPartPostcode (" + fpp + "): " + fppt + "."
+                        + " Correct form of secondPartPostcode (" + spp + "): " + sppt + ".";
             } else {
-                result[0] = 3;
-                result[1] = "Correct form of firstPartPostcode (" + firstPartPostcode + "): " + firstPartPostcodeType + "."
-                        + " Incorrect form of secondPartPostcode (" + secondPartPostcode + ").";
+                r[0] = 3;
+                r[1] = "Correct form of firstPartPostcode (" + fpp + "): " + fppt + "."
+                        + " Incorrect form of secondPartPostcode (" + spp + ").";
             }
-        } else if (secondPartPostcodeType.equalsIgnoreCase(sNAA)) {
-            result[0] = 1;
-            result[1] = "Incorrect form of firstPartPostcode (" + firstPartPostcode + ")."
-                    + " Incorrect form of secondPartPostcode (" + secondPartPostcode + ").";
+        } else if (sppt.equalsIgnoreCase(sNAA)) {
+            r[0] = 1;
+            r[1] = "Incorrect form of firstPartPostcode (" + fpp + ")."
+                    + " Incorrect form of secondPartPostcode (" + spp + ").";
         } else {
-            result[0] = 2;
-            result[1] = "Incorrect form of firstPartPostcode (" + firstPartPostcode + ")."
-                    + " Correct form of secondPartPostcode (" + secondPartPostcode + "): " + secondPartPostcodeType + ".";
+            r[0] = 2;
+            r[1] = "Incorrect form of firstPartPostcode (" + fpp + ")."
+                    + " Correct form of secondPartPostcode (" + spp + "): " + sppt + ".";
         }
-        return result;
+        return r;
     }
 
     /**
@@ -180,16 +180,16 @@ public class Data_UKPostcodeHandler {
      * stands for an alphabetical character and n stands for a numerical
      * character.
      *
-     * @param secondPartPostcode
-     * @return
+     * @param spp Second Part of a Postcode
+     * @return The type as a String.
      */
-    public String getSecondPartPostcodeType(String secondPartPostcode) {
-        if (secondPartPostcode.length() < 4) {
-            switch (secondPartPostcode.length()) {
+    public String getSecondPartPostcodeType(String spp) {
+        if (spp.length() < 4) {
+            switch (spp.length()) {
                 case 3: {
-                    String _0 = secondPartPostcode.substring(0, 1);
-                    String _1 = secondPartPostcode.substring(1, 2);
-                    String _2 = secondPartPostcode.substring(2, 3);
+                    String _0 = spp.substring(0, 1);
+                    String _1 = spp.substring(1, 2);
+                    String _2 = spp.substring(2, 3);
                     if (get_0to9().contains(_0)
                             && get_AtoZ_not_CIKMOV().contains(_1)
                             && get_AtoZ_not_CIKMOV().contains(_2)) {
@@ -198,8 +198,8 @@ public class Data_UKPostcodeHandler {
                     break;
                 }
                 case 2: {
-                    String _0 = secondPartPostcode.substring(0, 1);
-                    String _1 = secondPartPostcode.substring(1, 2);
+                    String _0 = spp.substring(0, 1);
+                    String _1 = spp.substring(1, 2);
                     if (get_0to9().contains(_0)
                             && get_AtoZ_not_CIKMOV().contains(_1)) {
                         return sNA;
@@ -207,7 +207,7 @@ public class Data_UKPostcodeHandler {
                     break;
                 }
                 case 1: {
-                    String _0 = secondPartPostcode.substring(0, 1);
+                    String _0 = spp.substring(0, 1);
                     if (get_0to9().contains(_0)) {
                         return sN;
                     }
@@ -241,22 +241,22 @@ public class Data_UKPostcodeHandler {
      * respectively where A stands for an alphabetical character and N stands
      * for a numerical character.
      *
-     * @param firstPartPostcode
-     * @return
+     * @param fpp First Part of a Postcode
+     * @return The type of fpp.
      */
-    public String getFirstPartPostcodeType(String firstPartPostcode) {
+    public String getFirstPartPostcodeType(String fpp) {
         // Resolve type from firstPartPostcode
 //        String unresolvedMessage = firstPartPostcode + " is not recognised as a first part of a postcode";
         // Return a String or null (AANN, AANA, ANN, ANA, AAN, AN)
-        if (firstPartPostcode.length() > 4 || firstPartPostcode.length() < 2) {
+        if (fpp.length() > 4 || fpp.length() < 2) {
 //            System.err.println(unresolvedMessage);
             return s;
         }
-        if (firstPartPostcode.length() == 4) {
-            String _0 = firstPartPostcode.substring(0, 1);
-            String _1 = firstPartPostcode.substring(1, 2);
-            String _2 = firstPartPostcode.substring(2, 3);
-            String _3 = firstPartPostcode.substring(3, 4);
+        if (fpp.length() == 4) {
+            String _0 = fpp.substring(0, 1);
+            String _1 = fpp.substring(1, 2);
+            String _2 = fpp.substring(2, 3);
+            String _3 = fpp.substring(3, 4);
             if (get_AtoZ_not_QVX().contains(_0)
                     && get_AtoZ_not_IJZ().contains(_1)
                     && get_0to9().contains(_2)
@@ -272,10 +272,10 @@ public class Data_UKPostcodeHandler {
                 return s;
             }
         }
-        if (firstPartPostcode.length() == 3) {
-            String _0 = firstPartPostcode.substring(0, 1);
-            String _1 = firstPartPostcode.substring(1, 2);
-            String _2 = firstPartPostcode.substring(2, 3);
+        if (fpp.length() == 3) {
+            String _0 = fpp.substring(0, 1);
+            String _1 = fpp.substring(1, 2);
+            String _2 = fpp.substring(2, 3);
             if (get_AtoZ_not_QVX().contains(_0)) {
                 if (get_0to9().contains(_1)) {
                     if (get_0to9().contains(_2)) {
@@ -301,9 +301,9 @@ public class Data_UKPostcodeHandler {
                 return s;
             }
         }
-        if (firstPartPostcode.length() == 2) {
-            String _0 = firstPartPostcode.substring(0, 1);
-            String _1 = firstPartPostcode.substring(1, 2);
+        if (fpp.length() == 2) {
+            String _0 = fpp.substring(0, 1);
+            String _1 = fpp.substring(1, 2);
             if (get_AtoZ_not_QVX().contains(_0)) {
                 if (get_0to9().contains(_1)) {
                     return sAN;

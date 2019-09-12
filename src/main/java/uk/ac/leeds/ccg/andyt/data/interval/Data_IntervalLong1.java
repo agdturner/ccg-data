@@ -47,13 +47,13 @@ public class Data_IntervalLong1 implements Serializable, Comparable {
     }
 
     /**
-     * l is in the interval if it is greater than or equal to L and less than U.
+     * x is in the interval if it is greater than or equal to L and less than U.
      *
-     * @param l
-     * @return
+     * @param x The number to test to see if it is in the interval.
+     * @return True iff x is in the interval.
      */
-    public boolean isInInterval(long l) {
-        return l >= L && l < U;
+    public boolean isInInterval(long x) {
+        return x >= L && x < U;
     }
 
     /**

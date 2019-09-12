@@ -1,20 +1,17 @@
 /**
- * A component of a library for
- * <a href="http://www.geog.leeds.ac.uk/people/a.turner/projects/MoSeS">MoSeS</a>.
+ * Copyright 2010 Andy Turner, The University of Leeds, UK
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package uk.ac.leeds.ccg.andyt.data;
 
@@ -29,89 +26,81 @@ import uk.ac.leeds.ccg.andyt.generic.logging.Generic_AbstractLog;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_ErrorAndExceptionHandler;
 
 /**
- * Abstract class for handling  <code>AbstractDataRecords</code>
+ * Abstract class for handling {@link Data_AbstractRecord}'s.
+ *
  * @version 2.0.0
  */
-public abstract class Data_AbstractHandler 
-        extends Generic_AbstractLog
+public abstract class Data_AbstractHandler extends Generic_AbstractLog
         implements Serializable {
 
-    /**
-	 * Serializable class version number for swapping
-	 * (serialization/deserialization)
-	 */
 //	private static final long serialVersionUID = 1L;
-
     /**
-     * For storing the length of an <code>Data_AbstractRecord</code> that this
+     * For storing the length of an {@link Data_AbstractRecord} that this
      * Handler handles in measured in <code>byte</code> units and stored as a
      * <code>long</code>.
      */
-    protected long _RecordLength;
+    protected long recordLength;
 
     /**
-     * Returns a copy of <code>_RecordLength</code>.
-     * @return 
+     * Returns a copy of {@link #recordLength}.
+     *
+     * @return A copy of {@link #recordLength}.
      */
-    public long get_RecordLength() {
-        return this._RecordLength;
+    public long getRecordLength() {
+        return this.recordLength;
     }
+
     /**
-     * Formatted <code>File</code> for
-     * <code>AbstractDataRecords</code>.
+     * Formatted {@link File} for storing {@link Data_AbstractRecord}'s.
      */
-    protected File _File;
+    protected File file;
+
     /**
      * The workspace directory.
      */
     protected File dir;
 
-    public File get_Directory() {
+    /**
+     * @return {@link #dir}
+     */
+    public File getDir() {
         return dir;
     }
 
-    public void init(
-            Level aLevel,
-            File _Directory) {
-        this.dir = _Directory;
-        init_Logger(
-                aLevel,
-                _Directory);
+    public final void init(Level l, File dir) {
+        this.dir = dir;
+        init_Logger(l, dir);
     }
-    public void init(
-            File _Directory) {
-        init( Level.FINE,
-              _Directory);
+
+    public final void init(File dir) {
+        init(Level.FINE, dir);
     }
-    /**
-     * <code>RandomAccessFile<code> of <code>_File</code> for
-     * <code>AbstractDataRecords</code>
-     */
-    protected transient RandomAccessFile _RandomAccessFile;
 
     /**
-     * Set:
-     * <code>this._File = _File</code>
-     * <code>this.tRandomAccessFile = new
-     * RandomAccessFile(_File,"r" )</code>
-     * @param _File
-     *            Formatted <code>File</code> containing
-     *            <code>AbstractDataRecords</code>.
+     * A {@link RandomAccessFile} of {@link #file}.
      */
-    protected void load(File _File) {
+    protected transient RandomAccessFile rAF;
+
+    /**
+     * Sets: {@link #file} to {@code f}; {@link #rAF} to
+     * {@code new RandomAccessFile(file,"r" )}.
+     *
+     * @param f Formatted {@link File} containing {@link Data_AbstractRecord}'s.
+     */
+    protected void load(File f) {
         logger.entering(this.getClass().getCanonicalName(), "load(File)");
-        this._File = _File;
-        if (!_File.exists()) {
+        this.file = f;
+        if (!f.exists()) {
             try {
-                _File.createNewFile();
-                this._RandomAccessFile = new RandomAccessFile(this._File, "rw");
+                f.createNewFile();
+                this.rAF = new RandomAccessFile(this.file, "rw");
             } catch (IOException aIOException) {
                 log(aIOException.getLocalizedMessage());
                 System.exit(Generic_ErrorAndExceptionHandler.IOException);
             }
         } else {
             try {
-                this._RandomAccessFile = new RandomAccessFile(this._File, "r");
+                this.rAF = new RandomAccessFile(this.file, "r");
             } catch (IOException aIOException) {
                 log(aIOException.getLocalizedMessage());
                 System.exit(Generic_ErrorAndExceptionHandler.IOException);
@@ -121,55 +110,44 @@ public abstract class Data_AbstractHandler
     }
 
     /**
-     * @return
-     * The number of <code>AbstractDataRecords</code> in
-     * <code>this.tRandomAccessFile</code>
+     * @return The number of {@link Data_AbstractRecord}s stored in
+     * {@link #rAF}.
      */
     public long getNDataRecords() {
         logger.entering(this.getClass().getCanonicalName(), "getNDataRecords()");
         try {
-            BigInteger aBigInteger = new BigInteger(
-                    Long.toString(this._RandomAccessFile.length()));
-            BigInteger bBigInteger = new BigInteger(
-                    Long.toString(this._RecordLength));
-            return aBigInteger.divide(bBigInteger).longValue();
-        } catch (IOException _IOException) {
-            _IOException.printStackTrace();
+            BigInteger abi = new BigInteger(Long.toString(this.rAF.length()));
+            BigInteger bbi = new BigInteger(Long.toString(this.recordLength));
+            return abi.divide(bbi).longValue();
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
         }
         logger.exiting(this.getClass().getCanonicalName(), "getNDataRecords()");
         return Long.MIN_VALUE;
     }
 
     /**
-     * @return An <code>Data_AbstractRecord</code> for the given RecordID
-     * @param RecordID
-     * The RecordID of the <code>Data_AbstractRecord</code> to be returned.
+     * @return An {@link Data_AbstractRecord} for the given RecordID.
+     * @param RecordID The RecordID of the {@link Data_AbstractRecord} to be
+     * returned.
      */
-    public abstract Data_AbstractRecord getDataRecord(
-            long RecordID);
+    public abstract Data_AbstractRecord getDataRecord(long RecordID);
 
     /**
-     * Prints a random set of <code>n</code> <code>AbstractDataRecords</code>
-     * via <code>System.out.println()</code>
-     * @param n
-     * the number of <code>AbstractDataRecords</code> to print out
-     * @param random 
-     * the <code>Random</code> used for selecting
-     * <code>AbstractDataRecords</code> to print
-     * @throws java.io.IOException
+     * Prints a random set of {@code >n} {@link Data_AbstractRecord}s obtained
+     * via {@link #getDataRecord(long)}.
+     *
+     * @param n the number of {@link Data_AbstractRecord}s to print out.
+     * @param random the {@link Random} used for selecting
+     * {@link Data_AbstractRecord}s to print.
      */
-    protected void print(
-            int n,
-            Random random)
-            throws IOException {
+    protected void print(int n, Random random) {
         logger.entering(this.getClass().getCanonicalName(), "print(int,Random)");
         long nDataRecords = getNDataRecords();
-        double double0;
-        Data_AbstractRecord aDataRecord;
         for (int i0 = 0; i0 < n; i0++) {
-            double0 = random.nextDouble() * nDataRecords;
-            aDataRecord = getDataRecord((long) double0);
-            log(aDataRecord.toString());
+            double double0 = random.nextDouble() * nDataRecords;
+            Data_AbstractRecord rec = getDataRecord((long) double0);
+            log(rec.toString());
         }
         logger.exiting(this.getClass().getCanonicalName(), "print(int,Random)");
     }

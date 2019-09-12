@@ -22,13 +22,15 @@ import java.util.Random;
 
 /**
  * For converting and classifying age groups.
- * 
+ *
  * @author Andy Turner
  */
 public class Data_AgeConverter {
 
     /**
-     * @param age
+     * Classifies an age.
+     *
+     * @param age Number to classify.
      * @return short of age which is by default 75 and is otherwise:
      * 0,16,20,25,30,45,60,65,70
      */
@@ -64,9 +66,10 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
-     * @return short of age which is by default 60 and is otherwise:
-     * 0,20,30
+     * Classifies an age.
+     *
+     * @param age Number to classify.
+     * @return short of age which is by default 60 and is otherwise: 0,20,30
      */
     public static short getAgeClass2(int age) {
         if (age < 20) {
@@ -82,7 +85,9 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
+     * Classifies an age.
+     *
+     * @param age Number to classify.
      * @return short of age which is by default 75 and is otherwise:
      * 0-15,16,20,25,30,45,60,65,70,75,80,85,90
      */
@@ -127,7 +132,9 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
+     * Classifies an age.
+     *
+     * @param age Number to classify.
      * @return short of age which is by default 75 and is otherwise:
      * 0,16,20,25,30,45,60,65,70,75,80,85,90
      */
@@ -172,7 +179,9 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
+     * Classifies an age.
+     *
+     * @param age Number to classify.
      * @return short of age which is by default 80 and is otherwise:
      * 0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,
      * 52,54,56,58,60,62,64,66,68,70,72,74,76,78
@@ -302,7 +311,9 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
+     * Classifies an age.
+     *
+     * @param age Number to classify.
      * @return short of age which is by default 97 and is otherwise:
      * 0-15,16,20,25,30,45,60,65,75,76-96
      */
@@ -341,261 +352,249 @@ public class Data_AgeConverter {
     }
 
     /**
-     * @param age
-     * @param aRandom
-     * @return int age which is by default 90 else a random assignment in ranges:
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
+     * @return int age which is by default 90 else a random assignment in
+     * ranges:
      * 0-19,20-24,25-29,30-39,40-44,45-49,50-54,55-59,60-64,65-74,75-84,85-90.
      */
-    public static int getAge1(
-            int age,
-            Random aRandom) {
+    public static int getAge1(int age, Random r) {
         if (age < 20) {
-            return aRandom.nextInt(20);
+            return r.nextInt(20);
         }
         if (age < 25) {
-            return 20 + aRandom.nextInt(5);
+            return 20 + r.nextInt(5);
         }
         if (age < 30) {
-            return 25 + aRandom.nextInt(5);
+            return 25 + r.nextInt(5);
         }
         if (age < 35) {
-            return 30 + aRandom.nextInt(5);
+            return 30 + r.nextInt(5);
         }
         if (age < 40) {
-            return 35 + aRandom.nextInt(5);
+            return 35 + r.nextInt(5);
         }
         if (age < 45) {
-            return 40 + aRandom.nextInt(5);
+            return 40 + r.nextInt(5);
         }
         if (age < 50) {
-            return 45 + aRandom.nextInt(5);
+            return 45 + r.nextInt(5);
         }
         if (age < 55) {
-            return 50 + aRandom.nextInt(5);
+            return 50 + r.nextInt(5);
         }
         if (age < 60) {
-            return 55 + aRandom.nextInt(5);
+            return 55 + r.nextInt(5);
         }
         if (age < 65) {
-            return 60 + aRandom.nextInt(5);
+            return 60 + r.nextInt(5);
         }
         if (age < 75) {
-            return 65 + aRandom.nextInt(10);
+            return 65 + r.nextInt(10);
         }
         if (age < 85) {
-            return 75 + aRandom.nextInt(10);
+            return 75 + r.nextInt(10);
         }
         if (age < 90) {
-            return 85 + aRandom.nextInt(5);
+            return 85 + r.nextInt(5);
         }
         return 90;
     }
 
     /**
-     * @return int age which is by default 80 else a random assignment in ranges:
-     * 0-19,20-29,30-39,40-49,50-59,60-69,70-79
-     * @param age0
-     * @param aRandom
+     * @return int age which is by default 80 else a random assignment in
+     * ranges: 0-19,20-29,30-39,40-49,50-59,60-69,70-79
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
      */
-    public static int getAge2(
-            int age0,
-            Random aRandom) {
-        if (age0 < 20) {
-            return aRandom.nextInt(20);
+    public static int getAge2(int age, Random r) {
+        if (age < 20) {
+            return r.nextInt(20);
         }
-        if (age0 < 30) {
-            return (20 + aRandom.nextInt(10));
+        if (age < 30) {
+            return (20 + r.nextInt(10));
         }
-        if (age0 < 40) {
-            return (30 + aRandom.nextInt(10));
+        if (age < 40) {
+            return (30 + r.nextInt(10));
         }
-        if (age0 < 50) {
-            return (40 + aRandom.nextInt(10));
+        if (age < 50) {
+            return (40 + r.nextInt(10));
         }
-        if (age0 < 60) {
-            return (50 + aRandom.nextInt(10));
+        if (age < 60) {
+            return (50 + r.nextInt(10));
         }
-        if (age0 < 70) {
-            return (60 + aRandom.nextInt(10));
+        if (age < 70) {
+            return (60 + r.nextInt(10));
         }
-        if (age0 < 80) {
-            return (70 + aRandom.nextInt(10));
+        if (age < 80) {
+            return (70 + r.nextInt(10));
         }
         return 80;
     }
 
     /**
-     * @param age
-     * @param tRandom
-     * @return int age which is by default 90 else a random assignment in ranges:
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
+     * @return int age which is by default 90 else a random assignment in
+     * ranges:
      * 0-4,5-7,8-9,10-14,15,16-19,20-24,25-29,30-44,45-59,60-64,65-74,75-84,85-90.
      */
-    public static int getAge3(
-            int age,
-            Random tRandom) {
+    public static int getAge3(int age, Random r) {
         if (age < 5) {
-            return tRandom.nextInt(5);
+            return r.nextInt(5);
         }
         if (age < 8) {
-            return 5 + tRandom.nextInt(3);
+            return 5 + r.nextInt(3);
         }
         if (age < 10) {
-            return 8 + tRandom.nextInt(2);
+            return 8 + r.nextInt(2);
         }
         if (age < 15) {
-            return 10 + tRandom.nextInt(5);
+            return 10 + r.nextInt(5);
         }
         if (age < 16) {
             return 15;
         }
         if (age < 20) {
-            return 16 + tRandom.nextInt(4);
+            return 16 + r.nextInt(4);
         }
         if (age < 25) {
-            return 20 + tRandom.nextInt(5);
+            return 20 + r.nextInt(5);
         }
         if (age < 30) {
-            return 25 + tRandom.nextInt(5);
+            return 25 + r.nextInt(5);
         }
         if (age < 45) {
-            return 30 + tRandom.nextInt(15);
+            return 30 + r.nextInt(15);
         }
         if (age < 60) {
-            return 45 + tRandom.nextInt(15);
+            return 45 + r.nextInt(15);
         }
         if (age < 65) {
-            return 60 + tRandom.nextInt(5);
+            return 60 + r.nextInt(5);
         }
         if (age < 75) {
-            return 65 + tRandom.nextInt(10);
+            return 65 + r.nextInt(10);
         }
         if (age < 85) {
-            return 75 + tRandom.nextInt(10);
+            return 75 + r.nextInt(10);
         }
         if (age < 90) {
-            return 85 + tRandom.nextInt(5);
+            return 85 + r.nextInt(5);
         }
         return 90;
     }
 
     /**
-     * @param age
-     * @param aRandom
-     * @return int which is by default age and otherwise a random assignment in ranges:
-     * 75-79,80-84,85-90.
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
+     * @return int which is by default age and otherwise a random assignment in
+     * ranges: 75-79,80-84,85-90.
      */
-    public static int getAge4(
-            int age,
-            Random aRandom) {
+    public static int getAge4(int age, Random r) {
         if (age > 74) {
             if (age < 80) {
-                return 75 + aRandom.nextInt(5);
+                return 75 + r.nextInt(5);
             }
             if (age < 85) {
-                return 80 + aRandom.nextInt(5);
+                return 80 + r.nextInt(5);
             }
             if (age < 90) {
-                return 85 + aRandom.nextInt(5);
+                return 85 + r.nextInt(5);
             }
         }
         return age;
     }
 
     /**
-     * @param age
-     * @param aRandom
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
      * @return int which is a random assignment in ranges:
      * 0-19,20-29,30-59,60-90.
      */
-    public static int getAge5(
-            int age,
-            Random aRandom) {
+    public static int getAge5(int age, Random r) {
         if (age < 20) {
-            return aRandom.nextInt(20);
+            return r.nextInt(20);
         }
         if (age < 30) {
-            return 20 + aRandom.nextInt(10);
+            return 20 + r.nextInt(10);
         }
         if (age < 60) {
-            return 30 + aRandom.nextInt(30);
+            return 30 + r.nextInt(30);
         }
-        return 60 + aRandom.nextInt(31);
+        return 60 + r.nextInt(31);
     }
 
     /**
-     * @param age
-     * @param tRandom
-     * @return int age which is by default 90 or a random assignement in the
-     * ranges:
-     * 0-15,16-19,20-24,25-29,30-44,45-59,60-64,65-74,75-79,80-84,85-90.
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
+     * @return int age which is by default 90 or a random assignment in the
+     * ranges: 0-15,16-19,20-24,25-29,30-44,45-59,60-64,65-74,75-79,80-84,85-90.
      */
-    public static int getAge7(
-            int age,
-            Random tRandom) {
+    public static int getAge7(int age, Random r) {
         if (age < 16) {
-            return tRandom.nextInt(16);
+            return r.nextInt(16);
         }
         if (age < 20) {
-            return 16 + tRandom.nextInt(4);
+            return 16 + r.nextInt(4);
         }
         if (age < 25) {
-            return 20 + tRandom.nextInt(5);
+            return 20 + r.nextInt(5);
         }
         if (age < 30) {
-            return 25 + tRandom.nextInt(5);
+            return 25 + r.nextInt(5);
         }
         if (age < 45) {
-            return 30 + tRandom.nextInt(15);
+            return 30 + r.nextInt(15);
         }
         if (age < 60) {
-            return 45 + tRandom.nextInt(15);
+            return 45 + r.nextInt(15);
         }
         if (age < 65) {
-            return 60 + tRandom.nextInt(5);
+            return 60 + r.nextInt(5);
         }
         if (age < 75) {
-            return 65 + tRandom.nextInt(5);
+            return 65 + r.nextInt(5);
         }
         if (age < 80) {
-            return 75 + tRandom.nextInt(5);
+            return 75 + r.nextInt(5);
         }
         if (age < 85) {
-            return 80 + tRandom.nextInt(5);
+            return 80 + r.nextInt(5);
         }
         if (age < 90) {
-            return 85 + tRandom.nextInt(5);
+            return 85 + r.nextInt(5);
         }
         return 90;
     }
 
     /**
-     * @param age0
-     * @param tRandom
-     * @return int age which is by default 90 else a random assignment in ranges:
+     * @param age Number to classify.
+     * @param r The random used to calculate result.
+     * @return int age which is by default 90 else a random assignment in
+     * ranges:
      * 0-4,5-7,8-9,10-14,15,16-19,20-24,25-29,30-44,45-59,60-64,65-74,75-84,85-90.
      */
-    public static int getAge6(
-            int age0,
-            Random tRandom) {
-        switch (age0) {
+    public static int getAge6(int age, Random r) {
+        switch (age) {
             case 0:
-                return tRandom.nextInt(16);
+                return r.nextInt(16);
             case 16:
-                return (16 + tRandom.nextInt(5));
+                return (16 + r.nextInt(5));
             case 20:
-                return (20 + tRandom.nextInt(5));
+                return (20 + r.nextInt(5));
             case 25:
-                return (25 + tRandom.nextInt(5));
+                return (25 + r.nextInt(5));
             case 30:
-                return (30 + tRandom.nextInt(15));
+                return (30 + r.nextInt(15));
             case 45:
-                return (45 + tRandom.nextInt(15));
+                return (45 + r.nextInt(15));
             case 60:
-                return (60 + tRandom.nextInt(5));
+                return (60 + r.nextInt(5));
             case 65:
-                return (65 + tRandom.nextInt(10));
+                return (65 + r.nextInt(10));
             default:
-                return (75 + tRandom.nextInt(21));
+                return (75 + r.nextInt(21));
         }
     }
 }

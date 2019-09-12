@@ -1,20 +1,17 @@
 /**
- * A component of a library for
- * <a href="http://www.geog.leeds.ac.uk/people/a.turner/projects/MoSeS">MoSeS</a>.
+ * Copyright 2010 Andy Turner, The University of Leeds, UK
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package uk.ac.leeds.ccg.andyt.data;
 
@@ -55,7 +52,7 @@ public abstract class Data_AbstractRecord implements Serializable, Comparable {
     /**
      * Initialise from rec.
      *
-     * @param rec
+     * @param rec The {@link Data_AbstractRecord} to initialise from.
      */
     protected void init(Data_AbstractRecord rec) {
         this.RecordID = rec.RecordID;
@@ -127,15 +124,15 @@ public abstract class Data_AbstractRecord implements Serializable, Comparable {
      * to aRandomAccessFile.
      *
      * @param raf The <code>RandomAccessFile</code> written to.
-     * @throws java.io.IOException
+     * @throws java.io.IOException If encountered when writing to {@code raf}.
      */
     public void write(RandomAccessFile raf) throws IOException {
         raf.writeLong(this.RecordID);
     }
 
     /**
-     * @param object
-     * @return
+     * @param object The Object to test if it is equal to this.
+     * @return true iff object is equal to this.
      * @see java.lang.Object#equals(Object)
      */
     @Override
@@ -153,7 +150,7 @@ public abstract class Data_AbstractRecord implements Serializable, Comparable {
     /**
      * Method required by Comparable
      *
-     * @param obj
+     * @param obj The object to be compared with this.
      * @see java.lang.Comparable#compareTo(Object)
      */
     @Override
@@ -171,7 +168,7 @@ public abstract class Data_AbstractRecord implements Serializable, Comparable {
     }
 
     /**
-     * @return The size (in <code>bytes</code>) of this as a <code>long</code>.
+     * @return The size (in bytes) of this as a <code>long</code>.
      *
      */
     public long getSizeInBytes() {

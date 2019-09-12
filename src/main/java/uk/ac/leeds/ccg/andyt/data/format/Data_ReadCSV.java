@@ -148,9 +148,9 @@ public class Data_ReadCSV {
      * element being a line.
      * @param testDir If this is null then a test file is not written out.
      * Otherwise a test file is written out in testDir
-     * @param syntax @see forexample,
- Generic_IO.setStreamTokenizerSyntax1(st);
-     * @return
+     * @param syntax For setting the syntax of the StreamTokenizer (see for
+     * example, Generic_IO.setStreamTokenizerSyntax1(st))
+     * @return The read file as a list of Strings each entry being a line.
      */
     public static ArrayList<String> read(File f, File testDir, int syntax) {
         ArrayList<String> result = null;
@@ -257,7 +257,7 @@ public class Data_ReadCSV {
     }
 
     /**
-     * 
+     *
      * @param st The StreamTokenizer for parsing the stream.
      * @param pw If this is not null then the line returned is printed to it.
      * @return The next line or null.

@@ -42,16 +42,15 @@ public abstract class Data_ReadXML {
     protected Document aDocument;
 
     /**
-     * if nodeName is "*" this will initialise the node list for all nodes 
-     * otherwise it will only initialise the node list for those nodes with 
-     * the given name. 
-     * @param file
-     * @param nodeName 
+     * If nodeName is "*" this will initialise the node list for all nodes
+     * otherwise it will only initialise the node list for those nodes with the
+     * given name.
+     *
+     * @param f The File to set {@link #file} to.
+     * @param nodeName For setting {@link #nodeName} to.
      */
-    protected final void init(
-            File file,
-            String nodeName) {
-        this.file = file;
+    protected final void init(File f, String nodeName) {
+        this.file = f;
         this.nodeName = nodeName;
         initDocumentBuilderFactory();
         initDocumentBuilder();
@@ -74,9 +73,7 @@ public abstract class Data_ReadXML {
     protected void initDocument() {
         try {
             aDocument = aDocumentBuilder.parse(file);
-        } catch (SAXException ex) {
-            Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (SAXException | IOException ex) {
             Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         }
         //optional, but recommended

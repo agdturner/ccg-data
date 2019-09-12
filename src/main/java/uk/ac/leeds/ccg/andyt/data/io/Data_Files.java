@@ -28,7 +28,7 @@ public class Data_Files extends Generic_Files {
     public final String DOT_DAT = Data_Strings.symbol_dot + Data_Strings.s_dat;
     
     /**
-     * @param dir
+     * @param dir The directory.
      */
     public Data_Files(File dir) {
         super(dir);

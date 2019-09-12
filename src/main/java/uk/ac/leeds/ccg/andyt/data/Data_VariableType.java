@@ -38,9 +38,9 @@ import uk.ac.leeds.ccg.andyt.math.Math_Short;
 /**
  * This class contains methods for parsing rectangular data organised into
  * columns of variables and rows of records. The
- * {@link #getFieldTypes(java.io.File[], int)} method attempts to determine what
- * type of numbers to store each variable in for an array of files all assumed
- * to contain the same variables. For each variable, first the data are
+ * {@link #getFieldTypes(int, java.io.File[], int)} method attempts to determine
+ * what type of numbers to store each variable in for an array of files all
+ * assumed to contain the same variables. For each variable, first the data are
  * attempted to be stored as bytes, then if this does not work as some value of
  * that variable encountered cannot be stored that way, it attempts to store it
  * as a short, then as an int, then as a long and then as a BigInteger. If the
@@ -63,7 +63,7 @@ public class Data_VariableType extends Data_Object {
     /**
      * Creates a new instance.
      *
-     * @param env
+     * @param env The {@link Data_Environment} for creating an instance.
      */
     public Data_VariableType(Data_Environment env) {
         super(env);
@@ -125,15 +125,15 @@ public class Data_VariableType extends Data_Object {
      *
      * @return Map coding up types:
      * <ul>
-     * <li>0, {@link #env#strings#s_String}</li>
-     * <li>1, {@link #env#strings#s_BigDecimal}</li>
-     * <li>2, {@link #env#strings#s_Double}</li>
-     * <li>3, {@link #env#strings#s_Float</li>
-     * <li>4, {@link #env#strings#s_BigInteger</li>
-     * <li>5, {@link #env#strings#s_Long</li>
-     * <li>6, {@link #env#strings#s_Integer</li>
-     * <li>7, {@link #env#strings#s_Short</li>
-     * <li>8, {@link #env#strings#s_Byte</li>
+     * <li>0, "String"</li>
+     * <li>1, "BigDecimal"</li>
+     * <li>2, "Double"</li>
+     * <li>3, "Float"</li>
+     * <li>4, "BigInteger"</li>
+     * <li>5, "Long"</li>
+     * <li>6, "Integer"</li>
+     * <li>7, "Short"</li>
+     * <li>8, "Byte"</li>
      * </ul>
      */
     public HashMap<Integer, String> getTypeNameLookup() {
@@ -151,13 +151,13 @@ public class Data_VariableType extends Data_Object {
     }
 
     /**
-     * Pass through the data in fs and work out what numeric type is best to
-     * store each field in the data.If the data are clean, then currently, this
-     * will do a good job, if there is at least one record with an erroneous
-     * value for a variable, then this could screw things up. So, if you know
-     * what type the variable should be, probably the best way forward is to
-     * declare that type and then either filter records with erroneous values,
-     * or check the type and clean the data.
+     * Pass through the data in {@code f} and work out what numeric type is best
+     * to store each field. If the data are clean, then currently, this will do
+     * a good job, if there is at least one record with an erroneous value for a
+     * variable, then this could screw things up. So, if you know what type the
+     * variable should be, probably the best way forward is to declare that type
+     * and then either filter records with erroneous values, or check the type
+     * and clean the data.
      *
      * @param n The maximum number of lines of data used to determine type. Set
      * n to Integer.MaxValue() to read all of data files with fewer lines than
@@ -165,7 +165,19 @@ public class Data_VariableType extends Data_Object {
      * @param f The file containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
-     * @return .
+     * @return A map with keys as field names and values as numbers representing
+     * types.
+     * <ul>
+     * <li>0 is a "String"</li>
+     * <li>1 is a "BigDecimal"</li>
+     * <li>2 is a "Double"</li>
+     * <li>3 is a "Float"</li>
+     * <li>4 is a "BigInteger"</li>
+     * <li>5 is a "Long"</li>
+     * <li>6 is a "Integer"</li>
+     * <li>7 is a "Short"</li>
+     * <li>8 is a "Byte"</li>
+     * </ul>
      */
     protected HashMap<String, Integer> getFieldTypes(int n, File f, int dp) {
         String m0 = "getFieldTypes(int,File,int)";
@@ -279,7 +291,27 @@ public class Data_VariableType extends Data_Object {
      * header and field variables separated with a delimiter.
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
-     * @return
+     * @return Object[10] r where:
+     * <ul>
+     * <li>r[0] = String[] fields; r[1] = boolean[] indicating which fields must
+     * be stored as strings;</li>
+     * <li>r[2] = boolean[] indicating which fields must be stored as
+     * bigDecimals;</li>
+     * <li> r[3] = boolean[] indicating which fields must be stored as
+     * doubles;</li>
+     * <li> r[4] = boolean[] indicating which fields must be stored as
+     * floats;</li>
+     * <li> r[5] = boolean[] indicating which fields must be stored as
+     * bigIntegers;</li>
+     * <li> r[6] = boolean[] indicating which fields must be stored as
+     * longs;</li>
+     * <li> r[7] = boolean[] indicating which fields must be stored as
+     * ints;</li>
+     * <li> r[8] = boolean[] indicating which fields must be stored as
+     * shorts;</li>
+     * <li> r[9] = boolean[] indicating which fields must be stored as
+     * bytes.</li>
+     * </ul>
      */
     public Object[] loadTest(int n, File f, int dp) {
         String m0 = "loadTest(n, File,int)";
