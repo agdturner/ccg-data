@@ -33,7 +33,7 @@ public class Data_Handler extends Data_Object {
             throws IOException {
         long linesCount = 0;
         int bufferSize = 4096;
-        BufferedReader br = env.io.getBufferedReader(f, charSetName);
+        BufferedReader br = env.env.io.getBufferedReader(f, charSetName);
         char[] buffer = new char[bufferSize];
         int prevChar = -1;
         int readCount = br.read(buffer);

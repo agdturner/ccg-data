@@ -19,7 +19,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
@@ -61,6 +63,22 @@ public class Data_VariableType extends Data_Object {
     protected String delimiter;
 
     /**
+     * For storing a type2TypeName Lookup.
+     * <ul>
+     * <li>0, "String"</li>
+     * <li>1, "BigDecimal"</li>
+     * <li>2, "Double"</li>
+     * <li>3, "Float"</li>
+     * <li>4, "BigInteger"</li>
+     * <li>5, "Long"</li>
+     * <li>6, "Integer"</li>
+     * <li>7, "Short"</li>
+     * <li>8, "Byte"</li>
+     * </ul>
+     */
+    protected HashMap<Integer, String> type2TypeName;
+
+    /**
      * Creates a new instance.
      *
      * @param env The {@link Data_Environment} for creating an instance.
@@ -86,39 +104,40 @@ public class Data_VariableType extends Data_Object {
      * is a floating point type.
      * @return .
      */
-    protected Object[] getFieldTypes(int n, File[] fs, int dp) {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) {
         String m0 = "getFieldTypes(int,File[],int)";
-        env.logStartTag(m0);
-        Object[] r = new Object[2];
-        HashMap<String, Integer>[] allFieldTypes = new HashMap[fs.length];
-        String[][] headers = new String[fs.length][];
-        for (int j = 0; j < fs.length; j++) {
-            allFieldTypes[j] = getFieldTypes(n, fs[j], dp);
+        env.env.logStartTag(m0);
+        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp);
+        for (int j = 1; j < fs.length; j++) {
+            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp);
+            integrateVariableNamesAndTypes(r, vnt);
         }
-        HashMap<String, Integer> consolidatedFieldTypes = new HashMap<>();
-        consolidatedFieldTypes.putAll(allFieldTypes[0]);
-        for (int j = 0; j < fs.length; j++) {
-            HashMap<String, Integer> fieldTypes = allFieldTypes[j];
-            Iterator<String> ite = fieldTypes.keySet().iterator();
-            while (ite.hasNext()) {
-                String field = ite.next();
-                int fieldType = fieldTypes.get(field);
-                if (consolidatedFieldTypes.containsKey(field)) {
-                    int consolidatedFieldType = consolidatedFieldTypes.get(field);
-                    if (fieldType != consolidatedFieldType) {
-                        consolidatedFieldTypes.put(field,
-                                Math.min(fieldType, consolidatedFieldType));
-                        env.log("");
-                    }
-                } else {
-                    consolidatedFieldTypes.put(field, fieldType);
-                }
-            }
-        }
-        r[0] = consolidatedFieldTypes;
-        r[1] = headers;
-        env.logEndTag(m0);
+        env.env.logEndTag(m0);
         return r;
+    }
+
+    /**
+     * Compares r and vnt and updates r if there are Variable names and types
+     * that are different in vnt.If there are new names and types, these are
+     * added to the end of r.If there are some with the same names, but
+     * different types, then the lowest type is assigned to the name.
+     *
+     * @param r The Data_VariableNamesAndTypes to be modified.
+     * @param vnt The Data_VariableNamesAndTypes to be compared with r. Any new
+     * variable names and types are added to r. Any that have the same name, but
+     * a different type, the lowest type is set in r.
+     */
+    public void integrateVariableNamesAndTypes(Data_VariableNamesAndTypes r,
+            Data_VariableNamesAndTypes vnt) {
+        String m = "integrateVariableNamesAndTypes(Data_VariableNamesAndTypes,"
+                + "Data_VariableNamesAndTypes)";
+        env.env.logStartTag(m);
+        int vfl = vnt.fieldNames2Order.size();
+        int rfl = r.fieldNames2Order.size();
+        if (vfl == rfl) {
+            env.env.log("");
+        }
+        env.env.logEndTag(m);
     }
 
     /**
@@ -136,18 +155,20 @@ public class Data_VariableType extends Data_Object {
      * <li>8, "Byte"</li>
      * </ul>
      */
-    public HashMap<Integer, String> getTypeNameLookup() {
-        HashMap<Integer, String> r = new HashMap<>();
-        r.put(0, Data_Strings.s_String);
-        r.put(1, Data_Strings.s_BigDecimal);
-        r.put(2, Data_Strings.s_Double);
-        r.put(3, Data_Strings.s_Float);
-        r.put(4, Data_Strings.s_BigInteger);
-        r.put(5, Data_Strings.s_Long);
-        r.put(6, Data_Strings.s_Integer);
-        r.put(7, Data_Strings.s_Short);
-        r.put(8, Data_Strings.s_Byte);
-        return r;
+    public HashMap<Integer, String> getType2TypeName() {
+        if (type2TypeName == null) {
+            type2TypeName = new HashMap<>();
+            type2TypeName.put(0, Data_Strings.s_String);
+            type2TypeName.put(1, Data_Strings.s_BigDecimal);
+            type2TypeName.put(2, Data_Strings.s_Double);
+            type2TypeName.put(3, Data_Strings.s_Float);
+            type2TypeName.put(4, Data_Strings.s_BigInteger);
+            type2TypeName.put(5, Data_Strings.s_Long);
+            type2TypeName.put(6, Data_Strings.s_Integer);
+            type2TypeName.put(7, Data_Strings.s_Short);
+            type2TypeName.put(8, Data_Strings.s_Byte);
+        }
+        return type2TypeName;
     }
 
     /**
@@ -167,122 +188,21 @@ public class Data_VariableType extends Data_Object {
      * is a floating point type.
      * @return A map with keys as field names and values as numbers representing
      * types.
-     * <ul>
-     * <li>0 is a "String"</li>
-     * <li>1 is a "BigDecimal"</li>
-     * <li>2 is a "Double"</li>
-     * <li>3 is a "Float"</li>
-     * <li>4 is a "BigInteger"</li>
-     * <li>5 is a "Long"</li>
-     * <li>6 is a "Integer"</li>
-     * <li>7 is a "Short"</li>
-     * <li>8 is a "Byte"</li>
-     * </ul>
      */
-    protected HashMap<String, Integer> getFieldTypes(int n, File f, int dp) {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp) {
         String m0 = "getFieldTypes(int,File,int)";
-        env.logStartTag(m0);
-        Object[] t = loadTest(n, f, dp);
-        HashMap<String, Integer> r = new HashMap<>();
-        String[] fields = (String[]) t[0];
-        /**
-         * True indicates that a value of a field can be stored as a string, but
-         * not a BigDecimal.
-         */
-        boolean[] strings2 = (boolean[]) t[1];
-        /**
-         * True indicates that a value of a field can be stored as a BigDecimal.
-         */
-        boolean[] bigDecimals = (boolean[]) t[2];
-        /**
-         * True indicates that a value of a field can be stored as a double.
-         */
-        boolean[] doubles = (boolean[]) t[3];
-        /**
-         * True indicates that a value of a field can be stored as a float.
-         */
-        boolean[] floats = (boolean[]) t[4];
-        /**
-         * True indicates that a value of a field can be stored as a BigInteger.
-         */
-        boolean[] bigIntegers = (boolean[]) t[5];
-        /**
-         * True indicates that a value of a field can be stored as a long.
-         */
-        boolean[] longs = (boolean[]) t[6];
-        /**
-         * True indicates that a value of a field can be stored as a int.
-         */
-        boolean[] ints = (boolean[]) t[7];
-        /**
-         * True indicates that a value of a field can be stored as a short.
-         */
-        boolean[] shorts = (boolean[]) t[8];
-        /**
-         * True indicates that a value of a field can be stored as a byte.
-         */
-        boolean[] bytes = (boolean[]) t[9];
-        for (int i = 0; i < strings2.length; i++) {
-            String field = fields[i];
-            String m = field + " " + i + " ";
-            if (strings2[i]) {
-                m += Data_Strings.s_String;
-                r.put(field, 0);
-            } else {
-                if (bigDecimals[i]) {
-                    m += Data_Strings.s_BigDecimal;
-                    r.put(field, 1);
-                } else {
-                    if (doubles[i]) {
-                        m += Data_Strings.s_double;
-                        r.put(field, 2);
-                    } else {
-                        if (floats[i]) {
-                            m += Data_Strings.s_float;
-                            r.put(field, 3);
-                        } else {
-
-                            if (bigIntegers[i]) {
-                                m += Data_Strings.s_BigInteger;
-                                r.put(field, 4);
-                            } else {
-                                if (longs[i]) {
-                                    m += Data_Strings.s_long;
-                                    r.put(field, 5);
-                                } else {
-                                    if (ints[i]) {
-                                        m += Data_Strings.s_int;
-                                        r.put(field, 6);
-                                    } else {
-                                        if (shorts[i]) {
-                                            m += Data_Strings.s_short;
-                                            r.put(field, 7);
-                                        } else {
-                                            if (bytes[i]) {
-                                                m += Data_Strings.s_byte;
-                                                r.put(field, 8);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            env.log(m);
-        }
-        env.logEndTag(m0);
+        env.env.logStartTag(m0);
+        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp);
+        env.env.logEndTag(m0);
         return r;
     }
 
     /**
-     * Tests the loading of f and determines a good numerical type to store each
-     * field variable. Essentially this reads through the file and works out
-     * what might be most appropriate numerical type for each field variable. If
-     * no numerical value is appropriate these will initially default to a
-     * String type which is likely to include alphanumeric data including things
-     * like dates.
+     * This loads the first n lines of f and determines a type to store each
+     * field variable. Integer value types (short, integer, long, BigInteger)
+     * types are preferred before decimals (float, double BigDecimal). If no
+     * numerical value is appropriate the type is set to String type (this may
+     * include things like dates).
      *
      * @param n The maximum number of lines of data used to determine type. Set
      * n to Integer.MaxValue() to read all of data files with fewer lines than
@@ -291,95 +211,26 @@ public class Data_VariableType extends Data_Object {
      * header and field variables separated with a delimiter.
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
-     * @return Object[10] r where:
-     * <ul>
-     * <li>r[0] = String[] fields; r[1] = boolean[] indicating which fields must
-     * be stored as strings;</li>
-     * <li>r[2] = boolean[] indicating which fields must be stored as
-     * bigDecimals;</li>
-     * <li> r[3] = boolean[] indicating which fields must be stored as
-     * doubles;</li>
-     * <li> r[4] = boolean[] indicating which fields must be stored as
-     * floats;</li>
-     * <li> r[5] = boolean[] indicating which fields must be stored as
-     * bigIntegers;</li>
-     * <li> r[6] = boolean[] indicating which fields must be stored as
-     * longs;</li>
-     * <li> r[7] = boolean[] indicating which fields must be stored as
-     * ints;</li>
-     * <li> r[8] = boolean[] indicating which fields must be stored as
-     * shorts;</li>
-     * <li> r[9] = boolean[] indicating which fields must be stored as
-     * bytes.</li>
-     * </ul>
+     * @return Data_VariableNamesAndTypes r:
      */
-    public Object[] loadTest(int n, File f, int dp) {
+    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f, int dp) {
         String m0 = "loadTest(n, File,int)";
-        env.logStartTag(m0);
-        env.log("n " + n);
-        env.log("File " + f);
-        env.log("int " + dp);
-        Object[] r = new Object[10];
-        BufferedReader br = env.io.getBufferedReader(f);
+        env.env.logStartTag(m0);
+        env.env.log("n " + n);
+        env.env.log("File " + f);
+        env.env.log("int " + dp);
+        BufferedReader br = env.env.io.getBufferedReader(f);
         String line = br.lines().findFirst().get();
         String[] fields = parseHeader(line);
         int nf = fields.length;
-        /**
-         * True indicates that a value of a field can be stored as a string, but
-         * not a BigDecimal.
-         */
-        boolean[] strings = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a BigDecimal.
-         */
-        boolean[] bigDecimals = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a double.
-         */
-        boolean[] doubles = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a float.
-         */
-        boolean[] floats = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a BigInteger.
-         */
-        boolean[] bigIntegers = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a long.
-         */
-        boolean[] longs = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a int.
-         */
-        boolean[] ints = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a short.
-         */
-        boolean[] shorts = new boolean[nf];
-        /**
-         * True indicates that a value of a field can be stored as a byte.
-         */
-        boolean[] bytes = new boolean[nf];
-        // Initialise arrays;        
-        for (int i = 0; i < nf; i++) {
-            strings[i] = false;
-            bigDecimals[i] = false;
-            doubles[i] = false;
-            floats[i] = false;
-            bigIntegers[i] = false;
-            longs[i] = false;
-            ints[i] = false;
-            shorts[i] = false;
-            bytes[i] = true;
-        }
+        Data_VariableNamesAndTypes r = new Data_VariableNamesAndTypes(nf, fields);
         /**
          * Check data is rectangular and if not log a "Field Length Warning".
          */
         boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
                 -> l.split(",").length != n);
         if (fieldLengthWarning) {
-            env.log("Field Length Warning");
+            env.env.log("Field Length Warning");
         }
         /**
          * Read through all or at least the first n lines of data and determine
@@ -398,8 +249,8 @@ public class Data_VariableType extends Data_Object {
                 String l = br.readLine();
                 String[] split = l.split(delimiter);
                 for (int i = 0; i < split.length; i++) {
-                    parse(split[i], i, dp, strings, bigDecimals, doubles, floats,
-                            bigIntegers, longs, ints, shorts, bytes);
+                    parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
+                            r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Data_VariableType.class.getName()).log(Level.SEVERE, null, ex);
@@ -419,18 +270,135 @@ public class Data_VariableType extends Data_Object {
         //                        bigIntegers, longs, ints, shorts, bytes);
         //            }
         //        });
-        r[0] = fields;
-        r[1] = strings;
-        r[2] = bigDecimals;
-        r[3] = doubles;
-        r[4] = floats;
-        r[5] = bigIntegers;
-        r[6] = longs;
-        r[7] = ints;
-        r[8] = shorts;
-        r[9] = bytes;
-        env.logEndTag(m0);
+        for (int j = 0; j < nf; j++) {
+            Iterator<Integer> ite = r.order2FieldNames.keySet().iterator();
+            while (ite.hasNext()) {
+                int i = ite.next();
+                if (r.strings[i]) {
+                    r.order2Type.put(i, 0);
+                } else if (r.bigDecimals[i]) {
+                    r.order2Type.put(i, 1);
+                } else if (r.doubles[i]) {
+                    r.order2Type.put(i, 2);
+                } else if (r.floats[i]) {
+                    r.order2Type.put(i, 3);
+                } else if (r.bigIntegers[i]) {
+                    r.order2Type.put(i, 4);
+                } else if (r.longs[i]) {
+                    r.order2Type.put(i, 5);
+                } else if (r.ints[i]) {
+                    r.order2Type.put(i, 6);
+                } else if (r.shorts[i]) {
+                    r.order2Type.put(i, 7);
+                } else if (r.bytes[i]) {
+                    r.order2Type.put(i, 8);
+                } else {
+                    env.env.log("Undetermined type!!!");
+                }
+            }
+        }
+        env.env.logEndTag(m0);
         return r;
+    }
+
+    public class Data_VariableNamesAndTypes {
+
+        /**
+         * Keys are field names, values are the index position where field names
+         * appear in fields.
+         */
+        public HashMap<String, Integer> fieldNames2Order;
+        /**
+         * Keys are the index position where field names appear in fields,
+         * values are field names.
+         */
+        public TreeMap<Integer, String> order2FieldNames;
+        /**
+         * Keys are the order of the fieldname, values are the type coded as an
+         * integer where:
+         * <ul>
+         * <li>0 is a "String"</li>
+         * <li>1 is a "BigDecimal"</li>
+         * <li>2 is a "Double"</li>
+         * <li>3 is a "Float"</li>
+         * <li>4 is a "BigInteger"</li>
+         * <li>5 is a "Long"</li>
+         * <li>6 is a "Integer"</li>
+         * <li>7 is a "Short"</li>
+         * <li>8 is a "Byte"</li>
+         * </ul>
+         */
+        public HashMap<Integer, Integer> order2Type;
+        /**
+         * True indicates that a value of a field can be stored as a string, but
+         * not a BigDecimal.
+         */
+        public boolean[] strings;
+        /**
+         * True indicates that a value of a field can be stored as a BigDecimal.
+         */
+        public boolean[] bigDecimals;
+        /**
+         * True indicates that a value of a field can be stored as a double.
+         */
+        public boolean[] doubles;
+        /**
+         * True indicates that a value of a field can be stored as a float.
+         */
+        public boolean[] floats;
+        /**
+         * True indicates that a value of a field can be stored as a BigInteger.
+         */
+        public boolean[] bigIntegers;
+        /**
+         * True indicates that a value of a field can be stored as a long.
+         */
+        public boolean[] longs;
+        /**
+         * True indicates that a value of a field can be stored as a int.
+         */
+        public boolean[] ints;
+        /**
+         * True indicates that a value of a field can be stored as a short.
+         */
+        public boolean[] shorts;
+        /**
+         * True indicates that a value of a field can be stored as a byte.
+         */
+        public boolean[] bytes;
+
+        public Data_VariableNamesAndTypes(int nf, String[] fields) {
+            type2TypeName = getType2TypeName();
+            fieldNames2Order = new HashMap<>();
+            order2FieldNames = new TreeMap<>();
+            order2Type = new HashMap<>();
+            for (int i = 0; i < nf; i++) {
+                String field = parseFieldName(fields[i]);
+                fieldNames2Order.put(field, i);
+                order2FieldNames.put(i, field);
+            }
+            // Initialise arrays;        
+            strings = new boolean[nf];
+            bigDecimals = new boolean[nf];
+            doubles = new boolean[nf];
+            floats = new boolean[nf];
+            bigIntegers = new boolean[nf];
+            longs = new boolean[nf];
+            ints = new boolean[nf];
+            shorts = new boolean[nf];
+            bytes = new boolean[nf];
+            for (int i = 0; i < nf; i++) {
+                strings[i] = false;
+                bigDecimals[i] = false;
+                doubles[i] = false;
+                floats[i] = false;
+                bigIntegers[i] = false;
+                longs[i] = false;
+                ints[i] = false;
+                shorts[i] = false;
+                bytes[i] = true;
+            }
+        }
     }
 
     /**
@@ -445,6 +413,28 @@ public class Data_VariableType extends Data_Object {
         String h1;
         h1 = header.toUpperCase();
         r = h1.split(delimiter);
+        return r;
+    }
+
+    /**
+     * Replaces all characters that are not alphanumeric or underscores with
+     * underscores. Replaces all instances of consecutive underscores with a
+     * single underscore. Removes any underscore at the start or end of the
+     * result.
+     *
+     * @param name The name to parse.
+     * @return A copy of name where has been modified as above.
+     */
+    public String parseFieldName(String name) {
+        int length = name.length();
+        String r = name.replaceAll("[^A-Z^0-9_]", "_");
+        r = r.replaceAll("[__]", "_");
+        if (r.startsWith("_")) {
+            r = r.substring(1, r.length());
+        }
+        if (r.endsWith("_")) {
+            r = r.substring(0, r.length() - 1);
+        }
         return r;
     }
 

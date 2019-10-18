@@ -16,20 +16,41 @@
 package uk.ac.leeds.ccg.andyt.data.core;
 
 import java.io.File;
+import java.io.IOException;
+import uk.ac.leeds.ccg.andyt.data.io.Data_Files;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.andyt.generic.io.Generic_Defaults;
 
 /**
  *
  * @author geoagdt
  */
-public class Data_Environment extends Generic_Environment {
+public class Data_Environment  {
     
-    public Data_Environment() {
-        this(new Generic_Environment().files.getDataDir());
+    public transient Generic_Environment env;
+    public transient Data_Files files;
+    
+    public Data_Environment() throws IOException {
+        this(new Generic_Environment());
     }
     
-    public Data_Environment(File dataDir) {
-        super(dataDir);
+    /**
+     * Defaults dir to: {@link Generic_Defaults#getDefaultDir()}.
+     * {@link #Data_Environment(Generic_Environment, File)}
+     * @param env The default.
+     */
+    public Data_Environment(Generic_Environment env) {
+        this(env, Generic_Defaults.getDefaultDir());
+    }
+
+    /**
+     * 
+     * @param env What {@link #env} is set to. 
+     * @param dir Directory used to initialise {@link #files}. 
+     */
+    public Data_Environment(Generic_Environment env, File dir) {
+        this.env = env;
+        files = new Data_Files(dir);
     }
     
 }

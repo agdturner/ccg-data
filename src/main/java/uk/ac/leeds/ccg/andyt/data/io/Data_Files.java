@@ -35,6 +35,6 @@ public class Data_Files extends Generic_Files {
     }
     
     public File getEnvDataFile() {
-        return new File(getGeneratedDataDir(), "Env.dat");
+        return new File(getGeneratedDir(), "Env.dat");
     }
 }
