@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.util.Random;
-import java.util.logging.Level;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
 
@@ -59,26 +58,6 @@ public abstract class Data_AbstractHandler extends Data_Object {
      * Formatted {@link File} for storing {@link Data_AbstractRecord}'s.
      */
     protected File file;
-
-    /**
-     * The workspace directory.
-     */
-    protected File dir;
-
-    /**
-     * @return {@link #dir}
-     */
-    public File getDir() {
-        return dir;
-    }
-
-    public final void init(Level l, File dir) {
-        this.dir = dir;
-    }
-
-    public final void init(File dir) {
-        init(Level.FINE, dir);
-    }
 
     /**
      * A {@link RandomAccessFile} of {@link #file}.
