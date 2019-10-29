@@ -39,7 +39,7 @@ public class Data_Environment  {
      * {@link #Data_Environment(Generic_Environment, File)}
      * @param env The default.
      */
-    public Data_Environment(Generic_Environment env) {
+    public Data_Environment(Generic_Environment env) throws IOException {
         this(env, Generic_Defaults.getDefaultDir());
     }
 
@@ -48,7 +48,7 @@ public class Data_Environment  {
      * @param env What {@link #env} is set to. 
      * @param dir Directory used to initialise {@link #files}. 
      */
-    public Data_Environment(Generic_Environment env, File dir) {
+    public Data_Environment(Generic_Environment env, File dir) throws IOException {
         this.env = env;
         files = new Data_Files(dir);
     }

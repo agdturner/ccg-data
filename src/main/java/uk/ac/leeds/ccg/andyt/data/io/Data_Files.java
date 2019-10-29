@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.andyt.data.io;
 
 import java.io.File;
+import java.io.IOException;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
 
@@ -30,7 +31,7 @@ public class Data_Files extends Generic_Files {
     /**
      * @param dir The directory.
      */
-    public Data_Files(File dir) {
+    public Data_Files(File dir) throws IOException {
         super(dir);
     }
     

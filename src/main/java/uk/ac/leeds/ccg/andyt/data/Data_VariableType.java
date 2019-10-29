@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.andyt.data;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -103,7 +104,7 @@ public class Data_VariableType extends Data_Object {
      * is a floating point type.
      * @return .
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) throws FileNotFoundException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp);
@@ -188,8 +189,9 @@ public class Data_VariableType extends Data_Object {
      * @return A map with keys as field names and values as numbers representing
      * types.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp) {
-        String m0 = "getFieldTypes(int,File,int)";
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp) 
+            throws FileNotFoundException {
+        String m0 = "getVariableNamesAndTypes(int,File,int)";
         env.env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp);
         env.env.logEndTag(m0);
@@ -212,8 +214,9 @@ public class Data_VariableType extends Data_Object {
      * can be stored using a floating point number.
      * @return Data_VariableNamesAndTypes r:
      */
-    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f, int dp) {
-        String m0 = "loadTest(n, File,int)";
+    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f, 
+            int dp) throws FileNotFoundException {
+        String m0 = "getVariableNamesAndTypes(n, File,int)";
         env.env.logStartTag(m0);
         env.env.log("n " + n);
         env.env.log("File " + f);
