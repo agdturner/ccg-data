@@ -97,7 +97,7 @@ public abstract class Data_AbstractHandler extends Data_Object {
      * @param RecordID The RecordID of the {@link Data_AbstractRecord} to be
      * returned.
      */
-    public abstract Data_AbstractRecord getDataRecord(long RecordID);
+    public abstract Data_AbstractRecord getDataRecord(long RecordID) throws IOException;
 
     /**
      * Prints a random set of {@code >n} {@link Data_AbstractRecord}s obtained
