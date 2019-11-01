@@ -13,19 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package uk.ac.leeds.ccg.andyt.data;
+package uk.ac.leeds.ccg.andyt.data.structures;
 
 import java.math.BigDecimal;
 
-public class Data_BiNumeric {
+public class Data_BiBigDecimal {
 
     public BigDecimal x;
     public BigDecimal y;
 
-    public Data_BiNumeric() {
+    public Data_BiBigDecimal() {
     }
 
-    public Data_BiNumeric(
+    public Data_BiBigDecimal(
             BigDecimal x,
             BigDecimal y) {
         this.x = x;
@@ -56,7 +56,7 @@ public class Data_BiNumeric {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Data_BiNumeric other = (Data_BiNumeric) obj;
+        final Data_BiBigDecimal other = (Data_BiBigDecimal) obj;
         if (this.x != other.x && (this.x == null || !this.x.equals(other.x))) {
             return false;
         }

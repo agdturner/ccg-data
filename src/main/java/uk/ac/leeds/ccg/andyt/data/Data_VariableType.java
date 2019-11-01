@@ -89,7 +89,7 @@ public class Data_VariableType extends Data_Object {
 
     /**
      * Pass through the data in fs and work out what numeric type is best to
-     * store each field in the data. If the data are clean, then currently, this
+     * store each field in the data.If the data are clean, then currently, this
      * will do a good job, if there is at least one record with an erroneous
      * value for a variable, then this could screw things up. So, if you know
      * what type the variable should be, probably the best way forward is to
@@ -102,9 +102,11 @@ public class Data_VariableType extends Data_Object {
      * @param fs The files containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
-     * @return .
+     * @return Data_VariableNamesAndTypes
+     * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) throws FileNotFoundException {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) 
+            throws FileNotFoundException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp);
@@ -188,8 +190,9 @@ public class Data_VariableType extends Data_Object {
      * is a floating point type.
      * @return A map with keys as field names and values as numbers representing
      * types.
+     * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp) 
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp)
             throws FileNotFoundException {
         String m0 = "getVariableNamesAndTypes(int,File,int)";
         env.env.logStartTag(m0);
@@ -213,8 +216,9 @@ public class Data_VariableType extends Data_Object {
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
      * @return Data_VariableNamesAndTypes r:
+     * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f, 
+    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f,
             int dp) throws FileNotFoundException {
         String m0 = "getVariableNamesAndTypes(n, File,int)";
         env.env.logStartTag(m0);

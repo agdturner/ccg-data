@@ -15,19 +15,13 @@
  */
 package uk.ac.leeds.ccg.andyt.data.core;
 
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
+import uk.ac.leeds.ccg.andyt.generic.memory.Generic_MemoryManager;
 
 /**
  *
  * @author geoagdt
  */
-public class Data_Strings extends Generic_Strings {
+public abstract class Data_MemoryManager extends Generic_MemoryManager {
     
-    public static final String s_Subsets = "Subsets";
-    public static final String s_ID = "ID";
-    
-    public Data_Strings() {
-        super();
-    }
-    
+    public long Memory_Threshold;
 }

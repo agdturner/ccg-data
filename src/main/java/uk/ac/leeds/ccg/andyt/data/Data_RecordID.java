@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.core;
+package uk.ac.leeds.ccg.andyt.data;
 
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
+import uk.ac.leeds.ccg.andyt.data.id.Data_ID_long;
 
 /**
- *
- * @author geoagdt
+ * A general identifier for a {@link Data_Record}.
+ * @author Andy Turner
  */
-public class Data_Strings extends Generic_Strings {
+public class Data_RecordID extends Data_ID_long{
     
-    public static final String s_Subsets = "Subsets";
-    public static final String s_ID = "ID";
-    
-    public Data_Strings() {
-        super();
+    public Data_RecordID(long l) {
+        super(l);
     }
-    
 }

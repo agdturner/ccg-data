@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.core;
+package uk.ac.leeds.ccg.andyt.data.id;
 
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
+import java.io.Serializable;
 
 /**
+ * An abstract class for identifiers.
  *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
-public class Data_Strings extends Generic_Strings {
-    
-    public static final String s_Subsets = "Subsets";
-    public static final String s_ID = "ID";
-    
-    public Data_Strings() {
-        super();
-    }
-    
+public abstract class Data_ID implements Serializable {
+
 }
