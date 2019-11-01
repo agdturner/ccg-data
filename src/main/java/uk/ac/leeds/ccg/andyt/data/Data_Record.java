@@ -28,9 +28,9 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     /**
      * The identifier for this record.
      */
-    protected final Data_ID ID;
+    protected final Data_RecordID ID;
 
-    public Data_Record(Data_ID ID) {
+    public Data_Record(Data_RecordID ID) {
         this.ID = ID;
     }
     
