@@ -21,9 +21,13 @@ import uk.ac.leeds.ccg.andyt.data.id.Data_ID_long;
  * A general identifier for a {@link Data_Record}.
  * @author Andy Turner
  */
-public class Data_RecordID extends Data_ID_long{
+public class Data_RecordID extends Data_ID_long {
     
     public Data_RecordID(long l) {
+        super(l);
+    }
+    
+    public Data_RecordID(Data_RecordID l) {
         super(l);
     }
 }
