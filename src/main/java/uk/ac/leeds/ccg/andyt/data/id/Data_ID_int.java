@@ -29,6 +29,10 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
         this.ID = i;
     }
 
+    public Data_ID_int(Data_ID_int i) {
+        this.ID = i.ID;
+    }
+
     /**
      * @return the ID
      */

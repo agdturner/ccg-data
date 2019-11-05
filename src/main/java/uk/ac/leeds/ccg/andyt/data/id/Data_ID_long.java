@@ -29,6 +29,10 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
         this.ID = l;
     }
 
+    public Data_ID_long(Data_ID_long l) {
+        this.ID = l.ID;
+    }
+
     /**
      * @return the ID
      */
