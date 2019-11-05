@@ -28,16 +28,16 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     /**
      * The identifier for this record.
      */
-    protected final Data_RecordID ID;
+    public final Data_RecordID ID;
 
     public Data_Record(Data_RecordID ID) {
         this.ID = ID;
     }
-    
+
     public Data_Record(Data_Record rec) {
         this.ID = rec.ID;
     }
-    
+
     /**
      * @return A copy of <code>this.ID</code>
      */
@@ -46,7 +46,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     }
 
     /**
-     * @return A description of this.
+     * @return A String representation of this.
      */
     @Override
     public String toString() {
@@ -54,21 +54,17 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     }
 
     /**
-     * @return  A Comma Separated Version (CSV) of this.
+     * @return A Comma Separated Version (CSV) of this.
      */
     public String toCSV() {
         return ID.toString();
     }
 
     /**
-     * @return A Comma Separated Version (CSV) of the names of the 
+     * @return A Comma Separated Version (CSV) of the names of the
      * fields/variables.
      */
     public String toCSVHeader() {
-        /**
-         * this.getClass().getFields() is not guaranteed to return an
-        * array in a particular order, so this is not used.
-        */
         return Data_Strings.s_ID;
     }
 
@@ -99,5 +95,19 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
         int hash = 7;
         hash = 89 * hash + Objects.hashCode(this.ID);
         return hash;
+    }
+
+    @Override
+    public int compareTo(Data_Record o) {
+        if (o != null) {
+            if (o != this) {
+                if (o instanceof Data_Record) {
+                    Data_Record o2 = (Data_Record) o;
+                    return ID.compareTo(o2.ID);
+                }
+            }
+            return 0;
+        }
+        return -3;
     }
 }

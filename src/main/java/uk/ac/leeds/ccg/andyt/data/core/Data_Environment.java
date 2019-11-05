@@ -30,7 +30,7 @@ public class Data_Environment extends Data_MemoryManager {
 
     public final transient Generic_Environment env;
     public transient Data_Files files;
-    public final transient Data_Data data;
+    public transient Data_Data data;
 
     public Data_Environment() throws IOException {
         this(new Generic_Environment());
@@ -62,15 +62,15 @@ public class Data_Environment extends Data_MemoryManager {
         if (f.exists()) {
             data = (Data_Data) env.io.readObject(f);
             initData();
-            //data.env = this;
-        } else {
-            data = new Data_Data(this);
+            //data.de = this;
+//        } else {
+//            data = new Data_Data(this);
         }
         Memory_Threshold = 2000000000L;
     }
 
     private void initData() {
-        data.env = this;
+        data.de = this;
     }
 
     /**

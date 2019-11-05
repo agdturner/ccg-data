@@ -20,8 +20,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
+import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 
 /**
  * Represents collections of data.
@@ -29,12 +30,23 @@ import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
  * @author Andy Turner
  * @version 1.0.0
  */
-public class Data_Data extends Data_Object {
+public abstract class Data_Data {
+
+    /**
+     * A reference to a Data_Environment instance. This cannot be final.
+     */
+    public Data_Environment de;
+
+    /**
+     * For convenience.
+     */
+    public Generic_Environment env;
+    public Generic_IO io;
 
     /**
      * The data stored in a number of collections.
      */
-    protected final HashMap<Data_CollectionID, Data_Collection> data;
+    public final HashMap<Data_CollectionID, Data_Collection> data;
 
     /**
      * For looking up a collection ID from a record ID.
@@ -47,10 +59,12 @@ public class Data_Data extends Data_Object {
     protected File dir;
 
     /**
-     * @param e What {@link #env} is set to.
+     * @param e What {@link #de} is set to.
      */
     public Data_Data(Data_Environment e) {
-        super(e);
+        de = e;
+        env = e.env;
+        io = env.io;
         data = new HashMap<>();
         rID_2_cID = new HashMap<>();
     }
@@ -87,7 +101,7 @@ public class Data_Data extends Data_Object {
             double double0 = random.nextDouble() * N;
             Data_RecordID rID = new Data_RecordID((long) double0);
             Data_Record rec = getDataRecord(rID);
-            env.env.log(rec.toString());
+            env.log(rec.toString());
         }
     }
 
@@ -125,10 +139,10 @@ public class Data_Data extends Data_Object {
             return c;
         } catch (OutOfMemoryError err) {
             if (hoome) {
-                this.env.clearMemoryReserve();
-                this.env.clearSomeData();
-                this.env.checkAndMaybeFreeMemory();
-                this.env.initMemoryReserve();
+                de.clearMemoryReserve();
+                de.clearSomeData();
+                de.checkAndMaybeFreeMemory();
+                de.initMemoryReserve();
                 return getCollection(cID, hoome);
             } else {
                 throw err;
@@ -143,11 +157,11 @@ public class Data_Data extends Data_Object {
      */
     public void clearCollection(Data_CollectionID cID) {
         String m = "clear" + cID.toString();
-        env.env.logStartTag(m);
-        env.env.log("TotalFreeMemory " + env.getTotalFreeMemory());
+        env.logStartTag(m);
+        env.log("TotalFreeMemory " + de.getTotalFreeMemory());
         data.put(cID, null);
-        env.env.log("TotalFreeMemory " + env.getTotalFreeMemory());
-        env.env.logEndTag(m);
+        env.log("TotalFreeMemory " + de.getTotalFreeMemory());
+        env.logEndTag(m);
     }
 
     /**
@@ -216,9 +230,9 @@ public class Data_Data extends Data_Object {
      * @return the subset collection file for cID.
      */
     public File getCollectionFile(Data_CollectionID cID) {
-        return new File(env.files.getGeneratedDir(),
+        return new File(de.files.getGeneratedDir(),
                 Data_Strings.s_DATA + Data_Strings.symbol_underscore + cID
-                + env.files.DOT_DAT);
+                + de.files.DOT_DAT);
     }
 
     /**
@@ -229,9 +243,9 @@ public class Data_Data extends Data_Object {
      */
     protected Object load(File f) {
         String m = "load object from " + f.toString();
-        env.env.logStartTag(m);
-        Object r = env.env.io.readObject(f);
-        env.env.logEndTag(m);
+        env.logStartTag(m);
+        Object r = io.readObject(f);
+        env.logEndTag(m);
         return r;
     }
 
@@ -243,8 +257,8 @@ public class Data_Data extends Data_Object {
      */
     protected void cache(File f, Object o) {
         String m = "cache object to " + f.toString();
-        env.env.logStartTag(m);
-        env.env.io.writeObject(o, f);
-        env.env.logEndTag(m);
+        env.logStartTag(m);
+        io.writeObject(o, f);
+        env.logEndTag(m);
     }
 }
