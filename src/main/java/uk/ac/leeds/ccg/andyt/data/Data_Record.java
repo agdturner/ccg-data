@@ -39,17 +39,16 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     }
 
     /**
-     * @return A copy of <code>this.ID</code>
+     * @return {@link ID} cast appropriately.
      */
-    public Data_ID getID() {
-        return this.ID;
-    }
+    public abstract Data_ID getID();
 
     /**
      * @return A String representation of this.
      */
     @Override
     public String toString() {
+        //return getID().getClass().getSimpleName() + ID.toString();
         return ID.toString();
     }
 
