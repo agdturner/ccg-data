@@ -16,7 +16,8 @@
 package uk.ac.leeds.ccg.andyt.data.id;
 
 /**
- * An general identifier based on a long.
+ * An general identifier based on a short. There are at most 2^16 unique ones of
+ * these.
  *
  * @author Andy Turner
  * @version 1.0.0
@@ -36,21 +37,21 @@ public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> 
     /**
      * @return the ID
      */
-    public long getID() {
+    public short getID() {
         return ID;
     }
 
     @Override
     public String toString() {
-        return "ID=" + ID;
+        return getSimpleName() + "(ID=" + ID + ")";
     }
 
     @Override
     public boolean equals(Object o) {
         if (o != null) {
             if (o != this) {
-                if (o instanceof Data_ID_long) {
-                    Data_ID_long o2 = (Data_ID_long) o;
+                if (o instanceof Data_ID_short) {
+                    Data_ID_short o2 = (Data_ID_short) o;
                     if (ID == o2.ID) {
                         return true;
                     }
@@ -70,25 +71,21 @@ public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> 
     }
 
     @Override
-    public int compareTo(Data_ID_short d) {
-        if (d != null) {
-            if (d != this) {
-                if (d instanceof Data_ID_short) {
-                    Data_ID_short d2 = (Data_ID_short) d;
-                    if (ID < d2.ID) {
-                        return -1;
+    public int compareTo(Data_ID_short id) {
+        if (id != null) {
+            if (id != this) {
+                if (ID < id.ID) {
+                    return -1;
+                } else {
+                    if (ID > id.ID) {
+                        return 1;
                     } else {
-                        if (ID > d2.ID) {
-                            return 1;
-                        } else {
-
-                        }
+                        return 0;
                     }
                 }
-                return -2;
             }
             return 0;
         }
-        return -3;
+        return -2;
     }
 }

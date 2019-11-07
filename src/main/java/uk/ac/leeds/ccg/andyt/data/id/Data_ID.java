@@ -25,4 +25,11 @@ import java.io.Serializable;
  */
 public abstract class Data_ID implements Serializable {
 
+    public String getTypeName() {
+        return getClass().getTypeName();
+    }
+    
+    public String getSimpleName() {
+        return getClass().getSimpleName();
+    }
 }

@@ -16,7 +16,8 @@
 package uk.ac.leeds.ccg.andyt.data.id;
 
 /**
- * An general identifier based on a long.
+ * An general identifier based on a long. There are at most 2^64 unique ones of
+ * these.
  *
  * @author Andy Turner
  * @version 1.0.0
@@ -42,7 +43,7 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
 
     @Override
     public String toString() {
-        return "ID=" + ID;
+        return getSimpleName() + "(ID=" + ID + ")";
     }
 
     @Override
@@ -70,26 +71,22 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
     }
 
     @Override
-    public int compareTo(Data_ID_long d) {
-        if (d != null) {
-            if (d != this) {
-                if (d instanceof Data_ID_long) {
-                    Data_ID_long d2 = (Data_ID_long) d;
-                    if (ID < d2.ID) {
-                        return -1;
+    public int compareTo(Data_ID_long id) {
+        if (id != null) {
+            if (id != this) {
+                if (ID < id.ID) {
+                    return -1;
+                } else {
+                    if (ID > id.ID) {
+                        return 1;
                     } else {
-                        if (ID > d2.ID) {
-                            return 1;
-                        } else {
-
-                        }
+                        return 0;
                     }
                 }
-                return -2;
             }
             return 0;
         }
-        return -3;
+        return -2;
     }
 
 }

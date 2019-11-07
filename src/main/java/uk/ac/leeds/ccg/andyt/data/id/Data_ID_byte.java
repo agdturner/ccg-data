@@ -16,28 +16,28 @@
 package uk.ac.leeds.ccg.andyt.data.id;
 
 /**
- * A general identifier based on a int. There are at most 2^32 unique ones of
+ * An general identifier based on a byte. There are at most 2^8 unique ones of
  * these.
  *
  * @author Andy Turner
  * @version 1.0.0
  */
-public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
+public class Data_ID_byte extends Data_ID implements Comparable<Data_ID_byte> {
 
-    public final int ID;
+    public final byte ID;
 
-    public Data_ID_int(int i) {
-        this.ID = i;
+    public Data_ID_byte(byte s) {
+        this.ID = s;
     }
 
-    public Data_ID_int(Data_ID_int i) {
-        this.ID = i.ID;
+    public Data_ID_byte(Data_ID_byte s) {
+        this.ID = s.ID;
     }
 
     /**
      * @return the ID
      */
-    public int getID() {
+    public byte getID() {
         return ID;
     }
 
@@ -50,8 +50,8 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
     public boolean equals(Object o) {
         if (o != null) {
             if (o != this) {
-                if (o instanceof Data_ID_int) {
-                    Data_ID_int o2 = (Data_ID_int) o;
+                if (o instanceof Data_ID_byte) {
+                    Data_ID_byte o2 = (Data_ID_byte) o;
                     if (ID == o2.ID) {
                         return true;
                     }
@@ -66,12 +66,12 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + this.ID;
+        hash = 67 * hash + this.ID;
         return hash;
     }
 
     @Override
-    public int compareTo(Data_ID_int id) {
+    public int compareTo(Data_ID_byte id) {
         if (id != null) {
             if (id != this) {
                 if (ID < id.ID) {
@@ -88,5 +88,4 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
         }
         return -2;
     }
-
 }

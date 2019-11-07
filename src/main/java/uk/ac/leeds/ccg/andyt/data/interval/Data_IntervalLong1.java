@@ -21,79 +21,87 @@ package uk.ac.leeds.ccg.andyt.data.interval;
 import java.io.Serializable;
 
 /**
+ * Represents an interval for two longs [l, u) where a long value v is in the
+ * interval iff {@code l <= v < u}.
  *
  * @author geoagdt
  */
-public class Data_IntervalLong1 implements Serializable, Comparable {
+public class Data_IntervalLong1 implements Serializable,
+        Comparable<Data_IntervalLong1> {
 
     /**
      * Stores the lower bound.
      */
-    private final long L;
+    public final long l;
 
     /**
      * Stores the upper bound.
      */
-    private final long U;
+    public final long u;
 
+    /**
+     * Creates a new instance. (N.B. There is no test to ensure {@code l <= u},
+     * but this should be the case.)
+     *
+     * @param l The lower bound for the interval. What {@link #l} is set to.
+     * @param u The lower bound for the interval. What {@link #u} is set to.
+     */
     public Data_IntervalLong1(long l, long u) {
-        L = l;
-        U = u;
+        this.l = l;
+        this.u = u;
     }
 
     @Override
     public String toString() {
-        return "[" + L + ", " + U + ")";
+        return getClass().getSimpleName() + "(l=" + l + ", u=" + u + ")";
     }
 
     /**
-     * x is in the interval if it is greater than or equal to L and less than U.
+     * For testing if {@code x} is in this interval.
      *
      * @param x The number to test to see if it is in the interval.
-     * @return True iff x is in the interval.
+     * @return {@code true} iff x is in the interval.
      */
     public boolean isInInterval(long x) {
-        return x >= L && x < U;
+        return x >= l && x < u;
     }
 
     /**
-     * @return the L
+     * For comparing two instances.
+     *
+     * @param i The interval to compare.
+     * @return {@code -1} if the {@link #l} of this is less than that of
+     * {@code i}: {@code 1} if the {@link #l} of this is greater than that of
+     * {@code i}: {@code -1} if the {@link #l} of this is equal to that of
+     * {@code i} and the {@link #u} of this is less than that of {@code i}:
+     * {@code 1} if the {@link #l} of this is equal to that of {@code i} and
+     * the {@link #u} of this is greater than that of {@code i}: {@code -2} if
+     * {@code i} is {@code null} and {@code 0} otherwise. the upper bound of i
      */
-    public long getL() {
-        return L;
-    }
-
-    /**
-     * @return the U
-     */
-    public long getU() {
-        return U;
-    }
-
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof Data_IntervalLong1) {
-            Data_IntervalLong1 obj;
-            obj = (Data_IntervalLong1) o;
-            if (this.L < obj.L) {
-                return -1;
-            } else {
-                if (this.L > obj.L) {
-                    return 1;
-                }
-                if (this.U < obj.U) {
+    public int compareTo(Data_IntervalLong1 i) {
+        if (i != null) {
+            if (i != this) {
+                if (this.l < i.l) {
                     return -1;
                 } else {
-                    if (this.U > obj.U) {
+                    if (this.l > i.l) {
                         return 1;
+                    }
+                    if (this.u < i.u) {
+                        return -1;
                     } else {
-                        return 0;
+                        if (this.u > i.u) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
                     }
                 }
             }
-        } else {
-            return -1;
+            return 0;
         }
+        return -2;
     }
 
 }
