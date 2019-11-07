@@ -30,10 +30,6 @@ public class Data_ID_byte extends Data_ID implements Comparable<Data_ID_byte> {
         this.ID = s;
     }
 
-    public Data_ID_byte(Data_ID_byte s) {
-        this.ID = s.ID;
-    }
-
     /**
      * @return the ID
      */

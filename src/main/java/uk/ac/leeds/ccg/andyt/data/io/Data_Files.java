@@ -30,6 +30,7 @@ public class Data_Files extends Generic_Files {
     
     /**
      * @param dir The directory.
+     * @throws java.io.IOException If an IOException is encountered.
      */
     public Data_Files(File dir) throws IOException {
         super(dir);

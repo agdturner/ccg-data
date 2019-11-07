@@ -30,10 +30,24 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
         this.ID = i;
     }
 
-    public Data_ID_int(Data_ID_int i) {
-        this.ID = i.ID;
+    /**
+     * For creating from a {@link Data_ID_short}.
+     * 
+     * @param s The {@link Data_ID_short} this is created from.
+     */
+     public Data_ID_int(Data_ID_short s) {
+        this.ID = s.ID;
     }
 
+     /**
+     * For creating from a {@link Data_ID_byte}.
+     * 
+     * @param b The {@link Data_ID_byte} this is created from.
+     */
+    public Data_ID_int(Data_ID_byte b) {
+        this.ID = b.ID;
+    }
+    
     /**
      * @return the ID
      */

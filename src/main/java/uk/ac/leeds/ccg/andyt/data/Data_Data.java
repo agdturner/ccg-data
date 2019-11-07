@@ -15,6 +15,8 @@
  */
 package uk.ac.leeds.ccg.andyt.data;
 
+import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
+import uk.ac.leeds.ccg.andyt.data.id.Data_CollectionID;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;

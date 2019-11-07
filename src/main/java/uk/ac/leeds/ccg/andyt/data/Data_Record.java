@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.andyt.data;
 
+import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
 import java.io.Serializable;
 import java.util.Objects;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
