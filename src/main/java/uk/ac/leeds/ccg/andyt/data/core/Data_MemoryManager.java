@@ -23,5 +23,5 @@ import uk.ac.leeds.ccg.andyt.generic.memory.Generic_MemoryManager;
  */
 public abstract class Data_MemoryManager extends Generic_MemoryManager {
     
-    public long Memory_Threshold;
+    
 }

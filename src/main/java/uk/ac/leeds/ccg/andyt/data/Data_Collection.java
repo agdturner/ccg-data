@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.andyt.data;
 
+import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
 import uk.ac.leeds.ccg.andyt.data.id.Data_CollectionID;
 import java.util.HashMap;
@@ -25,10 +26,10 @@ import java.util.HashMap;
  * @author Andy Turner
  * @version 1.0.0
  */
-public class Data_Collection {
+public class Data_Collection implements Serializable {
 
     public final Data_CollectionID ID;
-    public final HashMap<Data_RecordID, Data_Record> data;
+    public final HashMap<? super Data_RecordID, ? super Data_Record> data;
 
     public Data_Collection(Data_CollectionID ID) {
         this.ID = ID;

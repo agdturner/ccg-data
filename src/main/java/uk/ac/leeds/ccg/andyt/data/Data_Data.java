@@ -18,6 +18,7 @@ package uk.ac.leeds.ccg.andyt.data;
 import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
 import uk.ac.leeds.ccg.andyt.data.id.Data_CollectionID;
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -32,7 +33,7 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
  * @author Andy Turner
  * @version 1.0.0
  */
-public abstract class Data_Data {
+public abstract class Data_Data implements Serializable {
 
     /**
      * A reference to a Data_Environment instance. This cannot be final.
@@ -46,9 +47,11 @@ public abstract class Data_Data {
     public Generic_IO io;
 
     /**
-     * The data stored in a number of collections.
+     * The data stored in a number of collections. This is protected as 
+     * typically it needs casting for use and should be found via a getData() 
+     * method. 
      */
-    public final HashMap<Data_CollectionID, Data_Collection> data;
+    protected final HashMap<Data_CollectionID, Data_Collection> data;
 
     /**
      * For looking up a collection ID from a record ID.
@@ -86,7 +89,9 @@ public abstract class Data_Data {
     public Data_Record getDataRecord(Data_RecordID rID) {
         Data_CollectionID cID = rID_2_cID.get(rID);
         Data_Collection c = getCollection(cID);
-        return c.data.get(rID);
+        Data_Record r = (Data_Record) c.data.get(rID);
+//        Data_Record r = c.data.get(rID);
+        return r;
     }
 
     /**
@@ -158,12 +163,10 @@ public abstract class Data_Data {
      * @param cID Identifier for the collection to be cleared.
      */
     public void clearCollection(Data_CollectionID cID) {
-        String m = "clear" + cID.toString();
-        env.logStartTag(m);
-        env.log("TotalFreeMemory " + de.getTotalFreeMemory());
+        String m = "clearCollection" + cID.toString();
+        de.logStartTagMem(m);
         data.put(cID, null);
-        env.log("TotalFreeMemory " + de.getTotalFreeMemory());
-        env.logEndTag(m);
+        de.logEndTagMem(m);
     }
 
     /**
