@@ -30,56 +30,29 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_Defaults;
 public class Data_Environment extends Data_MemoryManager {
 
     public final transient Generic_Environment env;
-    public transient Data_Files files;
+    public final transient Data_Files files;
     public transient Data_Data data;
     
     /**
      * Stores the {@link #env} log ID for the log set up.
      */
-    public transient final int logID;
-
-    public Data_Environment() throws IOException {
-        this(new Generic_Environment());
-    }
+    public transient int logID;
 
     /**
-     * Defaults directory used to initialise {@link #files} to:
-     * {@link Generic_Defaults#getDataDir()}. See also:
-     * {@link #Data_Environment(Generic_Environment, File, String)}
-     *
      * @param env What {@link #env} is set to.
-     * @throws java.io.IOException IFF there is a problem setting up the file
-     * storage space.
+     * @throws java.io.IOException IFF there is one.
      */
     public Data_Environment(Generic_Environment env) throws IOException {
-        this(env, new File(env.files.getDir(), Generic_Strings.s_data), 
-                Generic_Strings.s_data);
-    }
-
-    /**
-     * @param env What {@link #env} is set to.
-     * @param dir Directory used to initialise {@link #files}.
-     * @param logname The name for the log file.
-     * @throws java.io.IOException IFF there is a problem setting up the file
-     * storage space.
-     */
-    public Data_Environment(Generic_Environment env, File dir, String logname) 
-            throws IOException {
         this.env = env;
-        files = new Data_Files(dir);
-        File f = files.getEnvDataFile();
-        if (f.exists()) {
-            data = (Data_Data) env.io.readObject(f);
-            initData();
-            //data.de = this;
-//        } else {
-//            data = new Data_Data(this);
-        }
-        Memory_Threshold = 2000000000L;
-        logID = env.initLog(logname);
+        files = new Data_Files(env.files.getDir());
     }
 
-    private void initData() {
+    public int initLog(String logname) throws IOException {
+        logID = env.initLog(logname);
+        return logID;
+    }
+    
+    public void setDataEnvironment() {
         data.de = this;
     }
 

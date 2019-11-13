@@ -36,15 +36,17 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 public abstract class Data_Data implements Serializable {
 
     /**
-     * A reference to a Data_Environment instance. This cannot be final.
+     * A reference to a Data_Environment instance. Not declared to be final as when a cached version
+     * of this is loaded back in it might need initialising.
      */
-    public Data_Environment de;
+    public transient Data_Environment de;
 
     /**
-     * For convenience.
+     * For convenience. Not declared to be final as when a cached version
+     * of this is loaded back in it might need initialising.
      */
-    public Generic_Environment env;
-    public Generic_IO io;
+    public transient Generic_Environment env;
+    public transient Generic_IO io;
 
     /**
      * The data stored in a number of collections. This is protected as 

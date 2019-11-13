@@ -27,13 +27,6 @@ public class Data_Object implements Serializable {
     public transient Data_Environment env;
 
     /**
-     * @throws IOException if there is a problem initialising {@link #env}.
-     */
-    public Data_Object() throws IOException {
-        this(new Data_Environment());
-    }
-    
-    /**
      * @param e What {@link #env} is set to.
      */
     public Data_Object(Data_Environment e) {
