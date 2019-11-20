@@ -36,6 +36,13 @@ public class Data_Files extends Generic_Files {
         super(dir);
     }
     
+    /**
+     * @return {@code return new File(getDir(), Data_Strings.s_data)}
+     */
+    public File getDataDir() {
+        return new File(getDir(), Data_Strings.s_data);
+    }
+    
     public File getEnvDataFile() {
         return new File(getGeneratedDir(), "Env.dat");
     }
