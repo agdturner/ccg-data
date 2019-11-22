@@ -25,7 +25,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Handler;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
 import uk.ac.leeds.ccg.andyt.math.Math_BigDecimal;
@@ -105,8 +104,8 @@ public class Data_VariableType extends Data_Object {
      * @return Data_VariableNamesAndTypes
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp) 
-            throws FileNotFoundException {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp)
+            throws FileNotFoundException, IOException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp);
@@ -193,7 +192,7 @@ public class Data_VariableType extends Data_Object {
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp)
-            throws FileNotFoundException {
+            throws FileNotFoundException, IOException {
         String m0 = "getVariableNamesAndTypes(int,File,int)";
         env.env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp);
@@ -219,14 +218,15 @@ public class Data_VariableType extends Data_Object {
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f,
-            int dp) throws FileNotFoundException {
+            int dp) throws FileNotFoundException, IOException {
         String m0 = "getVariableNamesAndTypes(n, File,int)";
         env.env.logStartTag(m0);
         env.env.log("n " + n);
         env.env.log("File " + f);
         env.env.log("int " + dp);
         BufferedReader br = env.env.io.getBufferedReader(f);
-        String line = br.lines().findFirst().get();
+        String line = br.readLine();
+        env.env.log(line); // Log header.
         String[] fields = parseHeader(line);
         int nf = fields.length;
         Data_VariableNamesAndTypes r = new Data_VariableNamesAndTypes(nf, fields);
@@ -234,7 +234,7 @@ public class Data_VariableType extends Data_Object {
          * Check data is rectangular and if not log a "Field Length Warning".
          */
         boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
-                -> l.split(",").length != n);
+                -> l.split(",").length != nf);
         if (fieldLengthWarning) {
             env.env.log("Field Length Warning");
         }
@@ -244,30 +244,38 @@ public class Data_VariableType extends Data_Object {
          * expression will change if not all data can be represented as bytes.
          */
         long nlines = 0;
-        try {
-            Data_Handler dh = new Data_Handler(env);
-            nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
-        } catch (IOException ex) {
-            Logger.getLogger(Data_VariableType.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Data_Handler dh = new Data_Handler(env);
+        nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
         for (int j = 0; j < nlines; j++) {
-            try {
-                String l = br.readLine();
-                String[] split = l.split(delimiter);
-                for (int i = 0; i < split.length; i++) {
-                    parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
-                            r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Data_VariableType.class.getName()).log(Level.SEVERE, null, ex);
+            line = br.readLine();
+            String[] split = line.split(delimiter);
+            for (int i = 0; i < split.length; i++) {
+                parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
+                        r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
+            }
+        }
+        /**
+         * Also get the last line and parse this.
+         */
+        line = br.readLine();
+        if (line != null) {
+            String line2 = br.readLine();;
+            while (line2 != null) {
+                line2 = br.readLine();
+                line = line2;
+            }
+            String[] split = line.split(delimiter);
+            for (int i = 0; i < split.length; i++) {
+                parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
+                        r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
             }
         }
         /**
          * The following commented out code did the work going through all the
          * data, but sometimes it is better (as the data may contain errors) to
-         * just go through the first n lines of data to determine type and then
-         * to catch and deal with exceptions when trying to read what is more
-         * likely to be erroneous data.
+         * just go through the first n lines of data and the last line to
+         * determine type and then to catch and deal with exceptions when trying
+         * to read the rest what may contain erroneous data.
          */
         //        br.lines().skip(1).forEach(l -> {
         //            String[] split = l.split(delimiter);
