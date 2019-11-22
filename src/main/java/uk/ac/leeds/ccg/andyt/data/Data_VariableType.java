@@ -261,8 +261,8 @@ public class Data_VariableType extends Data_Object {
         if (line != null) {
             String line2 = br.readLine();;
             while (line2 != null) {
-                line2 = br.readLine();
                 line = line2;
+                line2 = br.readLine();
             }
             String[] split = line.split(delimiter);
             for (int i = 0; i < split.length; i++) {
