@@ -18,11 +18,11 @@ package uk.ac.leeds.ccg.andyt.data;
 import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
 import uk.ac.leeds.ccg.andyt.data.id.Data_CollectionID;
 import java.io.File;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
@@ -33,7 +33,7 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
  * @author Andy Turner
  * @version 1.0.0
  */
-public abstract class Data_Data implements Serializable {
+public abstract class Data_Data extends Data_Object {
 
     /**
      * A reference to a Data_Environment instance. Not declared to be final as when a cached version
@@ -69,6 +69,7 @@ public abstract class Data_Data implements Serializable {
      * @param e What {@link #de} is set to.
      */
     public Data_Data(Data_Environment e) {
+        super(e);
         de = e;
         env = e.env;
         io = env.io;

@@ -15,19 +15,17 @@
  */
 package uk.ac.leeds.ccg.andyt.data.core;
 
-import java.io.File;
 import java.io.IOException;
 import uk.ac.leeds.ccg.andyt.data.Data_Data;
 import uk.ac.leeds.ccg.andyt.data.io.Data_Files;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_Defaults;
+import uk.ac.leeds.ccg.andyt.generic.memory.Generic_MemoryManager;
 
 /**
  *
  * @author geoagdt
  */
-public class Data_Environment extends Data_MemoryManager {
+public class Data_Environment extends Generic_MemoryManager {
 
     public final transient Generic_Environment env;
     public final transient Data_Files files;

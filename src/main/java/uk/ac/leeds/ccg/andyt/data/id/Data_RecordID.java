@@ -19,6 +19,7 @@ package uk.ac.leeds.ccg.andyt.data.id;
  * A general identifier for a {@link uk.ac.leeds.ccg.andyt.data.Data_Record}.
  * 
  * @author Andy Turner
+ * @version 1.0.0
  */
 public class Data_RecordID extends Data_ID_long {
     

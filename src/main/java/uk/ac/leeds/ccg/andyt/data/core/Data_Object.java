@@ -15,7 +15,6 @@
  */
 package uk.ac.leeds.ccg.andyt.data.core;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
