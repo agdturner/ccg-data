@@ -4,7 +4,7 @@ https://github.com/agdturner/agdt-java-generic-data/
 
 A generic Java library for data processing.
 
-There are generic classes for: data records; collections of data records; and generically useful identifier classes. These can be readily extended.  The library is generally useful for loading and processing rectangular data where the columns are variables and the data for each record are in rows.
+There are generic classes for: data records; collections of data records; and identifiers. These can be readily extended.  The library is generally useful for loading and processing data organised as records (typically with common variables).
 
 Data_ReadTXT is a class for reading text including comma separated version (CSV) files.
 Data_Read_XML is a class for reading XML format files.
