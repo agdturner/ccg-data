@@ -22,8 +22,10 @@ import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.memory.Generic_MemoryManager;
 
 /**
- *
- * @author geoagdt
+ * Data Environment.
+ * 
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class Data_Environment extends Generic_MemoryManager {
 
@@ -36,13 +38,17 @@ public class Data_Environment extends Generic_MemoryManager {
      */
     public transient int logID;
 
+    public Data_Environment() throws IOException {
+        this(new Generic_Environment());
+    }
+    
     /**
-     * @param env What {@link #env} is set to.
+     * @param e What {@link #env} is set to.
      * @throws java.io.IOException IFF there is one.
      */
-    public Data_Environment(Generic_Environment env) throws IOException {
-        this.env = env;
-        files = new Data_Files(env.files.getDir());
+    public Data_Environment(Generic_Environment e) throws IOException {
+        this.env = e;
+        files = new Data_Files(e.files.getDir());
     }
 
     public int initLog(String logname) throws IOException {
