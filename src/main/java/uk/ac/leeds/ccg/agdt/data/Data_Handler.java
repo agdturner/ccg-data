@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data;
+package uk.ac.leeds.ccg.agdt.data;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Object;
 
 /**
  * A basic data handler class. This class contains a method
@@ -39,7 +39,7 @@ public class Data_Handler extends Data_Object {
             throws IOException {
         long lineCount = 0;
         int bufferSize = 4096;
-        try (BufferedReader br = env.env.io.getBufferedReader(f, charSetName)) {
+        try (BufferedReader br = de.env.io.getBufferedReader(f, charSetName)) {
             char[] buffer = new char[bufferSize];
             int prevChar = -1;
             int readCount = br.read(buffer);

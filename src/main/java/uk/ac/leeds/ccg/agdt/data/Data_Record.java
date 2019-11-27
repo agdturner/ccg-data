@@ -13,13 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package uk.ac.leeds.ccg.andyt.data;
+package uk.ac.leeds.ccg.agdt.data;
 
-import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
+import uk.ac.leeds.ccg.agdt.data.id.Data_RecordID;
 import java.io.Serializable;
 import java.util.Objects;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
-import uk.ac.leeds.ccg.andyt.data.id.Data_ID;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Strings;
+import uk.ac.leeds.ccg.agdt.data.id.Data_ID;
 
 /**
  * Abstract class for a data record.

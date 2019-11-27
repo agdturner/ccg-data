@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.id;
+package uk.ac.leeds.ccg.agdt.data.core;
+
+import java.io.Serializable;
 
 /**
- * A general identifier for a
- * {@link uk.ac.leeds.ccg.andyt.data.Data_Collection}.
  *
- * @author Andy Turner
- * @version 1.0.0
+ * @author geoagdt
  */
-public class Data_CollectionID extends Data_ID_int {
+public class Data_Object implements Serializable {
+    
+    public transient Data_Environment de;
 
-    public Data_CollectionID(int i) {
-        super(i);
+    /**
+     * @param e What {@link #de} is set to.
+     */
+    public Data_Object(Data_Environment e) {
+        this.de = e;
     }
+    
 }

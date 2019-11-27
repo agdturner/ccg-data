@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package uk.ac.leeds.ccg.andyt.data.format;
+package uk.ac.leeds.ccg.agdt.data.format;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Object;
 
 /**
  * For reading ASCII text files (such as CSV format files). {@link #read} is for
@@ -38,6 +38,8 @@ import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
  */
 public class Data_ReadTXT extends Data_Object {
 
+    protected StreamTokenizer st;
+    
     public Data_ReadTXT(Data_Environment e) {
         super(e);
     }
@@ -57,20 +59,20 @@ public class Data_ReadTXT extends Data_Object {
      */
     public boolean testRead(File f, File testDir, int syntax) throws IOException {
         File test = new File(testDir, "test" + syntax + ".csv");
-        PrintWriter pw = env.env.io.getPrintWriter(f, false);
+        PrintWriter pw = de.env.io.getPrintWriter(f, false);
         if (f.exists()) {
-            try (BufferedReader br = env.env.io.getBufferedReader(f)) {
-                StreamTokenizer st = new StreamTokenizer(br);
-                setStreamTokenizerSyntax(st, syntax);
+            try (BufferedReader br = de.env.io.getBufferedReader(f)) {
+                st = new StreamTokenizer(br);
+                setStreamTokenizerSyntax(syntax);
                 int token = st.nextToken();
                 while (!(token == StreamTokenizer.TT_EOF)) {
-                    pw.println(readLine(st));
+                    pw.println(readLine());
                     token = st.nextToken();
                 }
             }
             pw.close();
         } else {
-            env.env.log("File " + f + " does not exist!");
+            de.env.log("File " + f + " does not exist!");
         }
         long length0;
         length0 = test.length();
@@ -88,36 +90,44 @@ public class Data_ReadTXT extends Data_Object {
     }
 
     /**
+     * @param br What {@link #st} is set to tokenize.
+     * @param syntax The syntax with which {@link #st} is to tokenize.
+     */
+    public void setStreamTokenizer(BufferedReader br, int syntax) {
+        this.st = new StreamTokenizer(br);
+        setStreamTokenizerSyntax(syntax);
+    }
+    
+    /**
      * A convenience method for setting the StreamTokensizer syntax.
      *
-     * @param st The StreamTokensizer that's parsing syntax is set.
      * @param syntax Currently expecting values 1 to 7 inclusive.
      */
-    protected void setStreamTokenizerSyntax(StreamTokenizer st, int syntax) {
+    public void setStreamTokenizerSyntax(int syntax) {
         switch (syntax) {
             case 1:
-                env.env.io.setStreamTokenizerSyntax1(st);
+                de.env.io.setStreamTokenizerSyntax1(st);
                 break;
             case 2:
-                env.env.io.setStreamTokenizerSyntax2(st);
+                de.env.io.setStreamTokenizerSyntax2(st);
                 break;
             case 3:
-                env.env.io.setStreamTokenizerSyntax3(st);
+                de.env.io.setStreamTokenizerSyntax3(st);
                 break;
             case 4:
-                env.env.io.setStreamTokenizerSyntax4(st);
+                de.env.io.setStreamTokenizerSyntax4(st);
                 break;
             case 5:
-                env.env.io.setStreamTokenizerSyntax5(st);
+                de.env.io.setStreamTokenizerSyntax5(st);
                 break;
             case 6:
-                env.env.io.setStreamTokenizerSyntax6(st);
+                de.env.io.setStreamTokenizerSyntax6(st);
                 break;
             case 7:
-                env.env.io.setStreamTokenizerSyntax7(st);
+                de.env.io.setStreamTokenizerSyntax7(st);
                 break;
             default:
-                env.env.log("No Special Syntax set in "
+                de.env.log("No Special Syntax set in "
                         + this.getClass().getName()
                         + ".testRead(File,File,int)");
         }
@@ -143,14 +153,14 @@ public class Data_ReadTXT extends Data_Object {
             File outf = new File(testDir, "test" + syntax + ".csv");
             PrintWriter pw = new PrintWriter(outf);
             ArrayList<String> r = new ArrayList<>();
-            try (BufferedReader br = env.env.io.getBufferedReader(f)) {
-                StreamTokenizer st = new StreamTokenizer(br);
-                setStreamTokenizerSyntax(st, syntax);
-                String line = readLine(st);
+            try (BufferedReader br = de.env.io.getBufferedReader(f)) {
+                st = new StreamTokenizer(br);
+                setStreamTokenizerSyntax(syntax);
+                String line = readLine();
                 while (line != null) {
                     r.add(line);
                     pw.println(line);
-                    line = readLine(st);
+                    line = readLine();
                 }
             }
             return r;
@@ -161,11 +171,10 @@ public class Data_ReadTXT extends Data_Object {
     }
 
     /**
-     * @param st The StreamTokenizer for parsing the stream.
      * @return The next line or null.
      * @throws java.io.IOException If there is an IO issue!
      */
-    public String readLine(StreamTokenizer st) throws IOException {
+    public String readLine() throws IOException {
         int token = st.nextToken();
         String line = "";
         while (!(token == StreamTokenizer.TT_EOF)) {

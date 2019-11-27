@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.id;
+package uk.ac.leeds.ccg.agdt.data.id;
 
 /**
- * A general identifier for a {@link uk.ac.leeds.ccg.andyt.data.Data_Record}.
- * 
+ * A general identifier for a
+ * {@link uk.ac.leeds.ccg.andyt.data.Data_Collection}.
+ *
  * @author Andy Turner
  * @version 1.0.0
  */
-public class Data_RecordID extends Data_ID_long {
-    
-    public Data_RecordID(long l) {
-        super(l);
+public class Data_CollectionID extends Data_ID_int {
+
+    public Data_CollectionID(int i) {
+        super(i);
     }
 }

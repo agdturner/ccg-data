@@ -1,14 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2019 Centre for Computational Geography, University of Leeds.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.format;
+package uk.ac.leeds.ccg.agdt.data.format;
 
 import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.util.ArrayList;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Environment;
 
 /**
  *
@@ -20,8 +29,8 @@ public class Data_ReadCSV extends Data_ReadTXT {
         super(e);
     }
 
-    public ArrayList<String> parseLine(StreamTokenizer st) throws IOException {
-        String line = super.readLine(st);
+    public ArrayList<String> parseLine() throws IOException {
+        String line = super.readLine();
         if (line == null) {
             return null;
         } else {

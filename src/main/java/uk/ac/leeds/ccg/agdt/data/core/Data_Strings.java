@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.core;
+package uk.ac.leeds.ccg.agdt.data.core;
 
-import java.io.Serializable;
+import uk.ac.leeds.ccg.agdt.generic.core.Generic_Strings;
 
 /**
  *
  * @author geoagdt
  */
-public class Data_Object implements Serializable {
+public class Data_Strings extends Generic_Strings {
     
-    public transient Data_Environment env;
-
-    /**
-     * @param e What {@link #env} is set to.
-     */
-    public Data_Object(Data_Environment e) {
-        this.env = e;
+    public static final String s_Subsets = "Subsets";
+    public static final String s_ID = "ID";
+    
+    public Data_Strings() {
+        super();
     }
     
 }

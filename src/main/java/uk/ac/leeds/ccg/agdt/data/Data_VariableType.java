@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data;
+package uk.ac.leeds.ccg.agdt.data;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Object;
-import uk.ac.leeds.ccg.andyt.data.core.Data_Strings;
-import uk.ac.leeds.ccg.andyt.math.Math_BigDecimal;
-import uk.ac.leeds.ccg.andyt.math.Math_BigInteger;
-import uk.ac.leeds.ccg.andyt.math.Math_Byte;
-import uk.ac.leeds.ccg.andyt.math.Math_Double;
-import uk.ac.leeds.ccg.andyt.math.Math_Float;
-import uk.ac.leeds.ccg.andyt.math.Math_Integer;
-import uk.ac.leeds.ccg.andyt.math.Math_Long;
-import uk.ac.leeds.ccg.andyt.math.Math_Short;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Object;
+import uk.ac.leeds.ccg.agdt.data.core.Data_Strings;
+import uk.ac.leeds.ccg.agdt.data.format.Data_ReadCSV;
+import uk.ac.leeds.ccg.agdt.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.agdt.math.Math_BigDecimal;
+import uk.ac.leeds.ccg.agdt.math.Math_BigInteger;
+import uk.ac.leeds.ccg.agdt.math.Math_Byte;
+import uk.ac.leeds.ccg.agdt.math.Math_Double;
+import uk.ac.leeds.ccg.agdt.math.Math_Float;
+import uk.ac.leeds.ccg.agdt.math.Math_Integer;
+import uk.ac.leeds.ccg.agdt.math.Math_Long;
+import uk.ac.leeds.ccg.agdt.math.Math_Short;
 
 /**
  * This class contains methods for parsing rectangular data organised into
@@ -52,9 +53,15 @@ import uk.ac.leeds.ccg.andyt.math.Math_Short;
  * values of a variable cannot be stored as a BigDecimal, then the variable type
  * inference defaults to a String.
  *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class Data_VariableType extends Data_Object {
+
+    /**
+     * For convenience/code brevity.
+     */
+    protected transient final Generic_Environment env;
 
     /**
      * The string used to separate fields in the data.
@@ -80,10 +87,11 @@ public class Data_VariableType extends Data_Object {
     /**
      * Creates a new instance.
      *
-     * @param env The {@link Data_Environment} for creating an instance.
+     * @param e The {@link Data_Environment} for creating an instance.
      */
-    public Data_VariableType(Data_Environment env) {
-        super(env);
+    public Data_VariableType(Data_Environment e) {
+        super(e);
+        env = e.env;
     }
 
     /**
@@ -101,19 +109,22 @@ public class Data_VariableType extends Data_Object {
      * @param fs The files containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
+     * @param syntax StreamTokenizer syntax to use when reading f.
+     *
      * @return Data_VariableNamesAndTypes
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp)
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File[] fs, int dp,
+            int syntax)
             throws FileNotFoundException, IOException {
         String m0 = "getFieldTypes(int,File[],int)";
-        env.env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp);
+        env.logStartTag(m0);
+        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp, syntax);
         for (int j = 1; j < fs.length; j++) {
-            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp);
+            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp, syntax);
             integrateVariableNamesAndTypes(r, vnt);
         }
-        env.env.logEndTag(m0);
+        env.logEndTag(m0);
         return r;
     }
 
@@ -132,13 +143,13 @@ public class Data_VariableType extends Data_Object {
             Data_VariableNamesAndTypes vnt) {
         String m = "integrateVariableNamesAndTypes(Data_VariableNamesAndTypes,"
                 + "Data_VariableNamesAndTypes)";
-        env.env.logStartTag(m);
+        env.logStartTag(m);
         int vfl = vnt.fieldNames2Order.size();
         int rfl = r.fieldNames2Order.size();
         if (vfl == rfl) {
-            env.env.log("");
+            env.log("");
         }
-        env.env.logEndTag(m);
+        env.logEndTag(m);
     }
 
     /**
@@ -187,22 +198,24 @@ public class Data_VariableType extends Data_Object {
      * @param f The file containing the data.
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
+     * @param syntax StreamTokenizer syntax to use when reading f.
+     *
      * @return A map with keys as field names and values as numbers representing
      * types.
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp)
-            throws FileNotFoundException, IOException {
+    protected Data_VariableNamesAndTypes getFieldTypes(int n, File f, int dp,
+            int syntax) throws FileNotFoundException, IOException {
         String m0 = "getVariableNamesAndTypes(int,File,int)";
-        env.env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp);
-        env.env.logEndTag(m0);
+        env.logStartTag(m0);
+        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp, syntax);
+        env.logEndTag(m0);
         return r;
     }
 
     /**
      * This loads the first n lines of f and determines a type to store each
-     * field variable. Integer value types (short, integer, long, BigInteger)
+     * field variable.Integer value types (short, integer, long, BigInteger)
      * types are preferred before decimals (float, double BigDecimal). If no
      * numerical value is appropriate the type is set to String type (this may
      * include things like dates).
@@ -214,76 +227,74 @@ public class Data_VariableType extends Data_Object {
      * header and field variables separated with a delimiter.
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
+     * @param syntax StreamTokenizer syntax to use when reading f.
      * @return Data_VariableNamesAndTypes r:
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, File f,
-            int dp) throws FileNotFoundException, IOException {
+            int dp, int syntax) throws FileNotFoundException,
+            IOException {
         String m0 = "getVariableNamesAndTypes(n, File,int)";
-        env.env.logStartTag(m0);
-        env.env.log("n " + n);
-        env.env.log("File " + f);
-        env.env.log("int " + dp);
-        BufferedReader br = env.env.io.getBufferedReader(f);
-        String line = br.readLine();
-        env.env.log(line); // Log header.
-        String[] fields = parseHeader(line);
-        int nf = fields.length;
-        Data_VariableNamesAndTypes r = new Data_VariableNamesAndTypes(nf, fields);
-        /**
-         * Check data is rectangular and if not log a "Field Length Warning".
-         */
-        boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
-                -> l.split(",").length != nf);
-        if (fieldLengthWarning) {
-            env.env.log("Field Length Warning");
+        env.logStartTag(m0);
+        env.log("n " + n);
+        env.log("File " + f);
+        env.log("int " + dp);
+        Data_VariableNamesAndTypes r;
+        Data_ReadCSV reader = new Data_ReadCSV(de);
+        int nf;
+        try (BufferedReader br = env.io.getBufferedReader(f)) {
+            reader.setStreamTokenizer(br, syntax);
+            ArrayList<String> header = reader.parseLine();
+            nf = header.size();
+            r = new Data_VariableNamesAndTypes(nf, header);
+            /**
+             * Check data is rectangular and if not log a "Field Length
+             * Warning".
+             */
+            boolean fieldLengthWarning = br.lines().parallel().anyMatch(l
+                    -> reader.parseLine(l).size() != nf);
+            if (fieldLengthWarning) {
+                env.log("Field Length Warning");
+            }
         }
+
         /**
          * Read through all or at least the first n lines of data and determine
          * type. This needs extra code to be parallelised as the data in the
          * expression will change if not all data can be represented as bytes.
          */
-        long nlines = 0;
-        Data_Handler dh = new Data_Handler(env);
-        nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
-        for (int j = 0; j < nlines; j++) {
-            line = br.readLine();
-            String[] split = line.split(delimiter);
-            for (int i = 0; i < split.length; i++) {
-                parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
-                        r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
+        Data_Handler dh = new Data_Handler(de);
+        long nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
+        try (BufferedReader br = env.io.getBufferedReader(f)) {
+            reader.setStreamTokenizer(br, syntax);
+            String line = reader.readLine();    // Skip header...
+            env.log(line);                      // ... but log it.
+            for (int j = 0; j < nlines; j++) {
+                ArrayList<String> fields = reader.parseLine();
+                for (int i = 0; i < fields.size(); i++) {
+                    parse(fields.get(i), i, dp, r.strings, r.bigDecimals,
+                            r.doubles, r.floats, r.bigIntegers, r.longs, r.ints, 
+                            r.shorts, r.bytes);
+                }
+            }
+            /**
+             * Also get the last line and parse this.
+             */
+            line = reader.readLine();
+            if (line != null) {
+                String line2 = br.readLine();
+                while (line2 != null) {
+                    line = line2;
+                    line2 = br.readLine();
+                }
+            }
+                ArrayList<String> fields = reader.parseLine(line);
+                for (int i = 0; i < fields.size(); i++) {
+                    parse(fields.get(i), i, dp, r.strings, r.bigDecimals,
+                            r.doubles, r.floats, r.bigIntegers, r.longs, r.ints, 
+                            r.shorts, r.bytes);
             }
         }
-        /**
-         * Also get the last line and parse this.
-         */
-        line = br.readLine();
-        if (line != null) {
-            String line2 = br.readLine();;
-            while (line2 != null) {
-                line = line2;
-                line2 = br.readLine();
-            }
-            String[] split = line.split(delimiter);
-            for (int i = 0; i < split.length; i++) {
-                parse(split[i], i, dp, r.strings, r.bigDecimals, r.doubles, r.floats,
-                        r.bigIntegers, r.longs, r.ints, r.shorts, r.bytes);
-            }
-        }
-        /**
-         * The following commented out code did the work going through all the
-         * data, but sometimes it is better (as the data may contain errors) to
-         * just go through the first n lines of data and the last line to
-         * determine type and then to catch and deal with exceptions when trying
-         * to read the rest what may contain erroneous data.
-         */
-        //        br.lines().skip(1).forEach(l -> {
-        //            String[] split = l.split(delimiter);
-        //            for (int i = 0; i < split.length; i++) {
-        //                parse(split[i], i, dp, strings, bigDecimals, doubles, floats,
-        //                        bigIntegers, longs, ints, shorts, bytes);
-        //            }
-        //        });
         for (int j = 0; j < nf; j++) {
             Iterator<Integer> ite = r.order2FieldNames.keySet().iterator();
             while (ite.hasNext()) {
@@ -307,11 +318,11 @@ public class Data_VariableType extends Data_Object {
                 } else if (r.bytes[i]) {
                     r.order2Type.put(i, 8);
                 } else {
-                    env.env.log("Undetermined type!!!");
+                    env.log("Undetermined type!!!");
                 }
             }
         }
-        env.env.logEndTag(m0);
+        env.logEndTag(m0);
         return r;
     }
 
@@ -328,7 +339,7 @@ public class Data_VariableType extends Data_Object {
          */
         public TreeMap<Integer, String> order2FieldNames;
         /**
-         * Keys are the order of the fieldname, values are the type coded as an
+         * KeFys are the order of the fieldname, values are the type coded as an
          * integer where:
          * <ul>
          * <li>0 is a "String"</li>
@@ -381,13 +392,13 @@ public class Data_VariableType extends Data_Object {
          */
         public boolean[] bytes;
 
-        public Data_VariableNamesAndTypes(int nf, String[] fields) {
+        public Data_VariableNamesAndTypes(int nf, ArrayList<String> header) {
             type2TypeName = getType2TypeName();
             fieldNames2Order = new HashMap<>();
             order2FieldNames = new TreeMap<>();
             order2Type = new HashMap<>();
             for (int i = 0; i < nf; i++) {
-                String field = parseFieldName(fields[i]);
+                String field = parseFieldName(header.get(i));
                 fieldNames2Order.put(field, i);
                 order2FieldNames.put(i, field);
             }
