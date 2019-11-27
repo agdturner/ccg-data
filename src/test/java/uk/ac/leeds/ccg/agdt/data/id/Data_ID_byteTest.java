@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.andyt.data.id;
+package uk.ac.leeds.ccg.agdt.data.id;
 
+import uk.ac.leeds.ccg.agdt.data.id.Data_ID_byte;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author geoagdt
  */
-public class Data_ID_longTest {
+public class Data_ID_byteTest {
 
-    public Data_ID_longTest() {
+    public Data_ID_byteTest() {
     }
 
     @BeforeAll
@@ -48,58 +49,58 @@ public class Data_ID_longTest {
     }
 
     /**
-     * Test of getID method, of class Data_ID_long.
+     * Test of getID method, of class Data_ID_byte.
      */
     @Test
     public void testGetID() {
         System.out.println("getID");
-        long l = 0L;
-        Data_ID_long instance = new Data_ID_long(l);
-        Number expResult = l;
+        byte s = 0;
+        Data_ID_byte instance = new Data_ID_byte(s);
+        Number expResult = s;
         Number result = instance.getID();
         assertEquals(expResult, result);
         // Test 2
-        l = 123456L;
-        instance = new Data_ID_long(l);
-        expResult = l;
+        s = 123;
+        instance = new Data_ID_byte(s);
+        expResult = s;
         result = instance.getID();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of toString method, of class Data_ID_long.
+     * Test of toString method, of class Data_ID_byte.
      */
     @Test
     public void testToString() {
         System.out.println("toString");
-        long l = 0L;
-        Data_ID_long instance = new Data_ID_long(l);
-        String expResult = "Data_ID_long(ID=0)";
+        byte s = 0;
+        Data_ID_byte instance = new Data_ID_byte(s);
+        String expResult = "Data_ID_byte(ID=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
-        l = 123456;
-        instance = new Data_ID_long(l);
-        expResult = "Data_ID_long(ID=" + Long.toString(l) + ")";
+        s = 123;
+        instance = new Data_ID_byte(s);
+        expResult = "Data_ID_byte(ID=" + Long.toString(s) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of equals method, of class Data_ID_long.
+     * Test of equals method, of class Data_ID_byte.
      */
     @Test
     public void testEquals() {
         System.out.println("equals");
-        long l = 0L;
-        Object o = new Data_ID_long(l);
-        Data_ID_long instance = new Data_ID_long(l);
+        byte s = 0;
+        Object o = new Data_ID_byte(s);
+        Data_ID_byte instance = new Data_ID_byte(s);
         boolean expResult = true;
         boolean result = instance.equals(o);
         assertEquals(expResult, result);
         // Test 2
-        l = 123456L;
-        instance = new Data_ID_long(l);
+        s = 123;
+        instance = new Data_ID_byte(s);
         expResult = false;
         result = instance.equals(o);
         assertEquals(expResult, result);
@@ -109,7 +110,7 @@ public class Data_ID_longTest {
         result = instance.equals(o);
         assertEquals(expResult, result);
         // Test 4
-        o = new Data_ID_long(l);
+        o = new Data_ID_byte(s);
         expResult = true;
         result = instance.equals(o);
         assertEquals(expResult, result);
@@ -117,26 +118,26 @@ public class Data_ID_longTest {
     }
 
     /**
-     * Test of compareTo method, of class Data_ID_long.
+     * Test of compareTo method, of class Data_ID_byte.
      */
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        long l = 0L;
-        Data_ID_long instance = new Data_ID_long(l);
-        Data_ID_long id = new Data_ID_long(l);
-        long expResult = 0;
-        long result = instance.compareTo(id);
+        byte s = 0;
+        Data_ID_byte instance = new Data_ID_byte(s);
+        Data_ID_byte id = new Data_ID_byte(s);
+        byte expResult = 0;
+        int result = instance.compareTo(id);
         assertEquals(expResult, result);
         // Test 2
-        l = 1L;
-        id = new Data_ID_long(l);        
+        s = 1;
+        id = new Data_ID_byte(s);        
         expResult = -1;
         result = instance.compareTo(id);
         assertEquals(expResult, result);
         // Test 3
-        l = -1L;
-        id = new Data_ID_long(l);        
+        s = -1;
+        id = new Data_ID_byte(s);        
         expResult = 1;
         result = instance.compareTo(id);
         assertEquals(expResult, result);
