@@ -40,18 +40,18 @@ import uk.ac.leeds.ccg.agdt.math.Math_Short;
 /**
  * This class contains methods for parsing rectangular data organised into
  * columns of variables and rows of records. The
- * {@link #getFieldTypes(int, java.io.File[], int)} method attempts to determine
- * what type of numbers to store each variable in for an array of files all
- * assumed to contain the same variables. For each variable, first the data are
- * attempted to be stored as bytes, then if this does not work as some value of
- * that variable encountered cannot be stored that way, it attempts to store it
- * as a short, then as an int, then as a long and then as a BigInteger. If the
- * value of the variable is discovered not to be an integer, then an attempt is
- * made to parse it as a float. This succeeds if (and only if) the float used to
- * represent the string is precise enough. If the string cannot be stored as a
- * float, then a double is tried, then failing that a BigDecimal is used. If all
- * values of a variable cannot be stored as a BigDecimal, then the variable type
- * inference defaults to a String.
+ * {@link #getFieldTypes(int, java.io.File[], int, int)} method attempts to
+ * determine what type of numbers to store each variable in for an array of
+ * files all assumed to contain the same variables. For each variable, first the
+ * data are attempted to be stored as bytes, then if this does not work as some
+ * value of that variable encountered cannot be stored that way, it attempts to
+ * store it as a short, then as an int, then as a long and then as a BigInteger.
+ * If the value of the variable is discovered not to be an integer, then an
+ * attempt is made to parse it as a float. This succeeds if (and only if) the
+ * float used to represent the string is precise enough. If the string cannot be
+ * stored as a float, then a double is tried, then failing that a BigDecimal is
+ * used. If all values of a variable cannot be stored as a BigDecimal, then the
+ * variable type inference defaults to a String.
  *
  * @author Andy Turner
  * @version 1.0.0
@@ -273,7 +273,7 @@ public class Data_VariableType extends Data_Object {
                 ArrayList<String> fields = reader.parseLine();
                 for (int i = 0; i < fields.size(); i++) {
                     parse(fields.get(i), i, dp, r.strings, r.bigDecimals,
-                            r.doubles, r.floats, r.bigIntegers, r.longs, r.ints, 
+                            r.doubles, r.floats, r.bigIntegers, r.longs, r.ints,
                             r.shorts, r.bytes);
                 }
             }
@@ -288,11 +288,11 @@ public class Data_VariableType extends Data_Object {
                     line2 = br.readLine();
                 }
             }
-                ArrayList<String> fields = reader.parseLine(line);
-                for (int i = 0; i < fields.size(); i++) {
-                    parse(fields.get(i), i, dp, r.strings, r.bigDecimals,
-                            r.doubles, r.floats, r.bigIntegers, r.longs, r.ints, 
-                            r.shorts, r.bytes);
+            ArrayList<String> fields = reader.parseLine(line);
+            for (int i = 0; i < fields.size(); i++) {
+                parse(fields.get(i), i, dp, r.strings, r.bigDecimals,
+                        r.doubles, r.floats, r.bigIntegers, r.longs, r.ints,
+                        r.shorts, r.bytes);
             }
         }
         for (int j = 0; j < nf; j++) {

@@ -30,8 +30,7 @@ import uk.ac.leeds.ccg.agdt.data.core.Data_Object;
 /**
  * For reading ASCII text files (such as CSV format files). {@link #read} is for
  * reading an entire file into a collection of Strings (one for each line in the
- * file). {@link #readLine(java.io.StreamTokenizer)} reads once a
- * {@link java.io.Reader} and {@link java.io.StreamTokenizer} have ben set up.
+ * file). {@link #readLine()} reads once {@link #st} has been initialised.
  *
  * @author Andy Turner
  * @version 1.0.0

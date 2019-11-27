@@ -17,7 +17,7 @@ package uk.ac.leeds.ccg.agdt.data.id;
 
 /**
  * A general identifier for a
- * {@link uk.ac.leeds.ccg.andyt.data.Data_Collection}.
+ * {@link uk.ac.leeds.ccg.agdt.data.Data_Collection}.
  *
  * @author Andy Turner
  * @version 1.0.0
