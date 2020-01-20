@@ -15,7 +15,7 @@
  */
 package uk.ac.leeds.ccg.agdt.data.id;
 
-import uk.ac.leeds.ccg.agdt.data.id.Data_ID_long;
+import uk.ac.leeds.ccg.data.id.Data_ID_long;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;

@@ -15,7 +15,7 @@
  */
 package uk.ac.leeds.ccg.agdt.data.interval;
 
-import uk.ac.leeds.ccg.agdt.data.interval.Data_IntervalLong1;
+import uk.ac.leeds.ccg.data.interval.Data_IntervalLong1;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
