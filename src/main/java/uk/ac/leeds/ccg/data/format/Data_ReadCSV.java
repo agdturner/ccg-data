@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.agdt.data.format;
+package uk.ac.leeds.ccg.data.format;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import uk.ac.leeds.ccg.agdt.data.core.Data_Environment;
+import uk.ac.leeds.ccg.data.core.Data_Environment;
 
 /**
  *
