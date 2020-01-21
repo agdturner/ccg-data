@@ -39,22 +39,16 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
 public abstract class Data_Data extends Data_Object {
 
     /**
-     * A reference to a Data_Environment instance. Not declared to be final as when a cached version
-     * of this is loaded back in it might need initialising.
-     */
-    public transient Data_Environment de;
-
-    /**
-     * For convenience. Not declared to be final as when a cached version
-     * of this is loaded back in it might need initialising.
+     * For convenience. Not declared to be final as when a cached version of
+     * this is loaded back in it might need initialising.
      */
     public transient Generic_Environment env;
     public transient Generic_IO io;
 
     /**
-     * The data stored in a number of collections. This is protected as 
-     * typically it needs casting for use and should be found via a getData() 
-     * method. 
+     * The data stored in a number of collections. This is protected as
+     * typically it needs casting for use and should be found via a getData()
+     * method.
      */
     protected final HashMap<Data_CollectionID, Data_Collection> data;
 
@@ -91,8 +85,10 @@ public abstract class Data_Data extends Data_Object {
      * @return An {@link Data_Record} for the given RecordID.
      * @param rID The {@link Data_RecordID} of the {@link Data_Record} to be
      * returned.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Data_Record getDataRecord(Data_RecordID rID) throws IOException, 
+    public Data_Record getDataRecord(Data_RecordID rID) throws IOException,
             ClassNotFoundException {
         Data_CollectionID cID = rID_2_cID.get(rID);
         Data_Collection c = getCollection(cID);
@@ -108,8 +104,10 @@ public abstract class Data_Data extends Data_Object {
      * @param n the number of {@link Data_Record}s to print out.
      * @param random the {@link Random} used for selecting {@link Data_Record}s
      * to print.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected void print(int n, Random random) throws IOException, 
+    protected void print(int n, Random random) throws IOException,
             ClassNotFoundException {
         long N = getN();
         for (int i0 = 0; i0 < n; i0++) {
@@ -127,8 +125,10 @@ public abstract class Data_Data extends Data_Object {
      * @return The {@link Data_Collection} in {@link #data}. If this is null,
      * then the collection is loaded from the cache via
      * {@link #loadCollection(Data_CollectionID)}.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Data_Collection getCollection(Data_CollectionID cID) 
+    protected Data_Collection getCollection(Data_CollectionID cID)
             throws IOException, ClassNotFoundException {
         Data_Collection r = data.get(cID);
         if (r == null) {
@@ -148,8 +148,10 @@ public abstract class Data_Data extends Data_Object {
      * then the collection is loaded from the cache via
      * {@link #loadCollection(Data_CollectionID)}. (See
      * {@link #getCollection(Data_CollectionID)}.)
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Data_Collection getCollection(Data_CollectionID cID, 
+    protected Data_Collection getCollection(Data_CollectionID cID,
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
             Data_Collection c = getCollection(cID);
@@ -183,6 +185,7 @@ public abstract class Data_Data extends Data_Object {
      * Caches and clears the first subset collection retrieved from an iterator.
      *
      * @return {@code true} iff a subset collection was cached and cleared.
+     * @throws java.io.IOException If encountered.
      */
     public boolean clearSomeData() throws IOException {
         Iterator<Data_CollectionID> ite = data.keySet().iterator();
@@ -202,7 +205,8 @@ public abstract class Data_Data extends Data_Object {
      * Caches and cleared all subset collections.
      *
      * @return The number of subset collections cached and cleared.
-     */
+        * @throws java.io.IOException If encountered.
+  */
     public int clearAllData() throws IOException {
         int r = 0;
         Iterator<Data_CollectionID> ite = data.keySet().iterator();
@@ -223,8 +227,9 @@ public abstract class Data_Data extends Data_Object {
      *
      * @param cID the ID of subset collection to be cached.
      * @param o the subset collection to be cached.
-     */
-    public void cacheCollection(Data_CollectionID cID, Object o) 
+       * @throws java.io.IOException If encountered.
+   */
+    public void cacheCollection(Data_CollectionID cID, Object o)
             throws IOException {
         cache(getCollectionFile(cID), o);
     }
@@ -234,8 +239,10 @@ public abstract class Data_Data extends Data_Object {
      *
      * @param cID the ID of subset collection to be loaded.
      * @return the subset collection loaded.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Object loadCollection(Data_CollectionID cID) throws IOException, 
+    public Object loadCollection(Data_CollectionID cID) throws IOException,
             ClassNotFoundException {
         return load(getCollectionFile(cID));
     }
@@ -245,7 +252,8 @@ public abstract class Data_Data extends Data_Object {
      *
      * @param cID the ID of subset collection.
      * @return the subset collection file for cID.
-     */
+       * @throws java.io.IOException If encountered.
+   */
     public Path getCollectionFile(Data_CollectionID cID) throws IOException {
         return Paths.get(de.files.getGeneratedDir().toString(),
                 Data_Strings.s_DATA + Data_Strings.symbol_underscore + cID
@@ -257,7 +265,9 @@ public abstract class Data_Data extends Data_Object {
      *
      * @param f the File to load an object from.
      * @return the object loaded.
-     */
+       * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
+   */
     protected Object load(Path f) throws IOException, ClassNotFoundException {
         String m = "load object from " + f.toString();
         env.logStartTag(m);
@@ -271,7 +281,8 @@ public abstract class Data_Data extends Data_Object {
      *
      * @param f the File to cache to.
      * @param o the Object to cache.
-     */
+       * @throws java.io.IOException If encountered.
+   */
     protected void cache(Path f, Object o) throws IOException {
         String m = "cache object to " + f.toString();
         env.logStartTag(m);

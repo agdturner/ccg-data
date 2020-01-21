@@ -24,8 +24,8 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
 
 /**
  * A basic data handler class. This class contains a method
- * {@link #getNLines(File, String)} which is for getting the number of lines in
- * a file given a charSetName.
+ * {@link #getNLines(java.nio.file.Path, java.lang.String)} which is for getting
+ * the number of lines in a file given a charSetName.
  *
  * @author Andy Turner
  * @version 1.0.0

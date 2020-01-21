@@ -16,7 +16,7 @@
 package uk.ac.leeds.ccg.data.id;
 
 /**
- * A general identifier for a {@link uk.ac.leeds.ccg.agdt.data.Data_Record}.
+ * A general identifier for a Data_Record.
  * 
  * @author Andy Turner
  * @version 1.0.0

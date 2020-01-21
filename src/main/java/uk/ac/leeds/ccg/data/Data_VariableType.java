@@ -41,8 +41,8 @@ import uk.ac.leeds.ccg.math.Math_Short;
 /**
  * This class contains methods for parsing rectangular data organised into
  * columns of variables and rows of records. The
- * {@link #getFieldTypes(int, java.io.File[], int, int)} method attempts to
- * determine what type of numbers to store each variable in for an array of
+ * {@link #getFieldTypes(int, java.nio.file.Path[], int, int)} method attempts
+ * to determine what type of numbers to store each variable in for an array of
  * files all assumed to contain the same variables. For each variable, first the
  * data are attempted to be stored as bytes, then if this does not work as some
  * value of that variable encountered cannot be stored that way, it attempts to
