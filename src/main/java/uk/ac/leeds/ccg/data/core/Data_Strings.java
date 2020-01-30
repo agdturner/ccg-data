@@ -25,6 +25,7 @@ public class Data_Strings extends Generic_Strings {
     
     public static final String s_Subsets = "Subsets";
     public static final String s_ID = "ID";
+    public static final String s_id = "id";
     
     public Data_Strings() {
         super();

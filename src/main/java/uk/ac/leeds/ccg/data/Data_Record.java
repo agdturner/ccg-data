@@ -29,18 +29,18 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     /**
      * The identifier for this record.
      */
-    public final Data_RecordID ID;
+    public final Data_RecordID id;
 
-    public Data_Record(Data_RecordID ID) {
-        this.ID = ID;
+    public Data_Record(Data_RecordID id) {
+        this.id = id;
     }
 
     public Data_Record(Data_Record rec) {
-        this.ID = rec.ID;
+        this.id = rec.id;
     }
 
     /**
-     * @return {@link ID} cast appropriately.
+     * @return {@link #id} cast appropriately.
      */
     public abstract Data_ID getID();
 
@@ -49,15 +49,15 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
      */
     @Override
     public String toString() {
-        //return getID().getClass().getSimpleName() + ID.toString();
-        return ID.toString();
+        //return getID().getClass().getSimpleName() + id.toString();
+        return id.toString();
     }
 
     /**
      * @return A Comma Separated Version (CSV) of this.
      */
     public String toCSV() {
-        return ID.toString();
+        return id.toString();
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
      * fields/variables.
      */
     public String toCSVHeader() {
-        return Data_Strings.s_ID;
+        return Data_Strings.s_id;
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
             if (o != this) {
                 if (o instanceof Data_Record) {
                     Data_Record o2 = (Data_Record) o;
-                    if (ID == o2.ID) {
+                    if (id == o2.id) {
                         return true;
                     }
                 }
@@ -93,7 +93,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.ID);
+        hash = 89 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -103,7 +103,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
             if (o != this) {
                 if (o instanceof Data_Record) {
                     Data_Record o2 = (Data_Record) o;
-                    return ID.compareTo(o2.ID);
+                    return id.compareTo(o2.id);
                 }
             }
             return 0;
