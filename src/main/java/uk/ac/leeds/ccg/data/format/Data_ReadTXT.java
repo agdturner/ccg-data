@@ -76,11 +76,9 @@ public class Data_ReadTXT extends Data_Object {
         } else {
             de.env.log("Path " + f + " does not exist!");
         }
-        long length0;
-        length0 = Files.size(test);
+        long length0 = Files.size(test);
         System.out.println("length of test file = " + length0);
-        long length1;
-        length1 = Files.size(f);
+        long length1 = Files.size(f);
         System.out.println("length of original file = " + length1);
         if (length0 == length1) {
             System.out.println("length0 == length1");
@@ -108,25 +106,25 @@ public class Data_ReadTXT extends Data_Object {
     public void setStreamTokenizerSyntax(int syntax) {
         switch (syntax) {
             case 1:
-                de.env.io.setStreamTokenizerSyntax1(st);
+                Generic_IO.setStreamTokenizerSyntax1(st);
                 break;
             case 2:
-                de.env.io.setStreamTokenizerSyntax2(st);
+                Generic_IO.setStreamTokenizerSyntax2(st);
                 break;
             case 3:
-                de.env.io.setStreamTokenizerSyntax3(st);
+                Generic_IO.setStreamTokenizerSyntax3(st);
                 break;
             case 4:
-                de.env.io.setStreamTokenizerSyntax4(st);
+                Generic_IO.setStreamTokenizerSyntax4(st);
                 break;
             case 5:
-                de.env.io.setStreamTokenizerSyntax5(st);
+                Generic_IO.setStreamTokenizerSyntax5(st);
                 break;
             case 6:
-                de.env.io.setStreamTokenizerSyntax6(st);
+                Generic_IO.setStreamTokenizerSyntax6(st);
                 break;
             case 7:
-                de.env.io.setStreamTokenizerSyntax7(st);
+                Generic_IO.setStreamTokenizerSyntax7(st);
                 break;
             default:
                 de.env.log("No Special Syntax set in "
@@ -184,18 +182,6 @@ public class Data_ReadTXT extends Data_Object {
     /**
      * @return The next line or null.
      * @throws java.io.IOException If there is an IO issue!
-     * 
-Path file = ...;
-try (InputStream in = Files.newInputStream(file);
-    BufferedReader reader =
-      new BufferedReader(new InputStreamReader(in))) {
-    String line = null;
-    while ((line = reader.readLine()) != null) {
-        System.out.println(line);
-    }
-} catch (IOException x) {
-    System.err.println(x);
-}
      */
     public String readLine() throws IOException {
         int token = st.nextToken();
