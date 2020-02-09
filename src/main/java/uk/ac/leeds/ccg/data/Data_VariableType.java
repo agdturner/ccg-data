@@ -115,9 +115,8 @@ public class Data_VariableType extends Data_Object {
      * @return Data_VariableNamesAndTypes
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, Path[] fs, int dp,
-            int syntax)
-            throws FileNotFoundException, IOException {
+    public Data_VariableNamesAndTypes getFieldTypes(int n, Path[] fs, int dp,
+            int syntax) throws FileNotFoundException, IOException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.logStartTag(m0);
         Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp, syntax);
@@ -205,7 +204,7 @@ public class Data_VariableType extends Data_Object {
      * types.
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    protected Data_VariableNamesAndTypes getFieldTypes(int n, Path f, int dp,
+    public Data_VariableNamesAndTypes getFieldTypes(int n, Path f, int dp,
             int syntax) throws FileNotFoundException, IOException {
         String m0 = "getVariableNamesAndTypes(int,File,int)";
         env.logStartTag(m0);
