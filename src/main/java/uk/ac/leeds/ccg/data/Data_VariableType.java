@@ -67,7 +67,7 @@ public class Data_VariableType extends Data_Object {
     /**
      * The string used to separate fields in the data.
      */
-    protected String delimiter;
+    private String delimiter;
 
     /**
      * For storing a type2TypeName Lookup.
@@ -438,7 +438,7 @@ public class Data_VariableType extends Data_Object {
         String[] r;
         String h1;
         h1 = header.toUpperCase();
-        r = h1.split(delimiter);
+        r = h1.split(getDelimiter());
         return r;
     }
 
@@ -795,5 +795,19 @@ public class Data_VariableType extends Data_Object {
             bigDecimals[index] = false;
             strings[index] = true;
         }
+    }
+
+    /**
+     * @return the delimiter
+     */
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    /**
+     * @param delimiter the delimiter to set
+     */
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
     }
 }
