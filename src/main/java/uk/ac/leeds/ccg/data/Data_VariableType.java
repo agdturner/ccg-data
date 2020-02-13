@@ -111,17 +111,19 @@ public class Data_VariableType extends Data_Object {
      * @param dp The number of decimal places a value has to be correct to if it
      * is a floating point type.
      * @param syntax StreamTokenizer syntax to use when reading f.
-     *
+     * @param p The prefix usually a letter a-z to add the variable name so it
+     * is sure that no variable names start with a number or an upper case
+     * letter.
      * @return Data_VariableNamesAndTypes
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     public Data_VariableNamesAndTypes getFieldTypes(int n, Path[] fs, int dp,
-            int syntax) throws FileNotFoundException, IOException {
+            int syntax, String p) throws FileNotFoundException, IOException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp, syntax);
+        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp, syntax, p);
         for (int j = 1; j < fs.length; j++) {
-            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp, syntax);
+            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp, syntax, p);
             integrateVariableNamesAndTypes(r, vnt);
         }
         env.logEndTag(m0);
@@ -202,13 +204,16 @@ public class Data_VariableType extends Data_Object {
      *
      * @return A map with keys as field names and values as numbers representing
      * types.
+     * @param p The prefix usually a letter a-z to add the variable name so it
+     * is sure that no variable names start with a number or an upper case
+     * letter.
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     public Data_VariableNamesAndTypes getFieldTypes(int n, Path f, int dp,
-            int syntax) throws FileNotFoundException, IOException {
+            int syntax, String p) throws FileNotFoundException, IOException {
         String m0 = "getVariableNamesAndTypes(int,File,int)";
         env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp, syntax);
+        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp, syntax, p);
         env.logEndTag(m0);
         return r;
     }
@@ -228,11 +233,14 @@ public class Data_VariableType extends Data_Object {
      * @param dp The number of decimal places to be used to check if a variable
      * can be stored using a floating point number.
      * @param syntax StreamTokenizer syntax to use when reading f.
+     * @param p The prefix usually a letter a-z to add the variable name so it
+     * is sure that no variable names start with a number or an upper case
+     * letter.
      * @return Data_VariableNamesAndTypes r:
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
     public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, Path f,
-            int dp, int syntax) throws FileNotFoundException,
+            int dp, int syntax, String p) throws FileNotFoundException,
             IOException {
         String m0 = "getVariableNamesAndTypes(n, File,int)";
         env.logStartTag(m0);
@@ -246,7 +254,7 @@ public class Data_VariableType extends Data_Object {
             reader.setStreamTokenizer(br, syntax);
             ArrayList<String> header = reader.parseLine();
             nf = header.size();
-            r = new Data_VariableNamesAndTypes(nf, header);
+            r = new Data_VariableNamesAndTypes(nf, header, p);
             /**
              * Check data is rectangular and if not log a "Field Length
              * Warning".
@@ -360,6 +368,10 @@ public class Data_VariableType extends Data_Object {
          */
         public boolean[] strings;
         /**
+         * True if any field is stored as a BigDecimal.
+         */
+        public boolean hasBigDecimals;
+        /**
          * True indicates that a value of a field can be stored as a BigDecimal.
          */
         public boolean[] bigDecimals;
@@ -371,6 +383,10 @@ public class Data_VariableType extends Data_Object {
          * True indicates that a value of a field can be stored as a float.
          */
         public boolean[] floats;
+        /**
+         * True if any field is stored as a BigInteger.
+         */
+        public boolean hasBigIntegers;
         /**
          * True indicates that a value of a field can be stored as a BigInteger.
          */
@@ -392,13 +408,21 @@ public class Data_VariableType extends Data_Object {
          */
         public boolean[] bytes;
 
-        public Data_VariableNamesAndTypes(int nf, ArrayList<String> header) {
+        /**
+         * @param nf Number of fields
+         * @param header header
+         * @param p The prefix usually a letter a-z to add the variable name so
+         * it is sure that no variable names start with a number or an upper
+         * case letter.
+         */
+        public Data_VariableNamesAndTypes(int nf, ArrayList<String> header,
+                String p) {
             type2TypeName = getType2TypeName();
             fieldNames2Order = new HashMap<>();
             order2FieldNames = new TreeMap<>();
             order2Type = new HashMap<>();
             for (int i = 0; i < nf; i++) {
-                String field = parseFieldName(header.get(i));
+                String field = parseFieldName(header.get(i), p);
                 fieldNames2Order.put(field, i);
                 order2FieldNames.put(i, field);
             }
@@ -434,23 +458,22 @@ public class Data_VariableType extends Data_Object {
      * @return The header changed to upper case and split by {@link #delimiter}.
      */
     public String[] parseHeader(String header) {
-        String[] r;
-        String h1;
-        h1 = header.toUpperCase();
-        r = h1.split(getDelimiter());
-        return r;
+        return header.toUpperCase().split(getDelimiter());
     }
 
     /**
      * Replaces all characters that are not alphanumeric or underscores with
-     * underscores. Replaces all instances of consecutive underscores with a
+     * underscores.Replaces all instances of consecutive underscores with a
      * single underscore. Removes any underscore at the start or end of the
      * result.
      *
      * @param name The name to parse.
+     * @param p The prefix usually a letter a-z to add the variable name so it
+     * is sure that no variable names start with a number or an upper case
+     * letter.
      * @return A copy of name where has been modified as above.
      */
-    public String parseFieldName(String name) {
+    public String parseFieldName(String name, String p) {
         int length = name.length();
         String r = name.replaceAll("[^a-z^^A-Z^0-9_]", "_");
         r = r.replaceAll("[__]", "_");
