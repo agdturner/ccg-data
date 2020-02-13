@@ -452,7 +452,7 @@ public class Data_VariableType extends Data_Object {
      */
     public String parseFieldName(String name) {
         int length = name.length();
-        String r = name.replaceAll("[^A-Z^0-9_]", "_");
+        String r = name.replaceAll("[^a-z^^A-Z^0-9_]", "_");
         r = r.replaceAll("[__]", "_");
         if (r.startsWith("_")) {
             r = r.substring(1, r.length());
