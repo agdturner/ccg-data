@@ -368,10 +368,6 @@ public class Data_VariableType extends Data_Object {
          */
         public boolean[] strings;
         /**
-         * True if any field is stored as a BigDecimal.
-         */
-        public boolean hasBigDecimals;
-        /**
          * True indicates that a value of a field can be stored as a BigDecimal.
          */
         public boolean[] bigDecimals;
@@ -383,10 +379,6 @@ public class Data_VariableType extends Data_Object {
          * True indicates that a value of a field can be stored as a float.
          */
         public boolean[] floats;
-        /**
-         * True if any field is stored as a BigInteger.
-         */
-        public boolean hasBigIntegers;
         /**
          * True indicates that a value of a field can be stored as a BigInteger.
          */
@@ -422,7 +414,7 @@ public class Data_VariableType extends Data_Object {
             order2FieldNames = new TreeMap<>();
             order2Type = new HashMap<>();
             for (int i = 0; i < nf; i++) {
-                String field = parseFieldName(header.get(i), p);
+                String field = parseFieldName(p + header.get(i));
                 fieldNames2Order.put(field, i);
                 order2FieldNames.put(i, field);
             }
@@ -473,8 +465,8 @@ public class Data_VariableType extends Data_Object {
      * letter.
      * @return A copy of name where has been modified as above.
      */
-    public String parseFieldName(String name, String p) {
-        int length = name.length();
+    public String parseFieldName(String name) {
+        //int length = name.length();
         String r = name.replaceAll("[^a-z^^A-Z^0-9_]", "_");
         r = r.replaceAll("[__]", "_");
         if (r.startsWith("_")) {
@@ -655,7 +647,7 @@ public class Data_VariableType extends Data_Object {
      * This checks if s can be stored as a int. If it can't it tries next to
      * determine if it can be stored as a long.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a int.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
@@ -689,7 +681,7 @@ public class Data_VariableType extends Data_Object {
      * This checks if s can be stored as a long. If it can't it tries next to
      * determine if it can be stored as a BigInteger.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a long.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
@@ -721,7 +713,7 @@ public class Data_VariableType extends Data_Object {
      * This checks if s can be stored as a BigInteger. If it can't it tries next
      * to determine if it can be stored as a float.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a BigInteger.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
@@ -750,7 +742,7 @@ public class Data_VariableType extends Data_Object {
      * This checks if s can be stored as a float. If it can't it tries next to
      * determine if it can be stored as a double.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a float.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
@@ -773,10 +765,10 @@ public class Data_VariableType extends Data_Object {
     }
 
     /**
-     * This checks if s can be stored as a float. If it can't it tries next to
+     * This checks if s can be stored as a Double. If it can't it tries next to
      * determine if it can be stored as a double.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a Double.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
@@ -797,10 +789,10 @@ public class Data_VariableType extends Data_Object {
     }
 
     /**
-     * This checks if s can be stored as a float. If it can't it tries next to
+     * This checks if s can be stored as a BigDecimal. If it can't it tries next to
      * determine if it can be stored as a double.
      *
-     * @param s The String to test if it is a byte.
+     * @param s The String to test if it is a BigDecimal.
      * @param index The index of the variable for recording it's type.
      * @param dp The number of decimal places to use when testing if it is fine
      * to store a value as a floating point number.
