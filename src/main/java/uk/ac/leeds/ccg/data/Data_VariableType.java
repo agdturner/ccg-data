@@ -117,13 +117,16 @@ public class Data_VariableType extends Data_Object {
      * @return Data_VariableNamesAndTypes
      * @throws java.io.FileNotFoundException If a data file is not found.
      */
-    public Data_VariableNamesAndTypes getFieldTypes(int n, Path[] fs, int dp,
-            int syntax, String p) throws FileNotFoundException, IOException {
+    public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, Path[] fs,
+            int dp, int syntax, String p) throws FileNotFoundException,
+            IOException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getFieldTypes(n, fs[0], dp, syntax, p);
+        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, fs[0], dp, 
+                syntax, p);
         for (int j = 1; j < fs.length; j++) {
-            Data_VariableNamesAndTypes vnt = getFieldTypes(n, fs[j], dp, syntax, p);
+            Data_VariableNamesAndTypes vnt = getVariableNamesAndTypes(n, fs[j], 
+                    dp, syntax, p);
             integrateVariableNamesAndTypes(r, vnt);
         }
         env.logEndTag(m0);
@@ -186,44 +189,11 @@ public class Data_VariableType extends Data_Object {
     }
 
     /**
-     * Pass through the data in {@code f} and work out what numeric type is best
-     * to store each field. If the data are clean, then currently, this will do
-     * a good job, if there is at least one record with an erroneous value for a
-     * variable, then this could screw things up. So, if you know what type the
-     * variable should be, probably the best way forward is to declare that type
-     * and then either filter records with erroneous values, or check the type
-     * and clean the data.
-     *
-     * @param n The maximum number of lines of data used to determine type. Set
-     * n to Integer.MaxValue() to read all of data files with fewer lines than
-     * Integer.MaxValue() and to use all lines to determine type.
-     * @param f The file containing the data.
-     * @param dp The number of decimal places a value has to be correct to if it
-     * is a floating point type.
-     * @param syntax StreamTokenizer syntax to use when reading f.
-     *
-     * @return A map with keys as field names and values as numbers representing
-     * types.
-     * @param p The prefix usually a letter a-z to add the variable name so it
-     * is sure that no variable names start with a number or an upper case
-     * letter.
-     * @throws java.io.FileNotFoundException If a data file is not found.
-     */
-    public Data_VariableNamesAndTypes getFieldTypes(int n, Path f, int dp,
-            int syntax, String p) throws FileNotFoundException, IOException {
-        String m0 = "getVariableNamesAndTypes(int,File,int)";
-        env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, f, dp, syntax, p);
-        env.logEndTag(m0);
-        return r;
-    }
-
-    /**
-     * This loads the first n lines of f and determines a type to store each
-     * field variable.Integer value types (short, integer, long, BigInteger)
-     * types are preferred before decimals (float, double BigDecimal). If no
-     * numerical value is appropriate the type is set to String type (this may
-     * include things like dates).
+     * Pass through some or all of the data in {@code f} and work out what
+     * numeric type is best to store each field. Integer value types (short,
+     * integer, long, BigInteger) types are preferred before decimals (float,
+     * double, BigDecimal). If no numerical value is appropriate the type is set
+     * to String type (this may include things like dates).
      *
      * @param n The maximum number of lines of data used to determine type. Set
      * n to Integer.MaxValue() to read all of data files with fewer lines than
@@ -242,7 +212,7 @@ public class Data_VariableType extends Data_Object {
     public Data_VariableNamesAndTypes getVariableNamesAndTypes(int n, Path f,
             int dp, int syntax, String p) throws FileNotFoundException,
             IOException {
-        String m0 = "getVariableNamesAndTypes(n, File,int)";
+        String m0 = "getVariableNamesAndTypes(n,Path,dp,int,String)";
         env.logStartTag(m0);
         env.log("n " + n);
         env.log("File " + f);
@@ -460,9 +430,6 @@ public class Data_VariableType extends Data_Object {
      * result.
      *
      * @param name The name to parse.
-     * @param p The prefix usually a letter a-z to add the variable name so it
-     * is sure that no variable names start with a number or an upper case
-     * letter.
      * @return A copy of name where has been modified as above.
      */
     public String parseFieldName(String name) {
@@ -789,8 +756,8 @@ public class Data_VariableType extends Data_Object {
     }
 
     /**
-     * This checks if s can be stored as a BigDecimal. If it can't it tries next to
-     * determine if it can be stored as a double.
+     * This checks if s can be stored as a BigDecimal. If it can't it tries next
+     * to determine if it can be stored as a double.
      *
      * @param s The String to test if it is a BigDecimal.
      * @param index The index of the variable for recording it's type.

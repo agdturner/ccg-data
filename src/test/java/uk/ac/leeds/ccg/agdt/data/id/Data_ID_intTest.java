@@ -49,7 +49,7 @@ public class Data_ID_intTest {
     }
 
     /**
-     * Test of getID method, of class Data_ID_int.
+     * Test of getId method, of class Data_ID_int.
      */
     @Test
     public void testGetID() {
@@ -57,13 +57,13 @@ public class Data_ID_intTest {
         int i = 0;
         Data_ID_int instance = new Data_ID_int(i);
         Number expResult = i;
-        Number result = instance.getID();
+        Number result = instance.getId();
         assertEquals(expResult, result);
         // Test 2
         i = 123456;
         instance = new Data_ID_int(i);
         expResult = i;
-        result = instance.getID();
+        result = instance.getId();
         assertEquals(expResult, result);
     }
 

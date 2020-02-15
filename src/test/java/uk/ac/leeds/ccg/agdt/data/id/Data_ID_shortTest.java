@@ -57,13 +57,13 @@ public class Data_ID_shortTest {
         short s = 0;
         Data_ID_short instance = new Data_ID_short(s);
         Number expResult = s;
-        Number result = instance.getID();
+        Number result = instance.getId();
         assertEquals(expResult, result);
         // Test 2
         s = 12345;
         instance = new Data_ID_short(s);
         expResult = s;
-        result = instance.getID();
+        result = instance.getId();
         assertEquals(expResult, result);
     }
 

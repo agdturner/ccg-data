@@ -22,6 +22,8 @@ package uk.ac.leeds.ccg.data.id;
  * @version 1.0.0
  */
 public class Data_RecordID extends Data_ID_long {
+
+    private static final long serialVersionUID = 1L;
     
     public Data_RecordID(long l) {
         super(l);

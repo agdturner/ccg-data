@@ -23,6 +23,8 @@ package uk.ac.leeds.ccg.data.id;
  */
 public class Data_CollectionID extends Data_ID_int {
 
+    private static final long serialVersionUID = 1L;
+
     public Data_CollectionID(int i) {
         super(i);
     }

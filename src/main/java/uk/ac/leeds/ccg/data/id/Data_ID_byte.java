@@ -24,22 +24,24 @@ package uk.ac.leeds.ccg.data.id;
  */
 public class Data_ID_byte extends Data_ID implements Comparable<Data_ID_byte> {
 
-    public final byte ID;
+    private static final long serialVersionUID = 1L;
 
-    public Data_ID_byte(byte s) {
-        this.ID = s;
+    public final byte id;
+
+    public Data_ID_byte(byte b) {
+        this.id = b;
     }
 
     /**
-     * @return the ID
+     * @return the {@link #id}
      */
-    public byte getID() {
-        return ID;
+    public byte getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return getSimpleName() + "(ID=" + ID + ")";
+        return getSimpleName() + "(id=" + id + ")";
     }
 
     @Override
@@ -48,7 +50,7 @@ public class Data_ID_byte extends Data_ID implements Comparable<Data_ID_byte> {
             if (o != this) {
                 if (o instanceof Data_ID_byte) {
                     Data_ID_byte o2 = (Data_ID_byte) o;
-                    if (ID == o2.ID) {
+                    if (id == o2.id) {
                         return true;
                     }
                 }
@@ -62,18 +64,18 @@ public class Data_ID_byte extends Data_ID implements Comparable<Data_ID_byte> {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + this.ID;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
     @Override
-    public int compareTo(Data_ID_byte id) {
-        if (id != null) {
-            if (id != this) {
-                if (ID < id.ID) {
+    public int compareTo(Data_ID_byte i) {
+        if (i != null) {
+            if (i != this) {
+                if (id < i.id) {
                     return -1;
                 } else {
-                    if (ID > id.ID) {
+                    if (id > i.id) {
                         return 1;
                     } else {
                         return 0;

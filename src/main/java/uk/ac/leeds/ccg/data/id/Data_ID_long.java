@@ -24,14 +24,16 @@ package uk.ac.leeds.ccg.data.id;
  */
 public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
 
-    public final long ID;
+    private static final long serialVersionUID = 1L;
+
+    public final long id;
 
     public Data_ID_long(long l) {
-        this.ID = l;
+        this.id = l;
     }
 
     public Data_ID_long(Data_ID_int i) {
-        this.ID = i.ID;
+        this.id = i.id;
     }
 
    /**
@@ -40,7 +42,7 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
      * @param s The {@link Data_ID_short} this is created from.
      */
      public Data_ID_long(Data_ID_short s) {
-        this.ID = s.ID;
+        this.id = s.id;
     }
 
     /**
@@ -49,19 +51,19 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
      * @param b The {@link Data_ID_byte} this is created from.
      */
     public Data_ID_long(Data_ID_byte b) {
-        this.ID = b.ID;
+        this.id = b.id;
     }
 
     /**
-     * @return the ID
+     * @return the id
      */
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return getSimpleName() + "(ID=" + ID + ")";
+        return getSimpleName() + "(ID=" + id + ")";
     }
 
     @Override
@@ -70,7 +72,7 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
             if (o != this) {
                 if (o instanceof Data_ID_long) {
                     Data_ID_long o2 = (Data_ID_long) o;
-                    if (ID == o2.ID) {
+                    if (id == o2.id) {
                         return true;
                     }
                 }
@@ -84,18 +86,18 @@ public class Data_ID_long extends Data_ID implements Comparable<Data_ID_long> {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + (int) (this.ID ^ (this.ID >>> 32));
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
     @Override
-    public int compareTo(Data_ID_long id) {
-        if (id != null) {
-            if (id != this) {
-                if (ID < id.ID) {
+    public int compareTo(Data_ID_long i) {
+        if (i != null) {
+            if (i != this) {
+                if (this.id < i.id) {
                     return -1;
                 } else {
-                    if (ID > id.ID) {
+                    if (this.id > i.id) {
                         return 1;
                     } else {
                         return 0;

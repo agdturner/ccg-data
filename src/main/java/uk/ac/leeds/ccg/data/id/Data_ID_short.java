@@ -24,10 +24,12 @@ package uk.ac.leeds.ccg.data.id;
  */
 public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> {
 
-    public final short ID;
+    private static final long serialVersionUID = 1L;
+
+    public final short id;
 
     public Data_ID_short(short s) {
-        this.ID = s;
+        this.id = s;
     }
 
     /**
@@ -36,19 +38,19 @@ public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> 
      * @param b The {@link Data_ID_byte} this is created from.
      */
     public Data_ID_short(Data_ID_byte b) {
-        this.ID = b.ID;
+        this.id = b.id;
     }
 
     /**
-     * @return the ID
+     * @return the id
      */
-    public short getID() {
-        return ID;
+    public short getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return getSimpleName() + "(ID=" + ID + ")";
+        return getSimpleName() + "(id=" + id + ")";
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> 
             if (o != this) {
                 if (o instanceof Data_ID_short) {
                     Data_ID_short o2 = (Data_ID_short) o;
-                    if (ID == o2.ID) {
+                    if (id == o2.id) {
                         return true;
                     }
                 }
@@ -71,18 +73,18 @@ public class Data_ID_short extends Data_ID implements Comparable<Data_ID_short> 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + this.ID;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
     @Override
-    public int compareTo(Data_ID_short id) {
-        if (id != null) {
-            if (id != this) {
-                if (ID < id.ID) {
+    public int compareTo(Data_ID_short i) {
+        if (i != null) {
+            if (i != this) {
+                if (this.id < i.id) {
                     return -1;
                 } else {
-                    if (ID > id.ID) {
+                    if (this.id > i.id) {
                         return 1;
                     } else {
                         return 0;

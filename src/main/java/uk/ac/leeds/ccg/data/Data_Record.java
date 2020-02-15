@@ -26,6 +26,8 @@ import uk.ac.leeds.ccg.data.id.Data_ID;
  */
 public abstract class Data_Record implements Serializable, Comparable<Data_Record> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The identifier for this record.
      */

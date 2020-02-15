@@ -57,13 +57,13 @@ public class Data_ID_longTest {
         long l = 0L;
         Data_ID_long instance = new Data_ID_long(l);
         Number expResult = l;
-        Number result = instance.getID();
+        Number result = instance.getId();
         assertEquals(expResult, result);
         // Test 2
         l = 123456L;
         instance = new Data_ID_long(l);
         expResult = l;
-        result = instance.getID();
+        result = instance.getId();
         assertEquals(expResult, result);
     }
 
