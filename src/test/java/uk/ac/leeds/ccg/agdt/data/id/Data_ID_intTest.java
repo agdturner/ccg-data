@@ -75,13 +75,13 @@ public class Data_ID_intTest {
         System.out.println("toString");
         int i = 0;
         Data_ID_int instance = new Data_ID_int(i);
-        String expResult = "Data_ID_int(ID=0)";
+        String expResult = "Data_ID_int(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         i = 123456;
         instance = new Data_ID_int(i);
-        expResult = "Data_ID_int(ID=" + Integer.toString(i) + ")";
+        expResult = "Data_ID_int(id=" + Integer.toString(i) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

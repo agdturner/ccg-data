@@ -24,8 +24,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author geoagdt
+ * Data_ID_shortTest
+ * 
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class Data_ID_shortTest {
 
@@ -75,13 +77,13 @@ public class Data_ID_shortTest {
         System.out.println("toString");
         short s = 0;
         Data_ID_short instance = new Data_ID_short(s);
-        String expResult = "Data_ID_short(ID=0)";
+        String expResult = "Data_ID_short(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         s = 12345;
         instance = new Data_ID_short(s);
-        expResult = "Data_ID_short(ID=" + Long.toString(s) + ")";
+        expResult = "Data_ID_short(id=" + Long.toString(s) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

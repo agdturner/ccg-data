@@ -56,13 +56,13 @@ public class Data_RecordIDTest {
         System.out.println("toString");
         long l = 0;
         Data_RecordID instance = new Data_RecordID(l);
-        String expResult = "Data_RecordID(ID=0)";
+        String expResult = "Data_RecordID(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         l = 1234567891;
         instance = new Data_RecordID(l);
-        expResult = "Data_RecordID(ID=" + Long.toString(l) + ")";
+        expResult = "Data_RecordID(id=" + Long.toString(l) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

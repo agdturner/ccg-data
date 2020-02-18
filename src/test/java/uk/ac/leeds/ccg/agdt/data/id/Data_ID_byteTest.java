@@ -53,17 +53,17 @@ public class Data_ID_byteTest {
      */
     @Test
     public void testGetID() {
-        System.out.println("getID");
+        System.out.println("getId");
         byte s = 0;
         Data_ID_byte instance = new Data_ID_byte(s);
         Number expResult = s;
-        Number result = instance.getID();
+        Number result = instance.getId();
         assertEquals(expResult, result);
         // Test 2
         s = 123;
         instance = new Data_ID_byte(s);
         expResult = s;
-        result = instance.getID();
+        result = instance.getId();
         assertEquals(expResult, result);
     }
 
@@ -75,13 +75,13 @@ public class Data_ID_byteTest {
         System.out.println("toString");
         byte s = 0;
         Data_ID_byte instance = new Data_ID_byte(s);
-        String expResult = "Data_ID_byte(ID=0)";
+        String expResult = "Data_ID_byte(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         s = 123;
         instance = new Data_ID_byte(s);
-        expResult = "Data_ID_byte(ID=" + Long.toString(s) + ")";
+        expResult = "Data_ID_byte(id=" + Long.toString(s) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

@@ -56,13 +56,13 @@ public class Data_CollectionIDTest {
         System.out.println("toString");
         int i = 0;
         Data_CollectionID instance = new Data_CollectionID(i);
-        String expResult = "Data_CollectionID(ID=0)";
+        String expResult = "Data_CollectionID(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         i = 123456;
         instance = new Data_CollectionID(i);
-        expResult = "Data_CollectionID(ID=" + Integer.toString(i) + ")";
+        expResult = "Data_CollectionID(id=" + Integer.toString(i) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

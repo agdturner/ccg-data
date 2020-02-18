@@ -53,7 +53,7 @@ public class Data_ID_longTest {
      */
     @Test
     public void testGetID() {
-        System.out.println("getID");
+        System.out.println("getId");
         long l = 0L;
         Data_ID_long instance = new Data_ID_long(l);
         Number expResult = l;
@@ -75,13 +75,13 @@ public class Data_ID_longTest {
         System.out.println("toString");
         long l = 0L;
         Data_ID_long instance = new Data_ID_long(l);
-        String expResult = "Data_ID_long(ID=0)";
+        String expResult = "Data_ID_long(id=0)";
         String result = instance.toString();
         assertEquals(expResult, result);
         // Test 2
         l = 123456;
         instance = new Data_ID_long(l);
-        expResult = "Data_ID_long(ID=" + Long.toString(l) + ")";
+        expResult = "Data_ID_long(id=" + Long.toString(l) + ")";
         result = instance.toString();
         assertEquals(expResult, result);
     }

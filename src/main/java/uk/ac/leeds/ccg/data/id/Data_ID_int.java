@@ -59,7 +59,7 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
 
     @Override
     public String toString() {
-        return getSimpleName() + "(ID=" + id + ")";
+        return getSimpleName() + "(id=" + id + ")";
     }
 
     @Override
