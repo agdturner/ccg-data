@@ -1,4 +1,4 @@
-module uk.ac.leeds.ccg.projects.fire {
+module uk.ac.leeds.ccg.data {
     requires transitive java.logging;
     requires java.desktop;
     requires uk.ac.leeds.ccg.generic;
