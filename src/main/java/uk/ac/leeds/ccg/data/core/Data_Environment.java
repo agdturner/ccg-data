@@ -30,6 +30,8 @@ import uk.ac.leeds.ccg.generic.memory.Generic_MemoryManager;
  */
 public class Data_Environment extends Generic_MemoryManager {
 
+    private static final long serialVersionUID = 1L;
+
     public final transient Generic_Environment env;
     public final transient Data_Files files;
     public transient Data_Data data;
@@ -66,6 +68,7 @@ public class Data_Environment extends Generic_MemoryManager {
      * {@link Data_Data#clearSomeData()}.
      *
      * @return {@code true} iff some data was successfully cleared.
+     * @throws java.io.IOException If encountered.
      */
     public boolean clearSomeData() throws IOException {
         return data.clearSomeData();

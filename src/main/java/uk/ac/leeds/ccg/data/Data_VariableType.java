@@ -41,23 +41,25 @@ import uk.ac.leeds.ccg.math.Math_Short;
 /**
  * This class contains methods for parsing rectangular data organised into
  * columns of variables and rows of records. The
- * {@link #getFieldTypes(int, java.nio.file.Path[], int, int)} method attempts
- * to determine what type of numbers to store each variable in for an array of
- * files all assumed to contain the same variables. For each variable, first the
- * data are attempted to be stored as bytes, then if this does not work as some
- * value of that variable encountered cannot be stored that way, it attempts to
- * store it as a short, then as an int, then as a long and then as a BigInteger.
- * If the value of the variable is discovered not to be an integer, then an
- * attempt is made to parse it as a float. This succeeds if (and only if) the
- * float used to represent the string is precise enough. If the string cannot be
- * stored as a float, then a double is tried, then failing that a BigDecimal is
- * used. If all values of a variable cannot be stored as a BigDecimal, then the
- * variable type inference defaults to a String.
+ * {@link #getVariableNamesAndTypes(int, java.nio.file.Path, int, int, java.lang.String)}
+ * method attempts to determine what type of numbers to store each variable in
+ * for an array of files all assumed to contain the same variables. For each
+ * variable, first the data are attempted to be stored as bytes, then if this
+ * does not work as some value of that variable encountered cannot be stored
+ * that way, it attempts to store it as a short, then as an int, then as a long
+ * and then as a BigInteger. If the value of the variable is discovered not to
+ * be an integer, then an attempt is made to parse it as a float. This succeeds
+ * if (and only if) the float used to represent the string is precise enough. If
+ * the string cannot be stored as a float, then a double is tried, then failing
+ * that a BigDecimal is used. If all values of a variable cannot be stored as a
+ * BigDecimal, then the variable type inference defaults to a String.
  *
  * @author Andy Turner
  * @version 1.0.0
  */
 public class Data_VariableType extends Data_Object {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * For convenience/code brevity.
@@ -122,10 +124,10 @@ public class Data_VariableType extends Data_Object {
             IOException {
         String m0 = "getFieldTypes(int,File[],int)";
         env.logStartTag(m0);
-        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, fs[0], dp, 
+        Data_VariableNamesAndTypes r = getVariableNamesAndTypes(n, fs[0], dp,
                 syntax, p);
         for (int j = 1; j < fs.length; j++) {
-            Data_VariableNamesAndTypes vnt = getVariableNamesAndTypes(n, fs[j], 
+            Data_VariableNamesAndTypes vnt = getVariableNamesAndTypes(n, fs[j],
                     dp, syntax, p);
             integrateVariableNamesAndTypes(r, vnt);
         }
@@ -220,7 +222,7 @@ public class Data_VariableType extends Data_Object {
         Data_VariableNamesAndTypes r;
         Data_ReadCSV reader = new Data_ReadCSV(de);
         int nf;
-        try (BufferedReader br = Generic_IO.getBufferedReader(f)) {
+        try ( BufferedReader br = Generic_IO.getBufferedReader(f)) {
             reader.setStreamTokenizer(br, syntax);
             ArrayList<String> header = reader.parseLine();
             nf = header.size();
@@ -243,7 +245,7 @@ public class Data_VariableType extends Data_Object {
          */
         Data_Handler dh = new Data_Handler(de);
         long nlines = Math.min(n, dh.getNLines(f, "UTF-8"));
-        try (BufferedReader br = Generic_IO.getBufferedReader(f)) {
+        try ( BufferedReader br = Generic_IO.getBufferedReader(f)) {
             reader.setStreamTokenizer(br, syntax);
             String line = reader.readLine();    // Skip header...
             env.log(line);                      // ... but log it.
