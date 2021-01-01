@@ -2,8 +2,8 @@
 
 A modularised Java library for processing data sets with classes for: data records; collections of data records; and identifiers.
 
-[Data_ReadTXT](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadTXT.java) is a class for reading text including comma separated version (CSV) files.
-[Data_ReadXML](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadXML.java) is a class for reading XML format files.
+- [Data_ReadTXT](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadTXT.java) is a class for reading text including comma separated version (CSV) files.
+- [Data_ReadXML](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadXML.java) is a class for reading XML format files.
 
 ## Code status
 This code is unstable research software.
