@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Centre for Computational Geography, University of Leeds.
+ * Copyright 2021 Centre for Computational Geography, University of Leeds.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,28 @@
 package uk.ac.leeds.ccg.data.interval;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
- * Represents an interval for two longs [l, u) where a long value v is in the
+ * Represents an interval for two BigIntegers [l, u) where a value v is in the
  * interval iff {@code l <= v < u}.
  *
- * @author geoagdt
+ * @author Andy Turner
  */
-public class Data_IntervalLong1 implements Serializable,
-        Comparable<Data_IntervalLong1> {
+public class Data_IntervalBigInteger1 implements Serializable,
+        Comparable<Data_IntervalBigInteger1> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Stores the lower bound.
      */
-    public final long l;
+    public final BigInteger l;
 
     /**
      * Stores the upper bound.
      */
-    public final long u;
+    public final BigInteger u;
 
     /**
      * Creates a new instance. (N.B. There is no test to ensure {@code l <= u},
@@ -45,7 +46,7 @@ public class Data_IntervalLong1 implements Serializable,
      * @param l The lower bound for the interval. What {@link #l} is set to.
      * @param u The lower bound for the interval. What {@link #u} is set to.
      */
-    public Data_IntervalLong1(long l, long u) {
+    public Data_IntervalBigInteger1(BigInteger l, BigInteger u) {
         this.l = l;
         this.u = u;
     }
@@ -61,8 +62,8 @@ public class Data_IntervalLong1 implements Serializable,
      * @param x The number to test to see if it is in the interval.
      * @return {@code true} iff x is in the interval.
      */
-    public boolean isInInterval(long x) {
-        return x >= l && x < u;
+    public boolean isInInterval(BigInteger x) {
+        return x.compareTo(l) != -1 && x.compareTo(u) == -1;
     }
 
     /**
@@ -78,19 +79,19 @@ public class Data_IntervalLong1 implements Serializable,
      * {@code i} is {@code null} and {@code 0} otherwise. the upper bound of i
      */
     @Override
-    public int compareTo(Data_IntervalLong1 i) {
+    public int compareTo(Data_IntervalBigInteger1 i) {
         if (i != null) {
             if (i != this) {
-                if (this.l < i.l) {
+                if (l.compareTo(i.l) == -1) {
                     return -1;
                 } else {
-                    if (this.l > i.l) {
+                    if (l.compareTo(i.l) == 1) {
                         return 1;
                     }
-                    if (this.u < i.u) {
+                    if (u.compareTo(i.u) == -1) {
                         return -1;
                     } else {
-                        if (this.u > i.u) {
+                        if (u.compareTo(i.u) == 1) {
                             return 1;
                         } else {
                             return 0;
@@ -102,5 +103,4 @@ public class Data_IntervalLong1 implements Serializable,
         }
         return -2;
     }
-
 }

@@ -38,6 +38,8 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
  */
 public abstract class Data_Data extends Data_Object {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * For convenience. Not declared to be final as when a cached version of
      * this is loaded back in it might need initialising.
@@ -69,7 +71,6 @@ public abstract class Data_Data extends Data_Object {
         super(e);
         de = e;
         env = e.env;
-        io = env.io;
         data = new HashMap<>();
         rID_2_cID = new HashMap<>();
     }

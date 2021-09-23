@@ -23,10 +23,12 @@ import uk.ac.leeds.ccg.generic.io.Generic_Defaults;
 import uk.ac.leeds.ccg.generic.io.Generic_Files;
 
 /**
- *
- * @author geoagdt
+ * 
+ * @author Andy Turner
  */
 public class Data_Files extends Generic_Files {
+
+    private static final long serialVersionUID = 1L;
     
     public final String DOT_DAT = Data_Strings.symbol_dot + Data_Strings.s_dat;
     

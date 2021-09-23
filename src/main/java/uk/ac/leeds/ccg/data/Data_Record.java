@@ -104,8 +104,7 @@ public abstract class Data_Record implements Serializable, Comparable<Data_Recor
         if (o != null) {
             if (o != this) {
                 if (o instanceof Data_Record) {
-                    Data_Record o2 = (Data_Record) o;
-                    return id.compareTo(o2.id);
+                    return id.compareTo(o.id);
                 }
             }
             return 0;

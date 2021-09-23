@@ -40,6 +40,8 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
  */
 public class Data_ReadTXT extends Data_Object {
 
+    private static final long serialVersionUID = 1L;
+
     protected StreamTokenizer st;
 
     public Data_ReadTXT(Data_Environment e) {
@@ -125,6 +127,9 @@ public class Data_ReadTXT extends Data_Object {
                 break;
             case 7:
                 Generic_IO.setStreamTokenizerSyntax7(st);
+                break;
+            case 8:
+                Generic_IO.setStreamTokenizerSyntax8(st);
                 break;
             default:
                 de.env.log("No Special Syntax set in "
@@ -214,5 +219,6 @@ public class Data_ReadTXT extends Data_Object {
         }
         return null;
     }
+    
 
 }

@@ -25,6 +25,8 @@ import uk.ac.leeds.ccg.data.core.Data_Environment;
  */
 public class Data_ReadCSV extends Data_ReadTXT {
 
+    private static final long serialVersionUID = 1L;
+
     public Data_ReadCSV(Data_Environment e) {
         super(e);
     }
