@@ -1,29 +1,39 @@
-# Data
+# [agdt-java-data](https://github.com/agdturner/agdt-java-generic-data/)
 
-https://github.com/agdturner/agdt-java-generic-data/
+A modularised Java library for processing data sets with classes for: data records; collections of data records; and identifiers.
 
-A generic Java library for data processing.
+- [Data_ReadTXT](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadTXT.java) is a class for reading text including comma separated version (CSV) files.
+- [Data_ReadXML](https://github.com/agdturner/agdt-java-data/blob/master/src/main/java/uk/ac/leeds/ccg/data/format/Data_ReadXML.java) is a class for reading XML format files.
 
-There are generic classes for: data records; collections of data records; and identifiers. These can be readily extended.  The library is generally useful for loading and processing data organised as records (typically with common variables).
+## Code status
+This code is unstable research software.
 
-Data_ReadTXT is a class for reading text including comma separated version (CSV) files.
-Data_Read_XML is a class for reading XML format files.
+## Development plans/ideas
+- Develop more comprehensive unit tests.
+- Improve documentation.
+- Make a versioned release on Maven Central.
+- As the [OpenJDK](https://openjdk.java.net/) develops some of the functionality may become redundant.
+- Consider if it is appropriate to [contribute](https://openjdk.java.net/contribute/) any of this.
 
-## Usages
-1. https://github.com/agdturner/agdt-java-generic-data-STATS19/
-2. https://github.com/agdturner/agdt-java-generic-data-LandRegistry/
-
-## Code status and development roadmap
-This code is actively being developed.
-
-## Dependencies
-Please see the pom.xml for details.
+## Development history
+The intention is to provide a summary of changes from one version to the next here.
+### Origin
+This code began development bundled together with lots of other code developed for an academic research project.
 
 ## Contributions
-Please raise issues and submit pull requests in the usual way. Contributions will be acknowledged.
+- Welcome.
 
-## Acknowledgements
-The development has been supported by the University of Leeds. 
+## LICENSE
+- [APACHE LICENSE, VERSION 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-## LICENCE
-Please see the standard Apache 2.0 open source LICENCE.
+## Acknowledgements and thanks
+- The [University of Leeds](http://www.leeds.ac.uk) and externally funded research grants have supported the development of this library.
+- Thank you [openJDK](https://openjdk.java.net/) contributors and all involved in creating the platform.
+- Thank you developers and maintainers of other useful Java libraries that provide inspiration.
+- Thank you developers and maintainers of [Apache Maven](https://maven.apache.org/), [Apache NetBeans](https://netbeans.apache.org/), and [git](https://git-scm.com/) which I use for developing code.
+- Thank you developers and maintainers of [GitHub](http://github.com) for supporting the development of this code and for providing a means of creating a community of users and  developers.
+- Thank you developers, maintainers and contributors of relevent content on:
+-- [Wikimedia](https://www.wikimedia.org/) projects, in particular the [English language Wikipedia](https://en.wikipedia.org/wiki/Main_Page)
+-- [StackExchange](https://stackexchange.com), in particular [StackOverflow](https://stackoverflow.com/).
+- Information that has helped me develop this library is cited in the source code.
+- Thank you to those that supported me personally and all who have made a positive contribution to society. Let us try to look after each other, look after this world, make space for wildlife, and engineer knowledge :)
