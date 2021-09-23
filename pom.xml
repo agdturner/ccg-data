@@ -5,10 +5,7 @@
 
     <groupId>io.github.agdturner</groupId>
     <artifactId>agdt-java-data</artifactId>
-    <version>0.2</version>
-    <!--
     <version>0.3-SNAPSHOT</version>
-    -->
     <packaging>jar</packaging>
 
     <name>agdt-java-data</name>
@@ -44,8 +41,9 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <agdt-java-generic.version>1.7.2</agdt-java-generic.version>
-        <agdt-java-math.version>1.6</agdt-java-math.version>
+        <ccg-io.version>1.1.0</ccg-io.version>
+        <ccg-math.version>1.15-SNAPSHOT</ccg-math.version>
+        <agdt-java-generic.version>2.0-SNAPSHOT</agdt-java-generic.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.version>3.0.1</maven.version>
@@ -54,15 +52,23 @@
     </properties>
     
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/io.github.agdturner/ccg-io -->
+        <dependency>
+            <groupId>io.github.agdturner</groupId>
+            <artifactId>ccg-io</artifactId>
+            <version>${ccg-io.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.agdturner/agdt-java-generic -->
         <dependency>
             <groupId>io.github.agdturner</groupId>
             <artifactId>agdt-java-generic</artifactId>
             <version>${agdt-java-generic.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.agdturner/ccg-math -->
         <dependency>
             <groupId>io.github.agdturner</groupId>
-            <artifactId>agdt-java-math</artifactId>
-            <version>${agdt-java-math.version}</version>
+            <artifactId>ccg-math</artifactId>
+            <version>${ccg-math.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
