@@ -65,7 +65,7 @@ public class Data_ReadTXT extends Data_Object {
         Path test = Paths.get(testDir.toString(), "test" + syntax + ".csv");
         PrintWriter pw = Generic_IO.getPrintWriter(f, false);
         if (Files.exists(f)) {
-            try (BufferedReader br = Generic_IO.getBufferedReader(f)) {
+            try ( BufferedReader br = Generic_IO.getBufferedReader(f)) {
                 st = new StreamTokenizer(br);
                 setStreamTokenizerSyntax(syntax);
                 int token = st.nextToken();
@@ -162,26 +162,30 @@ public class Data_ReadTXT extends Data_Object {
 //        } catch (IOException x) {
 //            System.err.format("IOException: %s%n", x);
 //        }
-        if (Files.exists(testDir)) {
-            Files.createDirectories(testDir);
+
+//            throw new IOException("testDir " + testDir + " does not exist in "
+//                    + this.getClass().getName() + ".read(Path,Path,int)");
+        ArrayList<String> r = new ArrayList<>();
+        try (BufferedReader br = Generic_IO.getBufferedReader(f)) {
+            st = new StreamTokenizer(br);
+            setStreamTokenizerSyntax(syntax);
+            String line = readLine();
+            while (line != null) {
+                r.add(line);
+                line = readLine();
+            }
+        }
+        if (testDir != null) {
+            if (!Files.exists(testDir)) {
+                Files.createDirectories(testDir);
+            }
             Path outf = Paths.get(testDir.toString(), "test" + syntax + ".csv");
             PrintWriter pw = Generic_IO.getPrintWriter(outf, false);
-            ArrayList<String> r = new ArrayList<>();
-            try (BufferedReader br = Generic_IO.getBufferedReader(f)) {
-                st = new StreamTokenizer(br);
-                setStreamTokenizerSyntax(syntax);
-                String line = readLine();
-                while (line != null) {
-                    r.add(line);
-                    pw.println(line);
-                    line = readLine();
-                }
+            for (String line : r) {
+                pw.println(line);
             }
-            return r;
-        } else {
-            throw new IOException("testDir " + testDir + " does not exist in "
-                    + this.getClass().getName() + ".read(Path,Path,int)");
         }
+        return r;
     }
 
     /**
@@ -219,6 +223,5 @@ public class Data_ReadTXT extends Data_Object {
         }
         return null;
     }
-    
 
 }

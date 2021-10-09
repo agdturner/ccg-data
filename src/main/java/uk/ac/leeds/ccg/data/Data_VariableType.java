@@ -29,14 +29,14 @@ import uk.ac.leeds.ccg.data.core.Data_Strings;
 import uk.ac.leeds.ccg.data.format.Data_ReadCSV;
 import uk.ac.leeds.ccg.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.generic.io.Generic_IO;
-import uk.ac.leeds.ccg.math.Math_BigDecimal;
-import uk.ac.leeds.ccg.math.Math_BigInteger;
-import uk.ac.leeds.ccg.math.Math_Byte;
-import uk.ac.leeds.ccg.math.Math_Double;
-import uk.ac.leeds.ccg.math.Math_Float;
-import uk.ac.leeds.ccg.math.Math_Integer;
-import uk.ac.leeds.ccg.math.Math_Long;
-import uk.ac.leeds.ccg.math.Math_Short;
+import uk.ac.leeds.ccg.math.arithmetic.Math_BigDecimal;
+import uk.ac.leeds.ccg.math.arithmetic.Math_BigInteger;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Byte;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Double;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Float;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Integer;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Long;
+import uk.ac.leeds.ccg.math.arithmetic.Math_Short;
 
 /**
  * This class contains methods for parsing rectangular data organised into
