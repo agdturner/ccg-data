@@ -1,4 +1,4 @@
-# [agdt-java-data](https://github.com/agdturner/agdt-java-generic-data/)
+# [ccg-data](https://github.com/agdturner/ccg-data/)
 
 A modularised Java library for processing data sets with classes for: data records; collections of data records; and identifiers.
 
