@@ -28,6 +28,11 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
 
     public final int id;
 
+    /**
+     * Creates a new instance.
+     * 
+     * @param i What {@link #id} is set to.
+     */
     public Data_ID_int(int i) {
         this.id = i;
     }

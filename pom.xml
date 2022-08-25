@@ -4,17 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.agdturner</groupId>
-    <artifactId>agdt-java-data</artifactId>
+    <artifactId>ccg-data</artifactId>
     <version>0.3</version>
     <packaging>jar</packaging>
 
-    <name>agdt-java-data</name>
-    <url>https://github.com/agdturner/agdt-java-data</url>
+    <name>ccg-data</name>
+    <url>https://github.com/agdturner/ccg-data</url>
     <description>A Java Library for data processing.</description>
     <scm>
-        <url>git@github.com:agdturner/agdt-java-data.git</url>
-        <connection>scm:git:git@github.com:agdturner/agdt-java-data.git</connection>
-        <developerConnection>scm:git:git@github.com:agdturner/agdt-java-data</developerConnection>
+        <url>git@github.com:agdturner/ccg-data.git</url>
+        <connection>scm:git:git@github.com:agdturner/ccg-data.git</connection>
+        <developerConnection>scm:git:git@github.com:agdturner/ccg-data</developerConnection>
     </scm>
     <licenses>
         <license>
@@ -57,7 +57,7 @@
             <artifactId>ccg-io</artifactId>
             <version>${ccg-io.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.github.agdturner/agdt-java-generic -->
+        <!-- https://mvnrepository.com/artifact/io.github.agdturner/ccg-generic -->
         <dependency>
             <groupId>io.github.agdturner</groupId>
             <artifactId>ccg-generic</artifactId>

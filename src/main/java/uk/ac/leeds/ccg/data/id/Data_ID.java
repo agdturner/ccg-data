@@ -21,16 +21,27 @@ import java.io.Serializable;
  * An abstract class for identifiers.
  *
  * @author Andy Turner
- * @version 1.0.0
+ * @version 1.0
  */
 public abstract class Data_ID implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Create a new instance.
+     */
+    public Data_ID(){}
+    
+    /** 
+     * @return {@code getClass().getTypeName()}
+     */
     public String getTypeName() {
         return getClass().getTypeName();
     }
     
+    /** 
+     * @return {@code getClass().getSimpleName()}
+     */
     public String getSimpleName() {
         return getClass().getSimpleName();
     }

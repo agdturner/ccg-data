@@ -15,8 +15,8 @@
  */
 package uk.ac.leeds.ccg.data.format;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -34,75 +34,67 @@ import org.xml.sax.SAXException;
  */
 public abstract class Data_ReadXML {
 
-    protected File file;
+    protected Path p;
     protected NodeList nodeList;
     protected String nodeName;
-    protected DocumentBuilderFactory aDocumentBuilderFactory;
-    protected DocumentBuilder aDocumentBuilder;
-    protected Document aDocument;
+    protected DocumentBuilderFactory docBuilderFactory;
+    protected DocumentBuilder docBuilder;
+    protected Document doc;
 
     /**
-     * If nodeName is "*" this will initialise the node list for all nodes
-     * otherwise it will only initialise the node list for those nodes with the
-     * given name.
-     *
-     * @param f The File to set {@link #file} to.
-     * @param nodeName For setting {@link #nodeName} to.
+     * Create a new instance.
      */
-    protected final void init(File f, String nodeName) {
-        this.file = f;
+    public Data_ReadXML(){}
+    
+    /**
+     * Create a new instance.
+     *
+     * @param p The Path to the file to read.
+     * @param nodeName For setting {@link #nodeName} to. If nodeName is "*" this
+     * will initialise the node list for all nodes otherwise it will only
+     * initialise the node list for those nodes with the given name.
+     */
+    public Data_ReadXML(Path p, String nodeName) {
+        this.p = p;
         this.nodeName = nodeName;
-        initDocumentBuilderFactory();
-        initDocumentBuilder();
-        initDocument();
-        initNodeList(nodeName);
-    }
-
-    protected void initDocumentBuilderFactory() {
-        aDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
-    }
-
-    protected void initDocumentBuilder() {
+        docBuilderFactory = DocumentBuilderFactory.newInstance();
         try {
-            aDocumentBuilder = aDocumentBuilderFactory.newDocumentBuilder();
+            docBuilder = docBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    protected void initDocument() {
         try {
-            aDocument = aDocumentBuilder.parse(file);
+            doc = docBuilder.parse(p.toFile());
         } catch (SAXException | IOException ex) {
             Logger.getLogger(Data_ReadXML.class.getName()).log(Level.SEVERE, null, ex);
         }
         //optional, but recommended
         //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-        aDocument.getDocumentElement().normalize();
-        System.out.println("Root element :" + aDocument.getDocumentElement().getNodeName());
+        doc.getDocumentElement().normalize();
+        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
     }
 
     protected void initNodeList(String nodeName) {
-        nodeList = aDocument.getElementsByTagName(nodeName);
+        nodeList = doc.getElementsByTagName(nodeName);
     }
 
     protected void readNodeListElements() {
         int depth = 0;
         for (int i = 0; i < nodeList.getLength(); i++) {
-            Node aNode = nodeList.item(i);
+            Node node = nodeList.item(i);
             System.out.println("depth " + depth + ", node " + i);
-            System.out.println(aNode.getNodeName());
-            short aNodeType = aNode.getNodeType();
-            if (aNodeType == Node.ELEMENT_NODE) {
-                Element eElement = (Element) aNode;
-                NodeList childnodes = eElement.getChildNodes();
-                if (childnodes.getLength() == 0) {
-                    String attributeName = aNode.getNodeValue();
-                    String attributeValue = eElement.getElementsByTagName(attributeName).item(0).getTextContent();
+            System.out.println(node.getNodeName());
+            short nodeType = node.getNodeType();
+            if (nodeType == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                NodeList childNodes = element.getChildNodes();
+                if (childNodes.getLength() == 0) {
+                    String attributeName = node.getNodeValue();
+                    String attributeValue = element.getElementsByTagName(attributeName).item(0).getTextContent();
                     System.out.println("depth " + depth + ", node " + i);
                     System.out.println("" + attributeName + " : " + attributeValue);
                 } else {
-                    readNodeListElements(childnodes, depth + 1);
+                    readNodeListElements(childNodes, depth + 1);
                 }
             }
 //            if (aNodeType == Node.TEXT_NODE) {
@@ -113,27 +105,27 @@ public abstract class Data_ReadXML {
         }
     }
 
-    protected void readNodeListElements(NodeList aNodeList, int depth) {
-        for (int i = 0; i < aNodeList.getLength(); i++) {
-            Node aNode = aNodeList.item(i);
+    protected void readNodeListElements(NodeList nodeList, int depth) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
             System.out.println("depth " + depth + ", node " + i);
-            System.out.println(aNode.getNodeName());
-            short aNodeType = aNode.getNodeType();
-            if (aNodeType == Node.ELEMENT_NODE) {
-                Element eElement = (Element) aNode;
-                NodeList childnodes = eElement.getChildNodes();
+            System.out.println(node.getNodeName());
+            short nodeType = node.getNodeType();
+            if (nodeType == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                NodeList childnodes = element.getChildNodes();
                 if (childnodes.getLength() == 0) {
-                    String attributeName = aNode.getNodeValue();
-                    String attributeValue = eElement.getElementsByTagName(attributeName).item(0).getTextContent();
+                    String attributeName = node.getNodeValue();
+                    String attributeValue = element.getElementsByTagName(attributeName).item(0).getTextContent();
                     System.out.println("depth " + depth + ", node " + i);
                     System.out.println("" + attributeName + " : " + attributeValue);
                 } else {
                     readNodeListElements(childnodes, depth + 1);
                 }
             }
-            if (aNodeType == Node.TEXT_NODE) {
-                String attributeName = aNode.getNodeValue().trim();
-                String attributeValue = aNode.getTextContent().trim();
+            if (nodeType == Node.TEXT_NODE) {
+                String attributeName = node.getNodeValue().trim();
+                String attributeValue = node.getTextContent().trim();
                 System.out.println("depth " + depth + ", node " + i);
                 System.out.println("" + attributeName + " : " + attributeValue);
             }
