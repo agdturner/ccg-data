@@ -28,6 +28,8 @@ import java.util.HashMap;
  */
 public class Data_Collection implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public final Data_CollectionID ID;
     public final HashMap<? super Data_RecordID, ? super Data_Record> data;
 

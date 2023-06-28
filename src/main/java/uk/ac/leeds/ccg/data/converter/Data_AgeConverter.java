@@ -24,6 +24,8 @@ import java.util.Random;
  */
 public class Data_AgeConverter {
 
+    public Data_AgeConverter(){}
+    
     /**
      * Classifies an age.
      *

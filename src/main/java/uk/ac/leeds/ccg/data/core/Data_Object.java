@@ -22,6 +22,8 @@ import java.io.Serializable;
  * @author geoagdt
  */
 public class Data_Object implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     public transient Data_Environment de;
 

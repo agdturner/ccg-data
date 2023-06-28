@@ -32,6 +32,8 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
  */
 public class Data_Handler extends Data_Object {
 
+    private static final long serialVersionUID = 1L;
+
     public Data_Handler(Data_Environment e) {
         super(e);
     }
