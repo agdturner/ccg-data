@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import uk.ac.leeds.ccg.data.core.Data_Environment;
 import uk.ac.leeds.ccg.data.core.Data_Object;
 import uk.ac.leeds.ccg.generic.io.Generic_IO;
+import uk.ac.leeds.ccg.generic.lang.Generic_String;
 
 /**
  * For reading ASCII text files (such as CSV format files). {@link #read} is for
@@ -42,7 +43,7 @@ public class Data_ReadTXT extends Data_Object {
 
     private static final long serialVersionUID = 1L;
 
-    protected StreamTokenizer st;
+    protected transient StreamTokenizer st;
 
     public Data_ReadTXT(Data_Environment e) {
         super(e);
@@ -107,32 +108,16 @@ public class Data_ReadTXT extends Data_Object {
      */
     public void setStreamTokenizerSyntax(int syntax) {
         switch (syntax) {
-            case 1:
-                Generic_IO.setStreamTokenizerSyntax1(st);
-                break;
-            case 2:
-                Generic_IO.setStreamTokenizerSyntax2(st);
-                break;
-            case 3:
-                Generic_IO.setStreamTokenizerSyntax3(st);
-                break;
-            case 4:
-                Generic_IO.setStreamTokenizerSyntax4(st);
-                break;
-            case 5:
-                Generic_IO.setStreamTokenizerSyntax5(st);
-                break;
-            case 6:
-                Generic_IO.setStreamTokenizerSyntax6(st);
-                break;
-            case 7:
-                Generic_IO.setStreamTokenizerSyntax7(st);
-                break;
-            case 8:
-                Generic_IO.setStreamTokenizerSyntax8(st);
-                break;
-            default:
-                de.env.log("No Special Syntax set in "
+            case 1 -> Generic_IO.setStreamTokenizerSyntax1(st);
+            case 2 -> Generic_IO.setStreamTokenizerSyntax2(st);
+            case 3 -> Generic_IO.setStreamTokenizerSyntax3(st);
+            case 4 -> Generic_IO.setStreamTokenizerSyntax4(st);
+            case 5 -> Generic_IO.setStreamTokenizerSyntax5(st);
+            case 6 -> Generic_IO.setStreamTokenizerSyntax6(st);
+            case 7 -> Generic_IO.setStreamTokenizerSyntax7(st);
+            case 8 -> Generic_IO.setStreamTokenizerSyntax8(st);
+            case 9 -> Generic_IO.setStreamTokenizerSyntax9(st);
+            default -> de.env.log("No Special Syntax set in "
                         + this.getClass().getName()
                         + ".testRead(Path,Path,int)");
         }
@@ -197,14 +182,13 @@ public class Data_ReadTXT extends Data_Object {
         String line = "";
         while (!(token == StreamTokenizer.TT_EOF)) {
             switch (token) {
-                case StreamTokenizer.TT_EOL:
+                case StreamTokenizer.TT_EOL -> {
                     return line;
-                case StreamTokenizer.TT_WORD:
-                    line += st.sval;
-                    break;
-                case StreamTokenizer.TT_NUMBER:
-                    break;
-                default:
+                }
+                case StreamTokenizer.TT_WORD -> line += st.sval;
+                case StreamTokenizer.TT_NUMBER -> {
+                }
+                default -> {
                     if (token == 26 || token == 160) {
                         /**
                          * A type of white-space.
@@ -217,7 +201,7 @@ public class Data_ReadTXT extends Data_Object {
                          */
                         //line += (char) token;
                     }
-                    break;
+                }
             }
             token = st.nextToken();
         }

@@ -18,6 +18,7 @@ package uk.ac.leeds.ccg.data.format;
 import java.io.IOException;
 import java.util.ArrayList;
 import uk.ac.leeds.ccg.data.core.Data_Environment;
+import uk.ac.leeds.ccg.generic.lang.Generic_String;
 
 /**
  *
@@ -42,8 +43,7 @@ public class Data_ReadCSV extends Data_ReadTXT {
 
     /**
      * Parses a line. Considering that text fields may be additionally delimited
-     * by double quotes and they may contain double quotes and line feeds and
-     * commas.
+     * by double quotes as they may contain commas.
      *
      * @param line The line to split.
      * @return The split line with fields in order.
@@ -101,5 +101,139 @@ public class Data_ReadCSV extends Data_ReadTXT {
         }
         r.add(sb.toString());
         return r;
+    }
+
+    /**
+     * @param s The string to count the fields of.
+     * @return a count of fields in s. Text fields may be delimited by double
+     * quotes and may contain end f line markers. If this is the case, then the
+     * string provided may only be a partial row of data.
+     */
+    public int countFields(String s) {
+        if (s.isBlank()) {
+            return 0;
+        }
+        // Count number of double quotes.
+        int nDQ = Generic_String.getCount(s, "\"");
+        if (nDQ == 0) {
+            return Generic_String.getCount(s, ",");
+        }
+        int count = 0;
+        char comma = ',';
+        char quote = '"';
+        boolean quoted = false;
+        char[] chars = s.toCharArray();
+        for (char c : chars) {
+            if (quoted) {
+                if (c == quote) {
+                    quoted = false;
+                }
+            } else {
+                if (c == quote) {
+                    quoted = true;
+                } else {
+                    if (c == comma) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Parses a line or part of line. A fields may be additionally delimited by
+     * double quotes and they may contain double quotes, commas and end of line
+     * markers.
+     *
+     * @param line The line to split.
+     * @param enf The expected number of fields.
+     * @return The split line with fields in order.
+     */
+    public ArrayList<String> parseLine(String line, int enf) {
+        ArrayList<String> r = new ArrayList<>();
+        char comma = ',';
+        char quote = '"';
+        if (line.isBlank()) {
+            return r;
+        }
+        StringBuffer sb = new StringBuffer();
+        boolean quoted = false;
+        boolean start = false;
+        boolean isQuote = false;
+        char[] chars = line.toCharArray();
+        for (char c : chars) {
+            if (quoted) {
+                start = true;
+                if (c == quote) {
+                    quoted = false;
+                    isQuote = false;
+                } else {
+                    if (c == '\"') {
+                        if (!isQuote) {
+                            sb.append(c);
+                            isQuote = true;
+                        }
+                    } else {
+                        sb.append(c);
+                    }
+                }
+            } else {
+                if (c == quote) {
+                    quoted = true;
+                    if (chars[0] != '"' && quote == '\"') {
+                        sb.append('"');
+                    }
+                    if (start) {
+                        sb.append('"');
+                    }
+                } else if (c == comma) {
+                    r.add(sb.toString());
+                    sb = new StringBuffer();
+                    start = false;
+                } else if (c == '\r') {
+                    // Ignore
+                } else if (c == '\n') {
+                    // Done
+                    break;
+                } else {
+                    sb.append(c);
+                }
+            }
+        }
+        r.add(sb.toString());
+        return r;
+    }
+
+    /**
+     * @param nf The number of fields to read.
+     * @return Read a row of data.
+     * @throws java.io.IOException If there is an IO issue!
+     */
+    public String readRow(int nf) throws IOException {
+        /**
+         * There can be fields with line breaks in them. If this is then what is
+         * read as a line is not a full row of data. So, keep reading until the
+         * end of a row is reached.
+         */
+        String line = readLine();
+        if (line == null) {
+            return null;
+        }
+        int count = countFields(line);
+        while (count < nf) {
+            line += readLine();
+            count = countFields(line);
+        }
+        // Just in case the last field has line breaks in:
+        int dqc = Generic_String.getCount(line, "\"");
+        if (dqc % 2 != 0) {
+            line += readLine();
+        }
+        count = countFields(line);
+        if (count > nf) {
+            throw new RuntimeException("Too many fields exception reading a row of data.");
+        }
+        return line;
     }
 }
