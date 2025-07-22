@@ -117,6 +117,7 @@ public class Data_ReadTXT extends Data_Object {
             case 7 -> Generic_IO.setStreamTokenizerSyntax7(st);
             case 8 -> Generic_IO.setStreamTokenizerSyntax8(st);
             case 9 -> Generic_IO.setStreamTokenizerSyntax9(st);
+            case 10 -> Generic_IO.setStreamTokenizerSyntax10(st);
             default -> de.env.log("No Special Syntax set in "
                         + this.getClass().getName()
                         + ".testRead(Path,Path,int)");

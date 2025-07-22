@@ -48,54 +48,109 @@ public class Data_ReadCSV extends Data_ReadTXT {
      * @param line The line to split.
      * @return The split line with fields in order.
      */
-    public ArrayList<String> parseLine(String line) {
+    public static ArrayList<String> parseLine(String line) {
+        return parseLine(line, ',');
+    }
+
+    public static final char quoteD = '"';
+    public static final char quoteS = '\'';
+
+    /**
+     * Parses a line. Considering that fields may be additionally delimited by
+     * double quotes or single quotes which may contain commas or the other type
+     * of quote.
+     *
+     * @param line The line to split.
+     * @param delimiter The main delimiter.
+     * @return The split line with fields in order.
+     */
+    public static ArrayList<String> parseLine(String line, char delimiter) {
         ArrayList<String> r = new ArrayList<>();
-        char comma = ',';
-        char quote = '"';
         if (line.isBlank()) {
             return r;
         }
         StringBuffer sb = new StringBuffer();
+        boolean quotes = false;
         boolean quoted = false;
-        boolean start = false;
-        boolean isQuote = false;
+        boolean starts = false;
+        boolean startd = false;
+        boolean isQuotes = false;
+        boolean isQuoted = false;
+
         char[] chars = line.toCharArray();
         for (char c : chars) {
             if (quoted) {
-                start = true;
-                if (c == quote) {
+                startd = true;
+                if (c == quoteD) {
                     quoted = false;
-                    isQuote = false;
+                    isQuoted = false;
                 } else {
-                    if (c == '\"') {
-                        if (!isQuote) {
+                    if (c == quoteD) {
+                        if (!isQuoted) {
                             sb.append(c);
-                            isQuote = true;
+                            isQuoted = true;
                         }
                     } else {
                         sb.append(c);
                     }
                 }
             } else {
-                if (c == quote) {
-                    quoted = true;
-                    if (chars[0] != '"' && quote == '\"') {
-                        sb.append('"');
+                if (quotes) {
+                    startd = true;
+                    if (c == quoteS) {
+                        quotes = false;
+                        isQuotes = false;
+                    } else {
+                        if (c == quoteS) {
+                            if (!isQuotes) {
+                                sb.append(c);
+                                isQuotes = true;
+                            }
+                        } else {
+                            sb.append(c);
+                        }
                     }
-                    if (start) {
-                        sb.append('"');
-                    }
-                } else if (c == comma) {
-                    r.add(sb.toString());
-                    sb = new StringBuffer();
-                    start = false;
-                } else if (c == '\r') {
-                    // Ignore
-                } else if (c == '\n') {
-                    // Done
-                    break;
                 } else {
-                    sb.append(c);
+                    if (c == quoteD) {
+                        quoted = true;
+                        if (chars[0] != quoteD) {
+                            sb.append(quoteD);
+                        }
+                        if (startd) {
+                            sb.append(quoteD);
+                        }
+                    } else if (c == delimiter) {
+                        r.add(sb.toString());
+                        sb = new StringBuffer();
+                        startd = false;
+                    } else if (c == '\r') {
+                        // Ignore
+                    } else if (c == '\n') {
+                        // Done
+                        break;
+                    } else {
+                        if (c == quoteS) {
+                            quotes = true;
+                            if (chars[0] != quoteS) {
+                                sb.append(quoteS);
+                            }
+                            if (starts) {
+                                sb.append(quoteS);
+                            }
+                        } else if (c == delimiter) {
+                            r.add(sb.toString());
+                            sb = new StringBuffer();
+                            starts = false;
+                        } else if (c == '\r') {
+                            // Ignore
+                        } else if (c == '\n') {
+                            // Done
+                            break;
+                        } else {
+                            sb.append(c);
+                        }
+                        sb.append(c);
+                    }
                 }
             }
         }
