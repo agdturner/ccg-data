@@ -72,86 +72,39 @@ public class Data_ReadCSV extends Data_ReadTXT {
         StringBuffer sb = new StringBuffer();
         boolean quotes = false;
         boolean quoted = false;
-        boolean starts = false;
-        boolean startd = false;
-        boolean isQuotes = false;
-        boolean isQuoted = false;
+        //boolean isQuotes = false;
+        //boolean isQuoted = false;
 
         char[] chars = line.toCharArray();
         for (char c : chars) {
             if (quoted) {
-                startd = true;
                 if (c == quoteD) {
                     quoted = false;
-                    isQuoted = false;
-                    sb.append(quoteD);
-                } else {
-                    if (c == quoteD) {
-                        if (!isQuoted) {
-                            sb.append(c);
-                            isQuoted = true;
-                        }
-                    } else {
-                        sb.append(c);
-                    }
                 }
+                sb.append(c);
+            } else if (quotes) {
+                if (c == quoteS) {
+                    quotes = false;
+                }
+                sb.append(c);
             } else {
-                if (quotes) {
-                    startd = true;
-                    if (c == quoteS) {
-                        quotes = false;
-                        isQuotes = false;
-                        sb.append(quoteS);
-                    } else {
-                        if (c == quoteS) {
-                            if (!isQuotes) {
-                                sb.append(c);
-                                isQuotes = true;
-                            }
-                        } else {
-                            sb.append(c);
-                        }
-                    }
+                if (c == quoteD) {
+                    quoted = true;
+                    sb.append(c);
+                } else if (c == quoteS) {
+                    quotes = true;
+                    sb.append(c);
                 } else {
-                    if (c == quoteD) {
-                        quoted = true;
-                        if (chars[0] != quoteD) {
-                            sb.append(quoteD);
-                        }
-                        if (startd) {
-                            sb.append(quoteD);
-                        }
-                    } else if (c == delimiter) {
+                    if (c == delimiter) {
                         r.add(sb.toString());
                         sb = new StringBuffer();
-                        startd = false;
                     } else if (c == '\r') {
                         // Ignore
                     } else if (c == '\n') {
                         // Done
                         break;
                     } else {
-                        if (c == quoteS) {
-                            quotes = true;
-                            if (chars[0] != quoteS) {
-                                sb.append(quoteS);
-                            }
-                            if (starts) {
-                                sb.append(quoteS);
-                            }
-                        } else if (c == delimiter) {
-                            r.add(sb.toString());
-                            sb = new StringBuffer();
-                            starts = false;
-                        } else if (c == '\r') {
-                            // Ignore
-                        } else if (c == '\n') {
-                            // Done
-                            break;
-                        } else {
-                            sb.append(c);
-                        }
-                        //sb.append(c);
+                        sb.append(c);
                     }
                 }
             }
