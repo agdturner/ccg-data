@@ -20,7 +20,7 @@ package uk.ac.leeds.ccg.data.id;
  * these.
  *
  * @author Andy Turner
- * @version 1.0.0
+ * @version 1.1
  */
 public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
 
@@ -71,8 +71,7 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
     public boolean equals(Object o) {
         if (o != null) {
             if (o != this) {
-                if (o instanceof Data_ID_int) {
-                    Data_ID_int o2 = (Data_ID_int) o;
+                if (o instanceof Data_ID_int o2) {
                     if (id == o2.id) {
                         return true;
                     }
@@ -86,8 +85,8 @@ public class Data_ID_int extends Data_ID implements Comparable<Data_ID_int> {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + this.id;
+        int hash = 7;
+        hash = 47 * hash + this.id;
         return hash;
     }
 

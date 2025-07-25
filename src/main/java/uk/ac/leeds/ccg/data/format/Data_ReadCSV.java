@@ -84,6 +84,7 @@ public class Data_ReadCSV extends Data_ReadTXT {
                 if (c == quoteD) {
                     quoted = false;
                     isQuoted = false;
+                    sb.append(quoteD);
                 } else {
                     if (c == quoteD) {
                         if (!isQuoted) {
@@ -100,6 +101,7 @@ public class Data_ReadCSV extends Data_ReadTXT {
                     if (c == quoteS) {
                         quotes = false;
                         isQuotes = false;
+                        sb.append(quoteS);
                     } else {
                         if (c == quoteS) {
                             if (!isQuotes) {
@@ -149,7 +151,7 @@ public class Data_ReadCSV extends Data_ReadTXT {
                         } else {
                             sb.append(c);
                         }
-                        sb.append(c);
+                        //sb.append(c);
                     }
                 }
             }
