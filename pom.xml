@@ -42,8 +42,12 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+        <maven.compiler.release>${maven.compiler.target}</maven.compiler.release>
+        <maven.compiler.testSource>${maven.compiler.source}</maven.compiler.testSource>
+        <maven.compiler.testTarget>${maven.compiler.testSource}</maven.compiler.testTarget>
+        <maven.compiler.testRelease>${maven.compiler.testTarget}</maven.compiler.testRelease>
     </properties>
     
     <dependencies>
@@ -63,7 +67,7 @@
         <dependency>
             <groupId>io.github.agdturner</groupId>
             <artifactId>ccg-math</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
